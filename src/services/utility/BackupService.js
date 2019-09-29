@@ -27,7 +27,6 @@ export default class BackupService {
 	static async createBackup(){
 
 		const location = await FileService.getFolderLocation();
-		console.log('location', location);
 		if(! location) return false;
 
 		return await saveBackup(location[0]);

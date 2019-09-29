@@ -81,9 +81,9 @@ class Main {
 
 
 		const setupWallet = async () => {
-			WalletTalk.setup(isPopOut);
+			WalletTalk.setup();
 			WalletHelpers.init();
-			await store.dispatch(Actions.LOAD_SCATTER);
+			if(!isPopOut) await store.dispatch(Actions.LOAD_SCATTER);
 
 			setup();
 		}

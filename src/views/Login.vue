@@ -217,7 +217,6 @@
 
 				const unlocked = await window.wallet.unlock(this.password);
 				if(unlocked) {
-					console.log('unlocked scatter', unlocked);
 					await this[Actions.LOAD_SCATTER]();
 					this.$router.push({name:RouteNames.HOME});
 					SingletonService.init();

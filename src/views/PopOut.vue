@@ -1,6 +1,6 @@
 <template>
     <section>
-        <section v-if="ready">
+        <section v-if="scatter && popOut">
             <PopOutHead v-on:closed="returnResult" v-if="(popupType !== apiActions.LOGIN && popupType !== apiActions.LOGIN_ALL)" />
 
             <section class="popout" :class="{'login':popupType === apiActions.LOGIN || popupType === apiActions.LOGIN_ALL}">
@@ -46,12 +46,12 @@
     // import RIDLService from "../services/utility/RIDLService";
     import * as UIActions from "../store/ui_actions";
     import PasswordHelpers from "../services/utility/PasswordHelpers";
+    import Scatter from '@walletpack/core/models/Scatter'
 
     export default {
         data () {return {
             apiActions:ApiActions,
             pinning:false,
-	        ready:false,
         }},
         components:{
 	        PopOutHead,
@@ -83,11 +83,18 @@
 	        async checkAppReputation(){
 		        // this[UIActions.SET_APP_REP](await RIDLService.checkApp(this.appData.applink));
 	        },
-            setup(){
-	            if(!this.scatter) return;
+            async setup(){
 	            if(!this.popOut) return;
-	            if(this.ready) return;
-	            this.ready = true;
+
+	            // This window opens before-hand and hangs around in memory waiting to be
+	            // displayed. This means that the scatter reference on its store is from the past
+	            // We need to re-generate the Scatter data for it to be up-to-date.
+                let scatter = await window.wallet.storage.getWalletData();
+                if(!scatter) this.returnResult(null);
+                scatter = Scatter.fromJson(scatter);
+	            this[Actions.HOLD_SCATTER](scatter);
+
+
 
 	            this.checkAppReputation();
 
@@ -116,9 +123,6 @@
 	        ['popOut'](){
 		        this.setup();
 	        },
-            ['scatter'](){
-	            this.setup();
-            }
         }
     }
 </script>

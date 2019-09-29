@@ -11,22 +11,25 @@ import HistoricExchange from '@walletpack/core/models/histories/HistoricTransfer
 import HistoricAction from '@walletpack/core/models/histories/HistoricTransfer';
 import {HISTORY_TYPES} from '@walletpack/core/models/histories/History';
 
+const isPopOut = location.hash.replace("#/", '') === 'popout';
+let migrationChecked = false;
+
 export const actions = {
     [UIActions.SET_POPOUT]:({commit}, x) => commit(UIActions.SET_POPOUT, x),
     [UIActions.SET_PORTS]:({commit}, x) => commit(UIActions.SET_PORTS, x),
     [UIActions.SET_SIDEBAR]:({commit}, x) => commit(UIActions.SET_SIDEBAR, x),
     [UIActions.SET_APP_REP]:({commit}, x) => commit(UIActions.SET_APP_REP, x),
     [UIActions.SET_ACTION_REP]:({commit}, x) => commit(UIActions.SET_ACTION_REP, x),
-    [Actions.SET_PRICE_DATA]:({commit}, x) => commit(Actions.SET_PRICE_DATA, x),
     [UIActions.HIDE_BACK_BTN]:({commit}, x) => commit(UIActions.HIDE_BACK_BTN, x),
-    [Actions.ADD_RESOURCES]:({commit}, x) => commit(Actions.ADD_RESOURCES, x),
-    [Actions.SET_RESOURCES]:({commit}, x) => commit(Actions.SET_RESOURCES, x),
     [UIActions.SET_PROCESS]:({commit}, x) => commit(UIActions.SET_PROCESS, x),
     [UIActions.RELEASE_PROCESS]:({commit}, x) => commit(UIActions.RELEASE_PROCESS, x),
     [UIActions.SET_WORKING_SCREEN]:({commit}, x) => commit(UIActions.SET_WORKING_SCREEN, x),
-    [Actions.SET_DAPP_DATA]:({commit}, x) => commit(Actions.SET_DAPP_DATA, x),
-    [Actions.SET_DAPP_LOGO]:({commit}, x) => commit(Actions.SET_DAPP_LOGO, x),
     [UIActions.SET_SEARCH_TERMS]:({commit}, terms) => commit(UIActions.SET_SEARCH_TERMS, terms),
+	[Actions.SET_PRICE_DATA]:({commit}, x) => commit(Actions.SET_PRICE_DATA, x),
+	[Actions.ADD_RESOURCES]:({commit}, x) => commit(Actions.ADD_RESOURCES, x),
+	[Actions.SET_RESOURCES]:({commit}, x) => commit(Actions.SET_RESOURCES, x),
+	[Actions.SET_DAPP_DATA]:({commit}, x) => commit(Actions.SET_DAPP_DATA, x),
+	[Actions.SET_DAPP_LOGO]:({commit}, x) => commit(Actions.SET_DAPP_LOGO, x),
     [Actions.HOLD_SCATTER]:({commit}, scatter) => commit(Actions.SET_SCATTER, scatter),
 
 
@@ -36,14 +39,16 @@ export const actions = {
 
     [Actions.LOAD_SCATTER]:async ({commit, state, dispatch}, forceLocal = false) => {
 	    let scatter = await StorageService.getScatter();
+	    console.log('ispopout', isPopOut, scatter);
 	    if (!scatter) return null;
 
 	    scatter = Scatter.fromJson(scatter);
 
-	    await require('@walletpack/core/migrations/migrator').default(scatter, require('../migrations/version'));
-
-	    scatter.meta.regenerateVersion();
-	    // await dispatch(Actions.SET_SCATTER, scatter);
+	    if(!isPopOut && !migrationChecked){
+		    migrationChecked = true;
+		    await require('@walletpack/core/migrations/migrator').default(scatter, require('../migrations/version'));
+		    scatter.meta.regenerateVersion();
+	    }
 
 	    return commit(Actions.SET_SCATTER, scatter);
     },
@@ -56,7 +61,6 @@ export const actions = {
 
 		    await window.wallet.unlock(password, true);
 		    dispatch(Actions.SET_SCATTER, scatter).then(async _scatter => {
-			    console.log('unlocked', scatter);
 			    await BackupService.setDefaultBackupLocation();
 			    SingletonService.init();
 			    resolve();
@@ -65,10 +69,9 @@ export const actions = {
     },
 
     [Actions.SET_SCATTER]:async ({commit, state}, scatter) => {
+    	if(isPopOut) return state.scatter;
         return new Promise(async resolve => {
-        	console.log('before update', JSON.stringify(scatter.keychain.keypairs, null, 4))
 	        let updated = await StorageService.setScatter(scatter);
-	        console.log('updated?', updated);
 	        if(!updated) return resolve(false);
 	        BackupService.createAutoBackup();
 

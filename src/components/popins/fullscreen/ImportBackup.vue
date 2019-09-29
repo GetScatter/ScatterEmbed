@@ -76,7 +76,6 @@
 
 					await window.wallet.unlock(password, true, salt);
 					const decrypted = window.wallet.decrypt(obj);
-					console.log('decrypted', decrypted);
 					if(typeof decrypted === 'object' && decrypted.hasOwnProperty('keychain')){
 						decrypted.keychain = await window.wallet.decrypt(decrypted.keychain);
 						decrypted.settings.backupLocation = '';

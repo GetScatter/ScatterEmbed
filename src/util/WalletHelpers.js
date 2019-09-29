@@ -77,6 +77,8 @@ export default class WalletHelpers {
 		ExternalWallet.loadWallets([
 			{type:'LEDGER', name:'Ledger', wallet:() => { /* Handled by primary signer */ }}
 		])
+
+		return true;
 	}
 
 }

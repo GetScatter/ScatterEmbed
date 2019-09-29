@@ -139,7 +139,6 @@
 			},
 			async init(){
 				this.privateKey = await this.getPrivateKey();
-				console.log('this.privateKey ', this.privateKey );
 			},
 			getPublicKey(){
 				return this.keypair.enabledKey().key;
