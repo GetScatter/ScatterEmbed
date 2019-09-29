@@ -30,7 +30,7 @@
 			<section class="head">
 				Contacts
 			</section>
-			<SearchAndFilter full-search="1" />
+			<SearchAndFilter :key="selectedBlockchain" full-search="1" v-on:terms="x => terms = x" />
 			<section class="scroller with-tail with-search">
 				<section class="item-list">
 					<section class="item" v-for="contact in visibleContacts" @click="asSelector ? $emit('recipient', contact.recipient) : () => {}">
@@ -79,6 +79,7 @@
 		components: {EditContact, SearchAndFilter, EditNetwork},
 		props:['asSelector'],
 		data(){return {
+			terms:'',
 			expandedUnique:null,
 			expanded:null,
 			knownNetworks:[],
@@ -94,7 +95,10 @@
 				'contacts',
 			]),
 			visibleContacts(){
-				return this.contactsFor(this.selectedBlockchain);
+				return this.contactsFor(this.selectedBlockchain).filter(x => {
+					if(!this.terms.length) return true;
+					return x.name.toLowerCase().indexOf(this.terms) > -1 || x.recipient.toLowerCase().indexOf(this.terms) > -1
+				});
 			},
 		},
 		created(){
@@ -121,6 +125,7 @@
 			selectBlockchain(blockchain){
 				this.selectedBlockchain = blockchain;
 				this.expanded = null;
+				this.terms = '';
 			},
 			toggleExpansion(contact){
 				if(this.expanded && this.expanded.unique() === contact.unique()) {
@@ -129,11 +134,6 @@
 				}
 				this.expandedUnique = contact.unique();
 				this.expanded = contact.clone();
-			},
-			contactJson(contact){
-				const clone = contact.clone();
-				delete clone.id;
-				return clone;
 			},
 			contactsFor(blockchain){
 				return this.contacts.filter(x => x.blockchain === blockchain);
