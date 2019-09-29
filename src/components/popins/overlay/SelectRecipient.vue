@@ -84,6 +84,7 @@
 
 		.body {
 			height:calc(100vh - 130px - 60px - 40px);
+			overflow-y:hidden;
 		}
 
 		.keys-and-accounts-list {
