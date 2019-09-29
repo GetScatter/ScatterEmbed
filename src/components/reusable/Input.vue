@@ -79,6 +79,7 @@
 		watch:{
 			input:function(){ this.emit(); },
 			text:function(){ this.input = this.text; },
+			focus:function(){ if(this.focus) this.$refs.focuser.focus(); }
 		}
 	}
 </script>

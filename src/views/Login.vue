@@ -3,7 +3,7 @@
 
 
 
-        <section class="entry" v-if="state === STATES.NEW_OR_LOGIN" :class="{'success':success}">
+        <section class="entry" v-if="state === STATES.NEW_OR_LOGIN">
 	        <figure class="login-bg">
 		        <img src="../assets/login_bg.png" />
 	        </figure>
@@ -40,12 +40,12 @@
 	            <!---- EXISTING SCATTER ---->
 	            <!-------------------------->
 	            <section v-if="!isNewScatter">
-		            <Input class="welcome-password" :focus="true" big="1" for-login="1"
+		            <Input class="welcome-password" :focus="focusing" big="1" for-login="1"
 		                   placeholder="Enter your password"
 		                   type="password" :disabled="opening"
-		                   :loader-on-dynamic="opening && !success"
+		                   :loader-on-dynamic="opening"
 		                   :text="password" v-on:enter="unlock" v-on:dynamic="unlock" v-on:changed="x => password = x"
-		                   :dynamic-button="badPassword ? 'icon-attention' : success ? 'icon-check' : 'icon-right-open-big'" :hide-dynamic-button="!password.length" />
+		                   :dynamic-button="'icon-right-open-big'" :hide-dynamic-button="!password.length" />
 
 
 	            </section>
@@ -161,10 +161,9 @@
 			password:'',
 
 			opening:false,
-			success:false,
-			badPassword:false,
 
 			isNewScatter:true,
+			focusing:true,
 		}},
 		async created(){
 			this.isNewScatter = !(await window.wallet.exists());
@@ -221,6 +220,11 @@
 					this.$router.push({name:RouteNames.HOME});
 					SingletonService.init();
 				} else {
+					this.focusing = false;
+					this.$nextTick(() => {
+						this.focusing = true;
+						this.$forceUpdate();
+					});
 					PopupService.push(Popup.snackbar('Bad Password'))
 				}
 
@@ -237,11 +241,6 @@
 				Actions.SET_SCATTER,
 			])
 		},
-		watch:{
-			['password'](){
-				this.badPassword = false;
-			}
-		}
 	}
 </script>
 
