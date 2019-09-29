@@ -48,9 +48,9 @@
                     <!--------------------------->
                     <section class="actions" v-if="accountActions">
                         <section class="action" :key="action.id" v-for="action in accountActions">
-                            <figure class="icon" :class="`${action.icon} ${action.isDangerous ? ' red' : ''}`"></figure>
-                            <figure class="name">{{action.title}}</figure>
-                            <Button small="1" :red="action.isDangerous" :text="action.buttonText" @click.native="commitAction(action)" />
+                            <figure class="icon" :class="`${actionTypeToIcon(action.type)} ${action.isDangerous ? ' red' : ''}`"></figure>
+                            <figure class="name">{{actionTypeToText(action.type)}}</figure>
+                            <Button :red="action.isDangerous" :text="actionTypeToButton(action.type)" @click.native="commitAction(action)" />
                         </section>
                     </section>
                 </div>
@@ -124,6 +124,33 @@
             }, 250);
         },
         methods:{
+	    	actionTypeToText(type){
+	    	    switch(type){
+                    case 'unlink_account': return 'Unlink Account';
+                    case 'change_permissions': return 'Change Permissions';
+                    case 'proxy_vote': return 'Vote';
+                    case 'create_account': return 'Create Account';
+                    default: return '';
+                }
+            },
+	        actionTypeToButton(type){
+	    	    switch(type){
+                    case 'unlink_account': return 'Unlink';
+                    case 'change_permissions': return 'Change';
+                    case 'proxy_vote': return 'Vote';
+                    case 'create_account': return 'Create';
+                    default: return '';
+                }
+            },
+	        actionTypeToIcon(type){
+	    	    switch(type){
+                    case 'unlink_account': return 'icon-trash';
+                    case 'change_permissions': return 'icon-key';
+                    case 'proxy_vote': return 'icon-heart-1';
+                    case 'create_account': return 'icon-user-add';
+                    default: return '';
+                }
+            },
 	        async moderateResource(resource){
 		        new Promise(async resolve => {
 			        const {name} = resource;
@@ -154,10 +181,25 @@
 	            this.copyText(account.publicKey);
             },
             async commitAction(action){
-	            const result = await action.onclick();
-	            if(result && !this.account){
-                    this.$router.back();
-                }
+	            const plugin = PluginRepository.plugin(this.account.blockchain());
+
+	            switch(action.type){
+		            case 'unlink_account': return PopupService.push(Popup.unlinkAccount(this.account, x => {
+		            	if(!x) return;
+		            	this.$router.back();
+                    }));
+
+		            case 'change_permissions': return PopupService.push(Popup.verifyPassword(verified => {
+			            if(!verified) return false;
+			            PopupService.push(Popup.eosChangePermissions(this.account, async permissions => {
+				            await plugin.changePermissions(this.account, permissions);
+			            }));
+		            }));
+		            case 'proxy_vote': return PopupService.push(Popup.eosProxyVotes(this.account, () => {}));
+		            case 'create_account': return PopupService.push(Popup.eosCreateAccount(this.account, () => {}));
+		            default: return '';
+	            }
+
             },
 
             ...mapActions([

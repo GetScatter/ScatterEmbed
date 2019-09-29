@@ -74,22 +74,9 @@ export default class WalletHelpers {
 			}
 		);
 
-		// const hardwareWalletInterface = type => {
-		// 	const proxy = new Proxy({}, {
-		// 		get:(obj, prop) => {
-		// 			return (...args) => {
-		// 				// TODO:! HARDWARE?!
-		// 				console.log('hardware interface', type, prop, args);
-		// 				return WalletTalk.send(type, prop, args);
-		// 			}
-		// 		}
-		// 	})
-		// 	return new ExternalWalletInterface();
-		// }
-		//
-		// ExternalWallet.loadWallets([
-		// 	{type:'LEDGER', name:'Ledger', wallet:hardwareWalletInterface('LEDGER')}
-		// ])
+		ExternalWallet.loadWallets([
+			{type:'LEDGER', name:'Ledger', wallet:() => { /* Handled by primary signer */ }}
+		])
 	}
 
 }

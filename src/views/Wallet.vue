@@ -91,7 +91,7 @@
             ]),
             ...mapGetters([
             	'keypairs',
-            	'accounts',
+            	'networks',
                 'cards',
             ]),
             tabs(){
@@ -100,6 +100,12 @@
                     {name:'Credit Cards', state:STATES.CARDS},
                 ]
             },
+	        accounts(){
+            	return this.networks.map(x => x.accounts(true)).reduce((acc, accounts) => {
+		            acc = acc.concat(accounts);
+		            return acc;
+	            }, []);
+            }
         },
 	    mounted(){
 

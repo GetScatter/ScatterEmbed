@@ -31,10 +31,7 @@ export const actions = {
 
 
 	[UIActions.SET_SEED]:({commit}, password) => {
-		return new Promise(async (resolve, reject) => {
-			const [mnemonic, seed] = await PasswordHelpers.seedPassword(password, true);
-			resolve(mnemonic);
-		})
+
 	},
 
     [Actions.LOAD_SCATTER]:async ({commit, state, dispatch}, forceLocal = false) => {
@@ -42,6 +39,9 @@ export const actions = {
 	    if (!scatter) return null;
 
 	    scatter = Scatter.fromJson(scatter);
+
+	    await require('@walletpack/core/migrations/migrator').default(scatter, require('../migrations/version'));
+
 	    scatter.meta.regenerateVersion();
 	    // await dispatch(Actions.SET_SCATTER, scatter);
 

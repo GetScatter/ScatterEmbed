@@ -15,7 +15,6 @@ export default class WalletTalk {
 	static setup(){
 
 		window.wallet.socketResponse = data => {
-			console.log('got socket response', data);
 			switch(data.type){
 				case 'api': return CoreSocketService.handleApiResponse(data.request, data.id);
 				case 'pair': return CoreSocketService.handlePairedResponse(data.request, data.id);
@@ -28,6 +27,8 @@ export default class WalletTalk {
 			store.dispatch(UIActions.SET_POPOUT, popOut);
 		}
 	}
+
+
 
 	static setFakeWallet(){
 		return new Promise(resolve => {
