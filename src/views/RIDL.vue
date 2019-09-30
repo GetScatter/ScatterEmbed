@@ -1,13 +1,11 @@
 <template>
     <section class="ridl">
 
-        <!--<embed v-if="state === STATES.RIDL" class="webview" src="https://ridl.network/" />-->
+        <iframe ref="embed" src="https://ridl.network/" class="webview" />
     </section>
 </template>
 
 <script>
-    import { mapActions, mapGetters, mapState } from 'vuex'
-    import GetRIDL from '../components/misc/GetRIDL';
 
     const STATES = {
     	RIDL:'ridl',
@@ -16,15 +14,19 @@
 
 
     export default {
-    	components:{GetRIDL},
     	data(){return {
-    		state:STATES.RIDL,
-		    STATES
+
         }},
         methods:{
 	        switchState(state){
 	        	this.state = state;
             }
+        },
+        created(){
+
+        },
+        beforeDestroy(){
+    		window.wallet.utility.reload(window.wallet.windowId)
         }
     }
 </script>
@@ -34,10 +36,6 @@
 
     .ridl {
         height:$fullheight;
-
-        .panel-switch {
-            margin:0;
-        }
 
         .webview {
             height:calc(#{$fullheight} - 3px);

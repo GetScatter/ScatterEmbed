@@ -18,8 +18,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.4",
-    "@ledgerhq/hw-app-eth": "^4.68.4",
-    "@ledgerhq/hw-transport-node-hid": "^4.55.0",
     "@walletpack/bitcoin": "^1.0.26",
     "@walletpack/core": "^1.0.23",
     "@walletpack/eosio": "^0.0.27",
@@ -28,9 +26,7 @@
     "aes-oop": "^1.0.4",
     "asn1-ber": "^1.0.9",
     "babel-polyfill": "^6.26.0",
-    "bip32-path": "^0.4.2",
     "chartist": "^0.11.0",
-    "device-uuid": "^1.0.4",
     "dotenv": "^8.1.0",
     "dotenv-webpack": "^1.7.0",
     "eosjs": "^20.0.0",
@@ -40,7 +36,6 @@
     "json-formatter-js": "^2.2.1",
     "mini-css-extract-plugin": "^0.8.0",
     "murmurhash": "^0.0.2",
-    "node-notifier": "^5.3.0",
     "ridl": "^2.0.47",
     "vue-markdown": "^2.2.4",
     "ws": "^7.0.0"
