@@ -1,0 +1,46 @@
+<template>
+	<section class="panel-tabs">
+		<figure v-for="tab in tabs"
+		        :class="{'active':tab.state === state}"
+		        @click="$emit('selected', tab.state)"
+		        class="tab-name">{{tab.name}}</figure>
+	</section>
+</template>
+
+<script>
+	export default {
+		props:['tabs', 'state']
+	}
+</script>
+
+<style scoped lang="scss">
+	@import "../../styles/variables";
+
+	.panel-tabs {
+		width:100%;
+		height:70px;
+		display:flex;
+		flex-direction:row;
+		align-items:center;
+		justify-content:center;
+		padding:0 20px;
+		border-bottom: 1px solid $lightgrey;
+
+		.tab-name {
+			cursor: pointer;
+			font-size: $larger;
+			font-weight: bold;
+			font-family: 'Poppins', sans-serif;
+			line-height:68px;
+			color:$blue;
+			transition:all 0.1s ease;
+			width: 100%;
+			text-align: center;
+
+			&:hover, &.active {
+				color: black;
+				border-bottom: 4px solid $blue;
+			}
+		}
+	}
+</style>
