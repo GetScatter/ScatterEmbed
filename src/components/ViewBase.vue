@@ -161,9 +161,10 @@
     .view-pane {
         flex:1;
         position: relative;
-        overflow: auto;
+        overflow: scroll;
         display:flex;
         flex-direction:column;
+        padding-top:70px;
 
 
     }

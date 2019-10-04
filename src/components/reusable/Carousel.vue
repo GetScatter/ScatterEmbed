@@ -140,7 +140,8 @@
 			cursor: pointer;
 			position: absolute;
 			color:$blue;
-			font-size: 28px;
+			font-size: 20px;
+			background-color:white;
 			width:44px;
 			height:44px;
 			line-height:44px;
@@ -154,7 +155,7 @@
 		}
 
 		.go-left {
-			left:-40px;
+			left:0px;
 			top:60%;
 			margin-top:-54px;
 			border-top-right-radius: 3px;
@@ -162,7 +163,7 @@
 		}
 
 		.go-right {
-			right:-40px;
+			right:0px;
 			top:60%;
 			margin-top:-54px;
 			border-top-left-radius: 3px;
@@ -260,9 +261,6 @@
 					align-content:center;
 					border-radius:0 0 10px 10px;
 					background-color:$blue;
-					background-image:url('../../assets/gs_mobile_apps_homebg.png');
-					background-size:cover;
-					background-position:center 160px;
 					height: 80px;
 
 					@media (max-width: $breakpoint-tablet) {
@@ -271,10 +269,10 @@
 					}
 
 					.name {
-						font-size: $medium;
+						font-size: $font-size-medium;
+                        font-family: 'Poppins', sans-serif;
 						font-weight: bold;
 						color:white;
-						font-size: $font-size-small;
 						white-space:nowrap;
 						overflow:hidden;
 						text-overflow:ellipsis;

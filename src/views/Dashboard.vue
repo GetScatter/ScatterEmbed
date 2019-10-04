@@ -2,7 +2,22 @@
     <section class="dashboard">
         <section id="asset-updates">
             <section class="attraction">
-
+              <div class="promoted-pill">
+                Promoted app
+              </div>
+              <a href="" class="premium-attraction">
+                <img src="https://source.unsplash.com/random/600x400">
+                <div class="description">
+                  <div class="logo">
+                    <img src="https://source.unsplash.com/random/120x120">
+                  </div>
+                  <div class="premium-content">
+                    <span class="premium-name">Cheesefactory</span>
+                    <span class="premium-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum ante ipsum, at rhoncus nisi facilisis ac. Pellentesque eu magna tristique, ornare velit et, porttitor tellus.</span>
+                  </div>
+                  <Button text="Open" />
+                </div>
+              </a>
             </section>
         </section>
         <section class="focus-boxes">
@@ -63,6 +78,7 @@
 
         @media (max-width: $breakpoint-tablet) {
             flex-direction:column;
+            padding:0;
         }
     }
 
@@ -71,18 +87,145 @@
         width:60%;
 
         @media (max-width: $breakpoint-tablet) {
-            height:400px;
+            height:auto;
             width:100%;
         }
 
         .attraction {
             height:100%;
-
+            overflow:hidden;
             text-align:center;
             background:$lightgrey;
             border-radius:10px;
-            background-image:url('../assets/gs_mobile_apps_homebg.png');
-            background-size:cover;
+            background-color:$blue;
+            border:1px solid $lightgrey;
+            position:relative;
+
+            @media (max-width: $breakpoint-tablet) {
+                height:600px;
+                border-radius:0;
+            }
+
+            .promoted-pill {
+              position:absolute;
+              right:20px;
+              top:20px;
+              padding:8px 16px 7px;
+              background:white;
+              color:black;
+              border-radius:20px;
+              font-size:$font-size-small;
+              display:inline-block;
+              margin:0 auto;
+              text-transform:uppercase;
+              z-index:1;
+
+              @media (max-width: 420px) {
+                  border-radius: 0 20px 0 20px;
+              }
+            }
+
+            .premium-attraction {
+              height:70%;
+              background:darken($blue, 25%);
+              position:relative;
+
+              @media (max-width: $breakpoint-tablet) {
+                  height:400px;
+              }
+
+              img {
+                width:100%;
+                height:100%;
+                object-fit:cover;
+                opacity:0.6;
+                transition:opacity 0.12s ease-in-out;
+              }
+
+              &:hover {
+
+                img {
+                  opacity:0.44;
+                }
+              }
+
+              .description {
+                display:flex;
+                flex-direction:column;
+                align-content:end;
+                justify-content:end;
+                background:rgba(0,0,0,0.42);
+                padding:20px;
+                position:absolute;
+                bottom:0;
+                left:0;
+                right:0;
+                top:0;
+
+                .logo {
+                  width:120px;
+                  height:120px;
+                  border-radius:20px;
+                  overflow:hidden;
+                  position:absolute;
+                  top:20px;
+                  left:20px;
+                  border: 1px solid rgba(255,255,255,0.16);
+
+                  @media (max-width: 420px) {
+                      width:calc(100% - 40px);
+                  }
+
+                  img {
+                    width:100%;
+                    height:100%;
+                    object-fit:cover;
+                    opacity:1.0;
+                  }
+                }
+
+                button {
+                  max-height: 42px;
+                  place-self: start;
+                  margin-top:10px;
+                }
+
+                div.premium-content {
+                  margin-right:20px;
+                  display:flex;
+                  flex-direction:column;
+                  text-align:left;
+                  justify-content:end;
+                  align-content:center;
+
+                  .premium-name {
+                    font-size: $font-size-large;
+                    font-family: 'Poppins', sans-serif;
+                    font-weight: bold;
+                    color:white;
+                    white-space:nowrap;
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+
+                    @media (max-width: $breakpoint-tablet) {
+                        font-size: $font-size-medium;
+                    }
+                  }
+
+                  .premium-description {
+                    font-size: $medium;
+                    font-weight: bold;
+                    color:white;
+                    opacity:0.6;
+                    font-size: $font-size-small;
+                    margin-bottom:10px;
+                  }
+
+                }
+
+              }
+
+            }
         }
 
     }
@@ -109,7 +252,7 @@
             transition: border 0.12s ease-in-out;
             display:flex;
             flex-direction:column;
-            justify-content:end;
+            justify-content:center;
             background-image:url('../assets/voting.png');
             background-size:100%;
             background-position:center center;
@@ -125,29 +268,17 @@
                 display:inline-block;
                 margin:0 auto;
                 text-transform:uppercase;
-
-                @media (max-width: $breakpoint-tablet) {
-                    position:absolute;
-                    top:20px;
-                    left:20px;
-                    right:20px;
-                    max-width:50%;
-                }
             }
 
             @media (max-width: $breakpoint-tablet) {
                 height:400px;
-                width:100%;
                 display:flex;
                 flex-direction:column;
                 background-position:center -400px;
-                margin:20px 0 0;
-            }
-
-            @media (min-width: 601px ) and (max-width: 919px) {
-                height:500px;
-                background-position:center;
-                background-size:70%;
+                margin:0;
+                border:0;
+                border-radius:0;
+                padding:20px;
             }
 
             @media (max-width: $breakpoint-mobile) {
@@ -190,7 +321,7 @@
             }
 
             button {
-                margin: 0 20px 20px;
+                margin: 0 60px 20px;
             }
         }
 

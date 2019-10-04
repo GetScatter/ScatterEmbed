@@ -299,7 +299,12 @@
 				margin-top:40px;
 
 				.category {
-					margin-bottom:40px;
+					margin:0 -20px 40px;
+					padding:40px;
+
+					&:nth-child(even) {
+						background:$lightergrey;
+					}
 
 					.info {
 						display:flex;
@@ -309,7 +314,9 @@
 						margin-bottom:15px;
 
 						.name {
-							font-size: $large;
+							font-size: $font-size-medium;
+	                        font-family: 'Poppins', sans-serif;
+	                        font-weight: bold;
 						}
 
 						.view-all {
@@ -332,7 +339,7 @@
 						.app {
 							display:inline-block;
 							width:calc(20% - 10px);
-							max-width:200px;
+							max-width:100px;
 
 							@media (max-width: $breakpoint-tablet) {
 								width:calc(50% - 5px);

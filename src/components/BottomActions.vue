@@ -80,14 +80,19 @@
         bottom:0;
         width:100vw;
         z-index:101;
+        padding-left:60px;
 
         .flex-wrapper {
             display:flex;
-            width:100vw;
+            width:100%;
             height:70px;
             flex-direction:row;
             align-items:center;
             justify-content: center;
+
+            @media (max-width: $breakpoint-mobile) {
+                width:calc(100vw - 60px);
+            }
 
             .action {
                 width:120px;
@@ -97,6 +102,10 @@
                 font-size:$medium;
                 text-align:center;
                 cursor: pointer;
+
+                @media (max-width: $breakpoint-mobile) {
+                    width:33.33333%;
+                }
 
                 i {
                     transition:transform 0.2s ease;

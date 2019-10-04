@@ -32,11 +32,10 @@
 		font-size:$font-size-standard;
 		transition:background-color 0.12s ease-in-out;
 
-		// @media (max-width: $breakpoint-mobile) {
-		//   width:100%;
-		//   margin:1rem 0;
-		//   text-align: center;
-		// }
+		@media (max-width: $breakpoint-mobile) {
+        padding:8px 10px;
+        font-size:$font-size-small;
+    }
 
 		&.button-text {
 			background: transparent !important;

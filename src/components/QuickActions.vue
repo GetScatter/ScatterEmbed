@@ -140,6 +140,14 @@
 		min-height:70px;
 		width:auto;
 		z-index:100;
+		position:fixed;
+		top:0;
+		left:60px;
+		right:0;
+
+		&.sidebarLocked {
+			left:240px;
+		}
 
 		.left {
 			opacity:1;
