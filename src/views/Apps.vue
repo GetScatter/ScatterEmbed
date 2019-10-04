@@ -244,6 +244,10 @@
 			border-radius:$radius;
 			position:relative;
 
+			@media (max-width: $breakpoint-mobile) {
+                margin:10px 10px 0;
+            }
+
 			.icon-search {
 				right: 10px;
 				top:16px;
@@ -275,20 +279,14 @@
 				height:calc(100vh - 290px);
 			}
 
-			.blue-bg {
-				position: absolute;
-				top:0;
-				left:0;
-				right:0;
-				height:70px;
-				background:$blue-gradient-completer;
-				z-index:1;
-			}
-
 			.padder {
 				padding:20px;
 				position: relative;
 				z-index:2;
+
+				@media (max-width: $breakpoint-mobile) {
+	                padding:10px;
+	            }
 			}
 
 			.featured {
@@ -298,9 +296,18 @@
 			.categories {
 				margin-top:40px;
 
+				@media (max-width: $breakpoint-mobile) {
+	                margin-top:20px;
+	            }
+
 				.category {
 					margin:0 -20px 40px;
 					padding:40px;
+
+					@media (max-width: $breakpoint-mobile) {
+		                margin:0 -10px 20px;
+						padding:20px;
+		            }
 
 					&:nth-child(even) {
 						background:$lightergrey;

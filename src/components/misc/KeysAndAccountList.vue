@@ -276,6 +276,10 @@
 		background:white;
 		padding-bottom:60px;
 
+		@media (max-width: $breakpoint-mobile) {
+	        padding:0 10px;
+	    }
+
 		.keypair {
 			background:$white;
 			//padding-bottom:20px;

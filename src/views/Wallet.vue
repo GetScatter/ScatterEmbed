@@ -202,6 +202,7 @@
             @media (max-width: $breakpoint-mobile) {
                 flex-direction:column;
                 height:auto;
+                padding:10px;
             }
 
             .left { 

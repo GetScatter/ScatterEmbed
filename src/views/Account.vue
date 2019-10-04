@@ -236,6 +236,11 @@
             background-size:cover;
             margin:20px;
 
+            @media (max-width: $breakpoint-mobile) {
+                margin:0px;
+                border-radius:0px;
+            }
+
             .account-actions {
                 width:44px;
                 height:44px;
@@ -310,6 +315,10 @@
                     justify-content: center;
                     width:100%;
 
+                    @media (max-width: $breakpoint-mobile) {
+                        flex-direction:column;
+                    }
+
                     .loading {
                         font-size: 36px;
                         color: white;
@@ -326,6 +335,14 @@
                         justify-content: center;
                         padding:0 20px;
 
+                        @media (max-width: $breakpoint-mobile) {
+                            flex-direction:row;
+                            flex-grow:1;
+                            align-items: center;
+                            justify-content: space-evenly;
+                            padding:10px 0;
+                        }
+
                         i {
                             display:flex;
                             justify-content: center;
@@ -337,11 +354,23 @@
                             background:white;
                             border-radius:22px;
 
+                            @media (max-width: $breakpoint-mobile) {
+                                width:28px;
+                                height:28px;
+                                font-size: 18px;
+                                border-radius:22px;
+                            }
+
                             &.red {
                                 color:$red;
                                 border-color: $red;
                                 font-size: 20px;
                                 margin-top:-2px;
+
+                                @media (max-width: $breakpoint-mobile) {
+                                    font-size: 16px;
+                                    margin-top:-4px;
+                                }
                             }
                         }
 
@@ -351,6 +380,11 @@
                             font-size: $font-size-big;
                             font-family: 'Poppins', sans-serif;
                             font-weight: bold;
+
+                            @media (max-width: $breakpoint-mobile) {
+                                margin:0;
+                                font-size: $font-size-standard;
+                            }
                         }
 
                         .percentage {
@@ -359,11 +393,19 @@
                             font-family: 'Poppins', sans-serif;
                             font-weight: bold;
                             color: white;
+
+                            @media (max-width: $breakpoint-mobile) {
+                                margin:0;
+                            }
                         }
 
                         .action {
                             margin-top:10px;
                             color: $blue;
+
+                            @media (max-width: $breakpoint-mobile) {
+                                margin:0;
+                            }
                         }
                     }
                 }
