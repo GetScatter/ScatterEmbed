@@ -71,6 +71,7 @@
         position:fixed;
         bottom:0;
         width:100vw;
+        z-index:101;
 
         .flex-wrapper {
             display:flex;
