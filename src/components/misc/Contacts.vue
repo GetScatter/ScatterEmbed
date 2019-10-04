@@ -4,13 +4,13 @@
 		<!-------------------------->
 		<!------ BLOCKCHAINS ------->
 		<!-------------------------->
-		<section class="blockchains">
+		<section class="blockchains" v-if="!isMobile || !selectedBlockchain" :class="{'full-width':isMobile}">
 			<section class="head">
-				Blockchains
+				Select a Blockchain
 			</section>
 			<section class="scroller">
 				<section class="blockchain-list">
-					<section class="badge-item hoverable" :class="{'active':selectedBlockchain === blockchain}" v-for="blockchain in blockchains.concat([null])" @click="selectBlockchain(blockchain)">
+					<section class="badge-item hoverable" :class="{'active':selectedBlockchain === blockchain}" v-for="blockchain in blockchains" @click="selectBlockchain(blockchain)">
 						<figure class="badge iconed" :class="blockchainIcon(blockchain)"></figure>
 						<section class="details">
 							<figure class="title">{{blockchainName(blockchain)}}</figure>
@@ -26,9 +26,12 @@
 		<!-------------------------->
 		<!------- NETWORKS --------->
 		<!-------------------------->
-		<section class="list-container">
+		<section class="list-container" v-if="!isMobile || selectedBlockchain">
 			<section class="head">
-				Contacts
+				<figure v-if="isMobile" class="back-button" @click="selectBlockchain(null)">
+					<i class="fal fa-arrow-left"></i>
+				</figure>
+				{{blockchainName(selectedBlockchain)}} Contacts
 			</section>
 			<SearchAndFilter :key="selectedBlockchain" full-search="1" v-on:terms="x => terms = x" />
 			<section class="scroller with-tail with-search">
@@ -85,7 +88,7 @@
 			knownNetworks:[],
 			test:false,
 			blockchains: BlockchainsArray.map(x => x.value),
-			selectedBlockchain:BlockchainsArray[0].value,
+			selectedBlockchain:null,
 			unreachable:{},
 		}},
 		computed:{
@@ -102,7 +105,9 @@
 			},
 		},
 		created(){
-
+			if(!this.isMobile){
+				this.selectedBlockchain = this.blockchains[0];
+			}
 		},
 		methods:{
 			async removeContact(contact){

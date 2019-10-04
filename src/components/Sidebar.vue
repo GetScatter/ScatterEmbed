@@ -4,8 +4,7 @@
 		<section class="sidebar">
 			<figure class="bar-bg"></figure>
 			<figure class="category" v-for="category in items">
-				<router-link :key="item.name" :to="{name:item.route}" class="item" :class="{'active':$route.name === item.route}" v-for="(item, i) in category.items">
-					<!-- <i :class="itemIcon(item)"></i> -->
+				<router-link :key="item.name" :to="{name:item.route}" @click.native="checkMobileClick" class="item" :class="{'active':$route.name === item.route}" v-for="(item, i) in category.items">
 					<i :class="itemIcon(item)"></i>
 					<span>{{item.name}}</span>
 				</router-link>
@@ -85,6 +84,9 @@
 				this[UIActions.SET_SIDEBAR](!this.sidebarLocked);
 				window.localStorage.setItem('sidebar', this.sidebarLocked);
 			},
+			checkMobileClick(){
+				if(this.isMobile && !this.sidebarLocked) this.toggleSidebar();
+			},
 			...mapActions([
 				UIActions.SET_SIDEBAR
 			])
@@ -119,7 +121,7 @@
 			overflow-x:hidden;
 			white-space: nowrap;
 			position:fixed;
-			bottom:70px;
+			bottom:0;
 			top:0;
 			left:0;
 			padding:20px 0;

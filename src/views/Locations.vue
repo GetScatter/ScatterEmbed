@@ -7,7 +7,7 @@
 			<!-------------------------->
 			<!------ BLOCKCHAINS ------->
 			<!-------------------------->
-			<section class="blockchains" v-if="locations.length > 1">
+			<section class="blockchains" v-if="!isMobile || !location" :class="{'full-width':isMobile}">
 				<section class="head with-button">
 					<figure>Locations</figure>
 					<Button text="Add" @click.native="addLocation" />
@@ -27,11 +27,14 @@
 			<!-------------------------->
 			<!------- NETWORKS --------->
 			<!-------------------------->
-			<section class="list-container">
+			<section class="list-container" v-if="location">
 				<section class="head with-button">
-					<figure></figure>
+					<figure>
+						<figure v-if="isMobile" class="back-button" @click="selectLocation(null)">
+							<i class="fal fa-arrow-left"></i>
+						</figure>
+					</figure>
 					<Button text="Remove" v-if="location && locations.length > 1" @click.native="removeLocation" />
-					<Button text="Add new Location" @click.native="addLocation" v-if="locations.length === 1" />
 				</section>
 				<section class="scroller location" v-if="location">
 					<section class="limit-800">
@@ -107,9 +110,11 @@
 				'locations'
 			]),
 			isValidName(){
+				if(!this.location) return;
 				return this.location.name.length;
 			},
 			nameExists(){
+				if(!this.location) return;
 				return this.locations.find(x => x.id !== this.location.id && x.name.toLowerCase() === this.location.name.toLowerCase())
 			},
 		},
@@ -119,7 +124,7 @@
 		},
 		methods:{
 			selectLocation(location){
-				this.location = location.clone();
+				this.location = !location ? null : location.clone();
 			},
 			addLocation(){
 				const scatter = this.scatter.clone();
@@ -130,6 +135,7 @@
 				this.location = location.clone();
 			},
 			removeLocation(){
+				if(!this.location) return;
 				const location = this.location.clone();
 				this.selectLocation(this.locations.find(x => x.id !== location.id));
 				const scatter = this.scatter.clone();
@@ -137,6 +143,7 @@
 				this[Actions.SET_SCATTER](scatter);
 			},
 			save(){
+				if(!this.location) return;
 				const original = this.locations.find(x => x.id === this.location.id);
 				if(original && JSON.stringify(original) === JSON.stringify(this.location)) return;
 				if(!this.isValidName) return;

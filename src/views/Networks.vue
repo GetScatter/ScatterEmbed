@@ -4,9 +4,9 @@
 		<!-------------------------->
 		<!------ BLOCKCHAINS ------->
 		<!-------------------------->
-		<section class="blockchains">
+		<section class="blockchains" v-if="!isMobile || !selectedBlockchain" :class="{'full-width':isMobile}">
 			<section class="head">
-				Blockchains
+				Select a Blockchain
 			</section>
 			<section class="scroller">
 				<section class="blockchain-list">
@@ -26,8 +26,11 @@
 		<!-------------------------->
 		<!------- NETWORKS --------->
 		<!-------------------------->
-		<section class="list-container">
+		<section class="list-container" v-if="!isMobile || selectedBlockchain">
 			<section class="head">
+				<figure v-if="isMobile" class="back-button" @click="selectBlockchain(null)">
+					<i class="fal fa-arrow-left"></i>
+				</figure>
 				Networks
 			</section>
 			<section class="scroller with-tail">
@@ -86,7 +89,7 @@
 			knownNetworks:[],
 			test:false,
 			blockchains: BlockchainsArray.map(x => x.value),
-			selectedBlockchain:BlockchainsArray[0].value,
+			selectedBlockchain:null,
 			unreachable:{},
 		}},
 		computed:{
@@ -109,6 +112,9 @@
 		},
 		methods:{
 			async init(){
+				if(!this.isMobile){
+					this.selectedBlockchain = this.blockchains[0];
+				}
 				this.setWorkingScreen(true);
 				this.knownNetworks = await Promise.race([
 					new Promise(resolve => setTimeout(() => resolve([]), 2000)),

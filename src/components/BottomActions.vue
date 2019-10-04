@@ -1,5 +1,5 @@
 <template>
-    <section class="bottom-actions" >
+    <section class="bottom-actions" v-if="canShow">
 
         <section class="flex-wrapper" v-if="accounts.length">
             <section class="action" @click="quickAction(RouteNames.TRANSFER)">
@@ -28,7 +28,7 @@
         components:{
         },
         data(){return {
-            
+
         }},
         computed:{
             ...mapState([
@@ -37,7 +37,14 @@
             ...mapGetters([
                 'accounts',
             ]),
-            
+	        canShow(){
+            	return ![
+            		RouteNames.SETTINGS,
+            		RouteNames.NETWORKS,
+            		RouteNames.CONTACTS,
+                ].includes(this.$route.name);
+            }
+
         },
         mounted(){
         },
@@ -68,6 +75,7 @@
     .bottom-actions {
         height:70px;
         background:$blue;
+        color:$white;
         position:fixed;
         bottom:0;
         width:100vw;
@@ -77,7 +85,6 @@
             display:flex;
             width:100vw;
             height:70px;
-            color:$white;
             flex-direction:row;
             align-items:center;
             justify-content: center;
@@ -86,12 +93,10 @@
                 width:120px;
                 display:block;
                 text-transform: uppercase;
-                color: $white;
                 font-weight:bold;
                 font-size:$medium;
                 text-align:center;
                 cursor: pointer;
-                color:white;
 
                 i {
                     transition:transform 0.2s ease;

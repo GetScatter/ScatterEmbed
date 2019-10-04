@@ -58,6 +58,11 @@
     width:280px;
     border-right:1px solid $lightgrey;
 
+    &.full-width {
+      width:100%;
+      flex:1;
+    }
+
     .head {
       &:not(:first-child){
         border-top:1px solid $lightgrey;
@@ -68,12 +73,19 @@
   .list-container {
     flex:1;
 
+    .back-button {
+      padding:10px;
+      border:1px solid $border-standard;
+      margin-right:10px;
+      border-radius:$radius;
+      cursor: pointer;
+    }
+
     .search-and-filter {
       padding:0 20px;
     }
 
     .item-list {
-      padding:20px;
 
       .item {
         margin-bottom:40px;

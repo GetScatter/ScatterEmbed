@@ -503,8 +503,39 @@ label {
     }
   }
 
+}
+
+.mobile {
+
+  .type-selector {
+    .types {
+      flex-direction: column;
+
+      .type {
+        width:100%;
+        margin:0 0 20px 0;
+        flex-direction: row;
+        align-items: center;
+        text-align:left;
+        padding:10px 0;
+
+        .type-icon {
+          font-size: 22px;
+          width:40px;
+        }
+
+        .type-text {
+          margin:0;
+          flex:1;
+        }
+      }
+    }
+  }
 
 }
+
+
+
 
 .key-val {
 
