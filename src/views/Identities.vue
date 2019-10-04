@@ -7,7 +7,7 @@
 			<!-------------------------->
 			<!------ BLOCKCHAINS ------->
 			<!-------------------------->
-			<section class="blockchains" v-if="identities.length > 1">
+			<section class="blockchains" v-if="!isMobile || !identity" :class="{'full-width':isMobile}">
 				<section class="head with-button">
 					<figure>Identities</figure>
 					<Button text="Add" @click.native="addIdentity" />
@@ -27,11 +27,14 @@
 			<!-------------------------->
 			<!------- NETWORKS --------->
 			<!-------------------------->
-			<section class="list-container">
+			<section class="list-container" v-if="identity">
 				<section class="head with-button">
-					<figure></figure>
+					<figure>
+						<figure v-if="isMobile" class="back-button" @click="selectIdentity(null)">
+							<i class="fal fa-arrow-left"></i>
+						</figure>
+					</figure>
 					<Button text="Remove" @click.native="removeIdentity" v-if="identities.length > 1" />
-					<Button text="Add new Identity" @click.native="addIdentity" v-if="identities.length === 1" />
 				</section>
 				<section class="scroller identity">
 					<section class="id-card">
@@ -297,7 +300,7 @@
 		},
 		methods:{
 			selectIdentity(identity){
-				this.identity = identity.clone();
+				this.identity = !identity ? null : identity.clone();
 				this.fullname = [this.identity.personal.firstname, this.identity.personal.lastname].filter(x => x && x.length).join(' ');
 			},
 			addIdentity(){
@@ -463,6 +466,7 @@
 
 
 			save(){
+				if(!this.identity) return;
 				const original = this.identities.find(x => x.id === this.identity.id);
 				if(original && JSON.stringify(original) === JSON.stringify(this.identity)) return;
 				if(!this.isValidName) return;
