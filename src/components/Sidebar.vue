@@ -121,7 +121,7 @@
 			overflow-x:hidden;
 			white-space: nowrap;
 			position:fixed;
-			bottom:70px;
+			bottom:0;
 			top:0;
 			left:0;
 			padding:20px 0;
