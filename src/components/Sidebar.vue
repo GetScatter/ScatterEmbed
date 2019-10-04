@@ -4,7 +4,6 @@
 		<section class="sidebar">
 			<figure class="bar-bg"></figure>
 			<figure class="category" v-for="category in items">
-				<figure class="category-name" v-if="category.name">{{category.name}}</figure>
 				<router-link :key="item.name" :to="{name:item.route}" class="item" :class="{'active':$route.name === item.route}" v-for="(item, i) in category.items">
 					<!-- <i :class="itemIcon(item)"></i> -->
 					<i :class="itemIcon(item)"></i>
@@ -66,44 +65,19 @@
 		methods:{
 			itemIcon(item){
 				switch(item.name) {
-					case 'Dashboard':
-						return 'fal fa-rocket'
-
-					case 'Apps':
-						return 'fal fa-star'
-
-					case 'Wallet':
-						return 'fal fa-wallet'
-
-					case 'Assets':
-						return 'fal fa-coins'
-
-					case 'Identities':
-						return 'fal fa-passport'
-
-					case 'Locations':
-						return 'fal fa-map-marker-alt'
-
-					case 'Reputation':
-						return 'fal fa-shield'
-
-					case 'Contacts':
-						return 'fal fa-address-book'
-
-					case 'History':
-						return 'fal fa-history'
-
-					case 'Networks':
-						return 'fal fa-server'
-
-					case 'Settings':
-						return 'fal fa-cog'
-
-					case 'Marketplace':
-						return 'fal fa-shopping-cart'
-
-					default:
-						return 'fal fa-star'
+					case 'Dashboard': return 'fal fa-rocket';
+					case 'Apps': return 'fal fa-star';
+					case 'Wallet': return 'fal fa-wallet';
+					case 'Assets': return 'fal fa-coins';
+					case 'Identities': return 'fal fa-passport';
+					case 'Locations': return 'fal fa-map-marker-alt';
+					case 'Reputation': return 'fal fa-shield';
+					case 'Contacts': return 'fal fa-address-book';
+					case 'History': return 'fal fa-history';
+					case 'Networks': return 'fal fa-server';
+					case 'Settings': return 'fal fa-cog';
+					case 'Marketplace': return 'fal fa-shopping-cart';
+					default: return 'fal fa-star';
 
 				}
 			},
@@ -142,14 +116,14 @@
 			flex:0 0 auto;
 			width:$closed;
 			border-right:1px solid $lightgrey;
-			padding:20px 0;
 			overflow-x:hidden;
 			white-space: nowrap;
 			position:fixed;
-			left:0;
-			padding-top:69px;
-			top:0px;
 			bottom:70px;
+			top:0;
+			left:0;
+			padding:20px 0;
+			padding-top:69px;
 			background-color:white;
 			z-index:10000;
 			box-shadow:0 0 0 transparent, 0 0 0 transparent;
@@ -264,18 +238,6 @@
 				}
 			}
 
-			.category-name {
-				font-size: $small;
-				font-weight: bold;
-				text-transform: uppercase;
-				padding:0 20px;
-				margin-top:40px;
-				margin-bottom:10px;
-				opacity:0;
-				transition:all $time ease;
-				transition-property: opacity;
-			}
-
 
 		}
 
@@ -293,25 +255,11 @@
 					opacity:0;
 				}
 
-				.category {
-					i {
-
-					}
-
-					span {
-
-					}
-				}
-
 				&:hover {
 					width:$open;
 					transition: width $time ease, box-shadow 0.3s ease;
 					box-shadow:10px 0 30px rgba(0,0,0,0.15), 2px 0 10px $blue-shadow;
 					border-right:0;
-
-					.category-name {
-						opacity:1;
-					}
 
 					.item {
 						color:$silver;
@@ -332,10 +280,6 @@
 				width:$open;
 				transition: width $time ease, box-shadow 0.3s ease;
 
-				.category-name {
-					opacity:1;
-				}
-
 				.item {
 					color:$silver;
 
@@ -353,25 +297,24 @@
 		.sidebar-container {
 			width:$mobileClosed;
 
-			.placeholder {
-				width:$mobileClosed;
-			}
-
-			.sidebar {
-				width:$mobileClosed;
-			}
-
 			&:not(.locked){
 				.sidebar {
+					box-shadow:0 0 0 transparent, 0 0 0 transparent;
+					border-right:1px solid $lightgrey;
 
 					&:hover {
-						width:$mobileOpen;
+						width:$mobileClosed;
+					}
+
+					.item {
+						span {
+							opacity:0;
+						}
 					}
 				}
 			}
 
 			&.locked {
-				width:$mobileOpen;
 
 				.sidebar {
 					width:$mobileOpen;
