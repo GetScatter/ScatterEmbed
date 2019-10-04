@@ -51,7 +51,6 @@
 		},
 		data(){ return {
 			routeNames:RouteNames,
-			initialized:false,
 		}},
 		computed:{
 			...mapState([
@@ -88,7 +87,6 @@
 
 		},
 		mounted(){
-			this.initialized = true;
 			// this[UIActions.SET_THEME](window.localStorage.getItem('theme') || this.THEMES.FLUORESCENT);
 			this.checkDevice();
 			this.checkMobileSize();
@@ -96,8 +94,9 @@
 		},
 		methods:{
 			checkMobileSize(){
+				console.log('window.innerWidth', window.innerWidth, this.isMobileDevice);
 				if(this.isMobileDevice) return;
-				this[UIActions.SET_IS_MOBILE](window.innerWidth < 600);
+				this[UIActions.SET_IS_MOBILE](window.innerWidth < 800);
 			},
 			checkDevice(){
 				let check = false;
