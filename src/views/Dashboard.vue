@@ -2,6 +2,7 @@
     <section class="dashboard">
         <section id="asset-updates">
             <section class="attraction">
+              <!-- Promoted app -->
               <div class="promoted-pill">
                 Promoted app
               </div>
@@ -15,10 +16,40 @@
                     <span class="premium-name">Cheesefactory</span>
                     <span class="premium-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum ante ipsum, at rhoncus nisi facilisis ac. Pellentesque eu magna tristique, ornare velit et, porttitor tellus.</span>
                   </div>
-                  <Button text="Open" />
+                  <Button text="Open Cheesefactory" />
                 </div>
               </a>
+
+              <!-- Exchange CTA -->
+              <section class="suggested-exchanges">
+                <section class="convert-to-stable">
+                  <div class="token-logo">
+                    <i class="fad fa-chart-line-down"></i>
+                  </div>
+                  <div class="explainer">
+                    <span class="title">EOS is dropping quickly</span>
+                    <span class="suggested-action">You should convert to a stable coin</span>
+                  </div>
+                  <div class="cta">
+                    <Button text="Stabilize" white=1 />
+                  </div>
+                </section>
+                <section class="convert-to-rising">
+                  <div class="token-logo">
+                    <i class="fad fa-coins"></i>
+                  </div>
+                  <div class="explainer">
+                    <span class="title">ETH has earned you 10% over the last week</span>
+                    <span class="suggested-action">Use those earnings to buy a rising token.</span>
+                  </div>
+                  <div class="cta">
+                    <Button text="Exchange" white=1 />
+                  </div>
+                </section>
+              </section>
+
             </section>
+            
         </section>
         <section class="focus-boxes">
             <a id="proxy" ref="https://get-scatter.com/vote"  target="_blank">
@@ -97,12 +128,12 @@
             text-align:center;
             background:$lightgrey;
             border-radius:10px;
-            background-color:$blue;
+            background-color:lighten($blue, 10%);
             border:1px solid $lightgrey;
             position:relative;
 
             @media (max-width: $breakpoint-tablet) {
-                height:600px;
+                height:auto;
                 border-radius:0;
             }
 
@@ -126,7 +157,7 @@
             }
 
             .premium-attraction {
-              height:70%;
+              height:65%;
               background:darken($blue, 25%);
               position:relative;
 
@@ -197,6 +228,7 @@
                   text-align:left;
                   justify-content:end;
                   align-content:center;
+                  align-self:end;
 
                   .premium-name {
                     font-size: $font-size-large;
@@ -227,6 +259,129 @@
 
             }
         }
+
+        .suggested-exchanges {
+          display:flex;
+          flex-direction:column;
+          height:35%;
+          padding:20px;
+
+          @media (max-width: $breakpoint-tablet) {
+              height:300px;
+          }
+
+          .token-logo {
+            color:white;
+            font-size:$font-size-huge;
+
+            @media (max-width: $breakpoint-mobile) {
+                display:none;
+            }
+          }
+
+          .cta {
+            max-width:120px;
+            justify-self: end;
+
+            button {
+              width:120px;
+            }
+          }
+
+          .explainer {
+            display:flex;
+            flex-direction:column;
+            padding:0 20px;
+            flex: 1 min-content !important;
+            text-align: left;
+
+            @media (max-width: $breakpoint-mobile) {
+                padding:0;
+            }
+
+            .title {
+              font-size: $font-size-standard;
+              font-family: 'Poppins', sans-serif;
+              font-weight: bold;
+              color:white;
+              line-height:18px;
+              margin-bottom:4px;
+            }
+
+            .suggested-action {
+              font-size: $medium;
+              color:white;
+              opacity:1;
+              font-size: $font-size-small;
+              margin-bottom:10px;
+            }
+          }
+
+          .convert-to-stable {
+            display:flex;
+            flex-direction:row;
+            height:50%;
+            align-items: center;
+            flex: 1;
+
+            @media (max-width: $breakpoint-mobile) {
+                flex-direction:column;
+                align-items: flex-start;
+                height:auto;
+                padding:20px 0;
+            }
+          }
+
+          .convert-to-rising {
+            display:flex;
+            flex-direction:row;
+            height:50%;
+            align-items: center;
+            flex: 1;
+            border-top:1px solid rgba(255,255,255,0.12);
+
+            @media (max-width: $breakpoint-mobile) {
+                flex-direction:column;
+                align-items: flex-start;
+                height:auto;
+                padding:20px 0;
+            }
+          }
+
+        }
+
+        // <section class="suggested-exchanges">
+        //       <section class="convert-to-stable">
+        //         <div class="token-logo">
+        //           <div class="position-change falling"></div>
+        //           <div class="token">
+        //             icon
+        //           </div>
+        //         </div>
+        //         <div class="explainer">
+        //           <span class="title">EOS is dropping quickly</span>
+        //           <span class="suggested-action">You should convert to a stable coin</span>
+        //         </div>
+        //         <div class="cta">
+        //           <Button text="Stabilize" />
+        //         </div>
+        //       </section>
+        //       <section class="convert-to-rising">
+        //         <div class="token-logo">
+        //           <div class="position-change rising"></div>
+        //           <div class="token">
+        //             icon
+        //           </div>
+        //         </div>
+        //         <div class="explainer">
+        //           <span class="title">ETH has earned you 10%</span>
+        //           <span class="suggested-action"></span>
+        //         </div>
+        //         <div class="cta">
+        //           <Button text="Exchange" />
+        //         </div>
+        //       </section>
+        //     </section>
 
     }
 
@@ -318,6 +473,10 @@
 
             &:hover {
                 border:1px solid $blue;
+
+                @media (max-width: $breakpoint-mobile) {
+                    border:0;
+                }
             }
 
             button {
@@ -379,6 +538,10 @@
 
             &:hover {
                 border:1px solid $blue;
+
+                @media (max-width: $breakpoint-mobile) {
+                    border:0;
+                }
             }
 
             button {

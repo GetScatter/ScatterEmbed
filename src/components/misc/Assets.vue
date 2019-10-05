@@ -115,6 +115,12 @@
 		border-radius: 10px;
 		flex-direction:column;
 
+		@media (max-width: $breakpoint-mobile) {
+            margin:0;
+            border:0;
+            border-radius:0;
+        }
+
 		.token-list {
 			display:flex;
 			flex-direction:column;

@@ -123,6 +123,10 @@
 				grid-template-columns:120px auto;
 				display: grid;
 
+				@media (max-width: $breakpoint-mobile) {
+		            grid-template-columns:80px auto;
+		        }
+
 				&:hover,
 				&.active {
 					background-color:lighten($blue, 44%)
@@ -131,8 +135,10 @@
 				.asset-movement {
 					border-right:1px solid rgba(0,0,0,.06);
 					height:88px;
-					line-height:88px;
 					text-align:center;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 
 					.staked {
 						font-size:$large;
@@ -161,10 +167,18 @@
 					display: grid;
 					grid-template-columns:72px auto auto;
 
+					@media (max-width: $breakpoint-mobile) {
+						grid-template-columns:44px auto auto;
+					}
+
 					.token-icon {
 						width:72px;
 						text-align:center;
 						align-self:center;
+
+						@media (max-width: $breakpoint-mobile) {
+							width:44px;
+						}
 					}
 
 					.token-symbol {
@@ -177,6 +191,15 @@
 						margin: 0 auto;
 						position: relative;
 
+						@media (max-width: $breakpoint-mobile) {
+				            width: 24px;
+							height: 24px;
+							border-radius: 12px;
+							text-align: center;
+							font-size: 18px;
+							line-height: 24px;
+				        }
+
 						.symbol {
 							width: 44px;
 							height: 44px;
@@ -185,6 +208,15 @@
 							font-size: 32px;
 							line-height: 44px;
 							color:white;
+
+							@media (max-width: $breakpoint-mobile) {
+					            width: 24px;
+								height: 24px;
+								border-radius: 12px;
+								text-align: center;
+								font-size: 18px;
+								line-height: 24px;
+					        }
 						}
 
 						.icon-lock {

@@ -1,5 +1,5 @@
 <template>
-	<button :disabled="disabled || loading" :class="{'blue':blue, 'red':red, 'big':big, 'small':small, 'icon':icon && !text}" @click="click && !loading ? click() : ()=>{}">
+	<button :disabled="disabled || loading" :class="{'blue':blue, 'white':white, 'red':red, 'big':big, 'small':small, 'icon':icon && !text}" @click="click && !loading ? click() : ()=>{}">
 		<span v-if="icon" class="icon" :class="icon"></span>
 		<span v-if="loading" class="loading icon-spin4 animate-spin"></span>
 		<span v-if="text">{{text}}</span>
@@ -8,7 +8,7 @@
 
 <script>
 	export default {
-		props:['text','click', 'blue', 'red', 'disabled', 'big', 'icon', 'small', 'loading']
+		props:['white','text','click', 'blue', 'red', 'disabled', 'big', 'icon', 'small', 'loading']
 	}
 </script>
 
@@ -49,8 +49,7 @@
 			font-size:1rem;
 		}
 
-		&.button-white,
-		&.button-default {
+		&.white {
 			color: $blue;
 			background-color:darken($white, 5%);
 			border-color: $white;
