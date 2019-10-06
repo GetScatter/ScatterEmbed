@@ -129,7 +129,6 @@
 
 	.quick-actions {
 		background:white;
-		border-bottom:1px solid $lightgrey;
 		padding:0 20px;
 		display:flex;
 		align-items:center;
@@ -139,11 +138,16 @@
 		height:70px;
 		min-height:70px;
 		width:auto;
-		z-index:100;
+		z-index:99;
 		position:fixed;
 		top:0;
 		left:60px;
 		right:0;
+		transition: all 0.12s ease-in-out;
+
+		@media (max-width: $breakpoint-mobile) {
+            padding:0 14px 0 4px;
+        }
 
 		&.sidebarLocked {
 			left:240px;

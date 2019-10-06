@@ -8,12 +8,12 @@
 
             <section v-else>
                 <section class="app-content">
+                    <BottomActions v-if="unlocked && onboarded" />
                     <Sidebar v-if="unlocked && onboarded" />
                     <section class="view-pane">
                         <QuickActions v-if="showQuickActions" />
                         <router-view class="router-view" :class="{'lowered':true, 'floated':unlocked}"></router-view>
                     </section>
-                    <BottomActions v-if="unlocked && onboarded" />
 
                     <Processes />
                 </section>
@@ -74,14 +74,14 @@
 				if(!this.onboarded) return false;
 				return ![
 					RouteNames.ITEMS,
-					RouteNames.NETWORKS,
-					RouteNames.CONTACTS,
-					RouteNames.HISTORIES,
+					// RouteNames.NETWORKS,
+					// RouteNames.CONTACTS,
+					// RouteNames.HISTORIES,
 					RouteNames.RIDL,
-					RouteNames.SETTINGS,
+					// RouteNames.SETTINGS,
 					RouteNames.PURCHASE,
-					RouteNames.IDENTITIES,
-					RouteNames.LOCATIONS,
+					// RouteNames.IDENTITIES,
+					// RouteNames.LOCATIONS,
 				].includes(this.$route.name);
 			},
 

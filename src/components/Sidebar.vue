@@ -117,7 +117,6 @@
 		.sidebar {
 			flex:0 0 auto;
 			width:$closed;
-			border-right:1px solid $lightgrey;
 			overflow-x:hidden;
 			white-space: nowrap;
 			position:fixed;
@@ -129,8 +128,12 @@
 			background-color:white;
 			z-index:10000;
 			box-shadow:0 0 0 transparent, 0 0 0 transparent;
-
 			transition: width $time ease, box-shadow 1.1s ease;
+			z-index:100;
+
+			@media (max-width: $breakpoint-mobile) {
+                border-right:0;
+            }
 
 			.bar-bg {
 				width:$closed;
@@ -191,8 +194,9 @@
 
 			.item {
 				cursor: pointer;
-				padding:14px 12px;
-				margin:0;
+				padding:10px;
+				border-radius:22px;
+				margin:4px;
 				display:flex;
 				align-items: center;
 				color: black;
@@ -200,10 +204,6 @@
 				transition-property: background, padding;
 				font-size:$medium;
 				text-transform:uppercase;
-
-				&:first-child {
-					border-top:1px solid $lightgrey;
-				}
 
 				i {
 					padding-right:18px;
@@ -246,10 +246,10 @@
 		&:not(.locked){
 			.sidebar {
 				.item {
-					padding:14px 12px;
+					
 
 					i {
-						margin-left:7px;
+						margin-left:4px;
 					}
 				}
 
@@ -302,7 +302,6 @@
 			&:not(.locked){
 				.sidebar {
 					box-shadow:0 0 0 transparent, 0 0 0 transparent;
-					border-right:1px solid $lightgrey;
 
 					&:hover {
 						width:$mobileClosed;

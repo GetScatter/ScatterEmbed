@@ -7,16 +7,16 @@
                 Promoted app
               </div>
               <a href="" class="premium-attraction">
-                <img src="https://source.unsplash.com/random/600x400">
+                <div class="logo">
+                  <img src="https://get-scatter.com/promos/prospectors.jpg">
+                </div>
+                <img src="https://prospectors.io/assets/landing/main_back-8c9f9ebc866cfda98aa32ee12eb975e0a5307ab4fadc296ce05ec93cad876beb.jpg">
                 <div class="description">
-                  <div class="logo">
-                    <img src="https://source.unsplash.com/random/120x120">
-                  </div>
                   <div class="premium-content">
-                    <span class="premium-name">Cheesefactory</span>
-                    <span class="premium-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum ante ipsum, at rhoncus nisi facilisis ac. Pellentesque eu magna tristique, ornare velit et, porttitor tellus.</span>
+                    <span class="premium-name">Prospectors</span>
+                    <span class="premium-description">First MMO Game on EOS! Real Time Economic Strategy with fully user-generated economy. Prices for in-game goods and services are determined based on supply and demand, making the Prospectors economy equivalent to an economy during the Gold Rush.</span>
                   </div>
-                  <Button text="Open Cheesefactory" />
+                  <Button text="Open Prospectors" />
                 </div>
               </a>
 
@@ -31,7 +31,7 @@
                     <span class="suggested-action">You should convert to a stable coin</span>
                   </div>
                   <div class="cta">
-                    <Button text="Stabilize" white=1 />
+                    <Button text="Stabilize" />
                   </div>
                 </section>
                 <section class="convert-to-rising">
@@ -43,7 +43,7 @@
                     <span class="suggested-action">Use those earnings to buy a rising token.</span>
                   </div>
                   <div class="cta">
-                    <Button text="Exchange" white=1 />
+                    <Button text="Exchange" />
                   </div>
                 </section>
               </section>
@@ -102,7 +102,7 @@
     @import "../styles/variables";
 
     .dashboard {
-        height:calc(100vh - 150px);
+        height:calc(100vh - 140px);
         padding:$padding-med;
         display:flex;
         flex-direction:row;
@@ -110,31 +110,37 @@
         @media (max-width: $breakpoint-tablet) {
             flex-direction:column;
             padding:0;
+            border-radius: $radius-big 0 0 0;
+            overflow-y: scroll;
+            height:auto;
         }
     }
 
     #asset-updates {
-        height:100%;
         width:60%;
 
         @media (max-width: $breakpoint-tablet) {
-            height:auto;
             width:100%;
         }
 
         .attraction {
             height:100%;
-            overflow:hidden;
             text-align:center;
-            background:$lightgrey;
-            border-radius:10px;
-            background-color:lighten($blue, 10%);
+            background:#066AA7;
+            border-radius:$radius-big;
             border:1px solid $lightgrey;
             position:relative;
+            z-index: 0;
 
             @media (max-width: $breakpoint-tablet) {
                 height:auto;
-                border-radius:0;
+                border-radius:$radius-big;
+                border:0;
+                margin-bottom:30px;
+            }
+
+            @media (max-width: $breakpoint-mobile) {
+                
             }
 
             .promoted-pill {
@@ -142,9 +148,9 @@
               right:20px;
               top:20px;
               padding:8px 16px 7px;
-              background:white;
-              color:black;
-              border-radius:20px;
+              background:rgba(0,0,0,0.34);
+              color:white;
+              border-radius:$radius-big;
               font-size:$font-size-small;
               display:inline-block;
               margin:0 auto;
@@ -152,67 +158,115 @@
               z-index:1;
 
               @media (max-width: 420px) {
-                  border-radius: 0 20px 0 20px;
+                  border-radius: 0 0 0 $radius;
+                  top:0;
+                  right:0;
               }
             }
 
             .premium-attraction {
               height:65%;
-              background:darken($blue, 25%);
+              background-color:$blue;
+              background-image: linear-gradient(211deg, #0280CE 12%, #0799FF 46%, #066AA7 100%);
               position:relative;
-
-              @media (max-width: $breakpoint-tablet) {
-                  height:400px;
-              }
+              overflow:hidden;
+              border-radius:$radius-big $radius-big 0 0;
 
               img {
-                width:100%;
-                height:100%;
+                width:90vw;
+                height:90vw;
+                border-radius:50%;
                 object-fit:cover;
-                opacity:0.6;
-                transition:opacity 0.12s ease-in-out;
+                position:absolute;
+                top:-60%;
+                left:40%;
+                box-shadow: 0 0 100px #010b11b5;
+
+                @media (max-width: $breakpoint-tablet) {
+                    width:120vw;
+                    height:120vw;
+                    top:-20%;
+                    left:40%;
+                }
+
+                @media (max-width: 420px) {
+                    display:none;
+                }
               }
+
+              .logo {
+                width:120px;
+                height:120px;
+                border-radius:$radius;
+                overflow:hidden;
+                position:absolute;
+                top:30px;
+                left:30px;
+                border: 1px solid rgba(255,255,255,0.16);
+
+                @media (max-width: $breakpoint-small-desktop) {
+                  width:80px;
+                  height:80px;
+                  top:20px;
+                  left:20px;
+                }
+
+                @media (max-width: 420px) {
+                  width:100%;
+                  height:180px;
+                  top:0px;
+                  left:0px;
+                  border-radius:0;
+                }
+
+                img {
+                  width:100%;
+                  height:100%;
+                  object-fit:cover;
+                  opacity:1.0;
+                  border-radius:0;
+                  position:relative;
+                  top:0;
+                  left:0;
+
+                  @media (max-width: 420px) {
+                      display:block;
+                  }
+                }
+              }
+
+              @media (max-width: $breakpoint-tablet) {
+                height:400px;
+              }
+
+              @media (max-width: 420px) {
+                height:440px;
+              }
+
 
               &:hover {
 
                 img {
-                  opacity:0.44;
+
                 }
               }
 
               .description {
-                display:flex;
-                flex-direction:column;
-                align-content:end;
-                justify-content:end;
-                background:rgba(0,0,0,0.42);
-                padding:20px;
+                display:block;
+                padding:30px;
                 position:absolute;
                 bottom:0;
                 left:0;
-                right:0;
-                top:0;
+                right:40%;
+                text-align:left;
 
-                .logo {
-                  width:120px;
-                  height:120px;
-                  border-radius:20px;
-                  overflow:hidden;
-                  position:absolute;
-                  top:20px;
-                  left:20px;
-                  border: 1px solid rgba(255,255,255,0.16);
+                @media (max-width: $breakpoint-small-desktop) {
+                  right:20%;
+                }
 
-                  @media (max-width: 420px) {
-                      width:calc(100% - 40px);
-                  }
-
-                  img {
-                    width:100%;
-                    height:100%;
-                    object-fit:cover;
-                    opacity:1.0;
-                  }
+                @media (max-width: $breakpoint-mobile) {
+                  right:0%;
+                  padding:40px 20px;
                 }
 
                 button {
@@ -238,19 +292,25 @@
                     white-space:nowrap;
                     overflow:hidden;
                     text-overflow:ellipsis;
+                    margin-bottom:8px;
 
                     @media (max-width: $breakpoint-tablet) {
-                        font-size: $font-size-medium;
+                        font-size: 20px;
                     }
                   }
 
                   .premium-description {
                     font-size: $medium;
-                    font-weight: bold;
                     color:white;
-                    opacity:0.6;
-                    font-size: $font-size-small;
+                    opacity:0.9;
+                    font-size: $font-size-standard;
+                    line-height:1.1rem;
                     margin-bottom:10px;
+
+                    @media (max-width: 1120px) {
+                        font-size: $font-size-small;
+                        line-height:1rem;
+                    }
                   }
 
                 }
@@ -264,18 +324,23 @@
           display:flex;
           flex-direction:column;
           height:35%;
-          padding:20px;
+          padding:20px 30px;
+          background:$lightergrey;
+          border-radius:$radius-big 0 29px 29px;
+          z-index: 1;
+          position:relative;
 
           @media (max-width: $breakpoint-tablet) {
-              height:300px;
+              min-height: 200px;
           }
 
           .token-logo {
-            color:white;
-            font-size:$font-size-huge;
+            color:$blue;
+            font-size:34px;
 
             @media (max-width: $breakpoint-mobile) {
-                display:none;
+                font-size:44px;
+                margin-bottom:10px;
             }
           }
 
@@ -303,14 +368,14 @@
               font-size: $font-size-standard;
               font-family: 'Poppins', sans-serif;
               font-weight: bold;
-              color:white;
+              color:black;
               line-height:18px;
               margin-bottom:4px;
             }
 
             .suggested-action {
               font-size: $medium;
-              color:white;
+              color:black;
               opacity:1;
               font-size: $font-size-small;
               margin-bottom:10px;
@@ -350,39 +415,6 @@
 
         }
 
-        // <section class="suggested-exchanges">
-        //       <section class="convert-to-stable">
-        //         <div class="token-logo">
-        //           <div class="position-change falling"></div>
-        //           <div class="token">
-        //             icon
-        //           </div>
-        //         </div>
-        //         <div class="explainer">
-        //           <span class="title">EOS is dropping quickly</span>
-        //           <span class="suggested-action">You should convert to a stable coin</span>
-        //         </div>
-        //         <div class="cta">
-        //           <Button text="Stabilize" />
-        //         </div>
-        //       </section>
-        //       <section class="convert-to-rising">
-        //         <div class="token-logo">
-        //           <div class="position-change rising"></div>
-        //           <div class="token">
-        //             icon
-        //           </div>
-        //         </div>
-        //         <div class="explainer">
-        //           <span class="title">ETH has earned you 10%</span>
-        //           <span class="suggested-action"></span>
-        //         </div>
-        //         <div class="cta">
-        //           <Button text="Exchange" />
-        //         </div>
-        //       </section>
-        //     </section>
-
     }
 
     .focus-boxes {
@@ -392,7 +424,8 @@
 
         @media (max-width: $breakpoint-tablet) {
             width:100%;
-            display:flex;
+            height:400px;
+            display:block;
             flex-direction:column;
         }
 
@@ -400,7 +433,7 @@
             text-align:center;
             background:white;
             border:1px solid $lightgrey;
-            border-radius:10px;
+            border-radius:$radius-big;
             background-size:cover;
             margin:0 10px 0px 20px;
             position:relative;
@@ -418,7 +451,7 @@
                 padding:8px 16px 7px;
                 background:black;
                 color:white;
-                border-radius:20px;
+                border-radius:$radius-big;
                 font-size:$font-size-small;
                 display:inline-block;
                 margin:0 auto;
@@ -426,19 +459,16 @@
             }
 
             @media (max-width: $breakpoint-tablet) {
-                height:400px;
-                display:flex;
+                border-radius:$radius-big;
+                border:0 !important;
+                margin:0 0 70px 0;
+                padding:40px 40px 80px;
+                display:block;
                 flex-direction:column;
-                background-position:center -400px;
-                margin:0;
-                border:0;
-                border-radius:0;
-                padding:20px;
-            }
 
-            @media (max-width: $breakpoint-mobile) {
-                height:420px;
-                background-position:center -120px;
+                &:hover {
+                    border:0;
+                }
             }
 
             h3 {
@@ -486,7 +516,7 @@
 
         #vote {
             text-align:center;
-            border-radius:10px;
+            border-radius:$radius-big;
             background:white;
             padding:0;
             position:relative;

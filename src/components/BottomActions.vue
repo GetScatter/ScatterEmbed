@@ -75,29 +75,20 @@
 
     .bottom-actions {
         height:70px;
-        background:$blue;
+        background:black;
         color:$white;
         position:fixed;
         bottom:0;
         width:100vw;
         z-index:101;
-        padding-left:60px;
-
-        &.sidebarLocked {
-            padding-left:240px;
-        }
 
         .flex-wrapper {
             display:flex;
-            width:100%;
+            width:100vw;
             height:70px;
             flex-direction:row;
             align-items:center;
             justify-content: center;
-
-            @media (max-width: $breakpoint-mobile) {
-                width:calc(100vw - 60px);
-            }
 
             .action {
                 width:120px;
