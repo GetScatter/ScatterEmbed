@@ -141,6 +141,13 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../styles/variables";
 
+    .blockchain-list-container {
+        .blockchains {
+            overflow-y: auto;
+            height: calc(100vh - 70px);
+        }
+    }
+
     .head {
         .danger {
             background:$red;

@@ -191,7 +191,7 @@
             position:absolute;
             bottom:0;
             left:0;
-            right:1px;
+            right:0;
             border-top:1px solid $lightgrey;
             background-color:$lightergrey;
 

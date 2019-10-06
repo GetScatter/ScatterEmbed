@@ -29,7 +29,7 @@
 					<span class="balance" style="opacity:0.2;">No accounts</span>
 				</section>
 			</section>
-			<i class="fal fa-sync" :class="{'spin':loadingBalances}" @click.native="refreshTokens"></i>
+			<i class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
 		</section>
 
 	</section>

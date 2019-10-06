@@ -270,7 +270,7 @@
 	@import "../../styles/variables";
 
 	.keys-list {
-		height:calc(100% - 70px);
+		height:calc(100% - 95px);
 		overflow-y:auto;
 		padding:0 10px;
 		background:white;
@@ -459,5 +459,10 @@
 		}
 	}
 
+	.mobile {
+		.keys-list {
+			height:calc(100% - 130px);
+		}
+	}
 
 </style>
