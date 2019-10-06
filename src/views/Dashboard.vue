@@ -49,7 +49,7 @@
               </section>
 
             </section>
-            
+
         </section>
         <section class="focus-boxes">
             <a id="proxy" ref="https://get-scatter.com/vote"  target="_blank">
@@ -106,7 +106,6 @@
         padding:$padding-med;
         display:flex;
         flex-direction:row;
-      margin-top:70px;
 
         @media (max-width: $breakpoint-tablet) {
             flex-direction:column;
@@ -141,7 +140,7 @@
             }
 
             @media (max-width: $breakpoint-mobile) {
-                
+
             }
 
             .promoted-pill {

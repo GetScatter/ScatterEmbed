@@ -1,7 +1,7 @@
 @import "./variables";
 
 .transfer, .receive, .exchange, .purchase, .app-login {
-  height:$quickheightnobuffer;
+  height:calc(100vh - 60px - 80px);;
   display:flex;
   flex-direction: column;
 
@@ -21,17 +21,23 @@
     }
   }
 
+  .scroller {
+    overflow-y:auto;
+    height:100%;
+  }
+
   .tail {
     justify-content: center;
     display:flex;
     align-items: center;
-    padding:20px 20px;
+    height:70px;
     border-top:1px solid $lightgrey;
     text-align:center;
 
     button {
       display:inline-block;
       padding:0 60px;
+      margin:0;
     }
   }
 
@@ -206,6 +212,30 @@
       }
 
 
+    }
+  }
+}
+
+.mobile {
+  .transfer, .receive, .exchange, .purchase, .app-login {
+    .boxes {
+      flex-direction: column;
+
+      .box {
+        margin-bottom:20px;
+
+        &:not(.nested){
+          width:100%;
+        }
+      }
+
+      .box-container {
+        width:100%;
+      }
+
+      .data-box {
+        margin-left:0;
+      }
     }
   }
 }

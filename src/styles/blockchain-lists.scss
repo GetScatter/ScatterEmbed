@@ -4,7 +4,6 @@
   display:flex;
   height: 100%;
   border-top:1px solid $lightgrey;
-  margin-top:70px;
 
   .head {
     flex:1;
@@ -40,7 +39,7 @@
 
   .scroller {
     flex:1;
-    height:calc(100vh - 40px - 70px);
+    height:calc(100vh - 40px - 70px - 30px);
     overflow:auto;
     padding:20px;
 
@@ -49,10 +48,10 @@
     }
 
     &.with-tail {
-      // height:calc(100vh - 100px);
+       height:calc(100vh - 210px);
 
       &.with-search {
-        // height:calc(100vh - 285px);
+         height:calc(100vh - 285px);
       }
     }
   }

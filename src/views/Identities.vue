@@ -518,7 +518,7 @@
 
 	.identity {
 		padding:0;
-		height: calc(100vh - 210px);
+		height: calc(100vh - 140px);
 
 		.id-card {
 			padding:30px;
@@ -528,7 +528,7 @@
 			@media (max-width: $breakpoint-tablet) {
 		        padding:20px;
 		    }
-		    
+
 		    @media (max-width: $breakpoint-mobile) {
 		        padding:0px;
 		    }
@@ -689,7 +689,7 @@
 			@media (max-width: $breakpoint-tablet) {
 		        padding:20px;
 		    }
-		    
+
 		    @media (max-width: $breakpoint-mobile) {
 		        padding:10px;
 		    }

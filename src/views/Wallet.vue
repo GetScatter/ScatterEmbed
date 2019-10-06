@@ -131,7 +131,6 @@
         padding-bottom:50px;
 
         .scroller {
-            margin-top:70px;
 
             .keys-and-accounts-list {
                 height: calc(100vh - 200px);
@@ -206,8 +205,8 @@
                 padding:10px;
             }
 
-            .left { 
-                flex:1; 
+            .left {
+                flex:1;
 
                 @media (max-width: $breakpoint-mobile) {
                     width:100%;
@@ -215,10 +214,9 @@
                 }
             }
 
-            .right { 
+            .right {
                 display:flex;
                 flex-direction:row;
-                flex-grow:1;
                 text-align:right;
                 justify-content:end;
 

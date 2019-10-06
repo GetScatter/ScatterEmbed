@@ -126,15 +126,10 @@
 			padding:20px 0;
 			padding-top:69px;
 			background-color:white;
-			z-index:10000;
 			box-shadow:0 0 0 transparent, 0 0 0 transparent;
 			transition: width $time ease, box-shadow 1.1s ease;
 			z-index:100;
 			border-right:1px solid $lightgrey;
-
-			@media (max-width: $breakpoint-mobile) {
-                border-right:0;
-            }
 
 			.bar-bg {
 				width:$closed;
@@ -246,10 +241,9 @@
 
 		&:not(.locked){
 			.sidebar {
-				border-right:1px solid transparent;
 
 				.item {
-					
+
 
 					i {
 						margin-left:4px;
@@ -261,19 +255,10 @@
 				}
 
 				&:hover {
-					width:$open;
-					transition: width $time ease, box-shadow 0.3s ease;
+					transition: box-shadow 0.3s ease;
 					box-shadow:10px 0 30px rgba(0,0,0,0.15), 2px 0 10px $blue-shadow;
 					border-right:0;
 
-					.item {
-						color:$silver;
-
-						span {
-							margin-left:0;
-							opacity:1;
-						}
-					}
 				}
 			}
 		}

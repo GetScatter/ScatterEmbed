@@ -8,11 +8,11 @@
 
             <section v-else>
                 <section class="app-content">
-                    <BottomActions v-if="unlocked && onboarded" />
                     <Sidebar v-if="unlocked && onboarded" />
-                    <section class="view-pane" :class="{'viewscrolllocked':viewscrolllocked}">
+                    <section class="view-pane">
                         <QuickActions v-if="showQuickActions" />
-                        <router-view class="router-view" :class="{'lowered':true, 'floated':unlocked}"></router-view>
+                        <router-view class="router-view"></router-view>
+                        <BottomActions v-if="showBottomActions" />
                     </section>
 
                     <Processes />
@@ -57,7 +57,6 @@
 				'scatter',
 				'workingScreen',
 				'processes',
-                'viewscrolllocked'
 			]),
 			...mapGetters([
 				'unlocked',
@@ -85,6 +84,17 @@
 					// RouteNames.LOCATIONS,
 				].includes(this.$route.name);
 			},
+			showBottomActions(){
+				if(!this.unlocked) return false;
+				if(!this.onboarded) return false;
+				return ![
+					RouteNames.IDENTITIES,
+					RouteNames.LOCATIONS,
+					RouteNames.NETWORKS,
+					RouteNames.CONTACTS,
+					RouteNames.HISTORIES,
+				].includes(this.$route.name);
+			},
 
 		},
 		mounted(){
@@ -95,7 +105,6 @@
 		},
 		methods:{
 			checkMobileSize(){
-				console.log('window.innerWidth', window.innerWidth, this.isMobileDevice);
 				if(this.isMobileDevice) return;
 				this[UIActions.SET_IS_MOBILE](window.innerWidth < 800);
 			},
@@ -112,7 +121,6 @@
 			...mapActions([
 				UIActions.SET_IS_MOBILE,
 				UIActions.SET_IS_MOBILE_DEVICE,
-                UIActions.SET_VIEWSCROLLLOCK,
 				// UIActions.SET_THEME,
 			])
 		}
@@ -142,7 +150,7 @@
     }
 
     .router-view {
-        height: 100%;
+        flex:1;
     }
 
     .app-content {

@@ -273,7 +273,8 @@
 
 		.scroller {
 			position: relative;
-			height: 100%;
+			height: calc(100% - 160px);
+			margin-top:20px;
 			overflow-x: hidden;
 			overflow-y: auto;
 

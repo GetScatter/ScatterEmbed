@@ -34,7 +34,6 @@
                 </div>
                 <div class="flex-wrapper">
 
-
                     <!-- Resources -->
                     <section class="resources" v-if="usesResources">
                         <section class="loading" v-if="!accountResources">
@@ -222,10 +221,10 @@
     $panelheight:180px;
 
     .account {
-        height:$quickheightnobuffer;
+        height:calc(100vh - 60px - 80px);
         display:flex;
         flex-direction:column;
-        padding-top:70px;
+        overflow-y:auto;
 
         .manage {
             padding:0;
@@ -233,6 +232,7 @@
             position:relative;
             border-radius:$radius-big;
             margin:20px;
+            margin-top:0;
             background:$blue;
 
             @media (max-width: $breakpoint-mobile) {

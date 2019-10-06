@@ -1,5 +1,5 @@
 <template>
-    <section class="bottom-actions" v-if="canShow" :class="{'sidebarLocked':!sidebarLocked}">
+    <section class="bottom-actions">
 
         <section class="flex-wrapper" v-if="accounts.length">
             <section class="action" @click="quickAction(RouteNames.TRANSFER)">
@@ -33,18 +33,10 @@
         computed:{
             ...mapState([
                 'scatter',
-                'sidebarLocked'
             ]),
             ...mapGetters([
                 'accounts',
             ]),
-	        canShow(){
-            	return ![
-            		RouteNames.SETTINGS,
-            		RouteNames.NETWORKS,
-            		RouteNames.CONTACTS,
-                ].includes(this.$route.name);
-            }
 
         },
         mounted(){
@@ -77,14 +69,11 @@
         height:70px;
         background:black;
         color:$white;
-        position:fixed;
-        bottom:0;
-        width:100vw;
         z-index:101;
+        flex:0 0 auto;
 
         .flex-wrapper {
             display:flex;
-            width:100vw;
             height:70px;
             flex-direction:row;
             align-items:center;

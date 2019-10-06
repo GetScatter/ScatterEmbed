@@ -10,7 +10,6 @@ export const SET_LANGUAGE = 'setLanguage';
 export const SET_APP_REP = 'setAppRep';
 
 export const SET_SIDEBAR = 'setSidebar';
-export const SET_VIEWSCROLLLOCK = 'viewscrolllocked';
 export const SET_PORTS = 'setPorts';
 
 export const SET_ACTION_REP = 'SET_ACTION_REP';

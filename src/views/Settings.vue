@@ -36,7 +36,7 @@
                     {{translate(selectedOption)}}
                 </section>
 
-                <section class="panels">
+                <section class="scroller">
                     <SettingsGeneral v-if="selectedOption.name === settingsOptions.GENERAL.name" />
                     <SettingsTokens v-if="selectedOption.name === settingsOptions.TOKENS.name" />
                     <SettingsExplorer v-if="selectedOption.name === settingsOptions.EXPLORER.name" />
@@ -184,10 +184,8 @@
         height:100%;
         overflow-y:hidden;
 
-        .panels {
+        .scroller {
             padding:30px;
-            overflow-y:auto;
-            height:calc(100% - 140px);
         }
     }
 

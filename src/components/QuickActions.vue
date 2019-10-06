@@ -139,10 +139,6 @@
 		min-height:70px;
 		width:auto;
 		z-index:99;
-		position:fixed;
-		top:0;
-		left:60px;
-		right:0;
 		transition: all 0.12s ease-in-out;
 
 		@media (max-width: $breakpoint-mobile) {

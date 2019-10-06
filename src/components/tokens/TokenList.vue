@@ -1,8 +1,8 @@
 <template>
 	<section class="token-list" :class="{'blue':blue}">
 		<SearchAndFilter full-search="1" v-on:terms="x => terms = x" />
-		<section class="tokens">
-			<section class="single-asset" :class="{'hoverable':hoverable, 'active':selected && selected.uniqueWithChain() === token.uniqueWithChain()}" v-for="token in sortedBalances" @click="selectToken(token)">
+		<section ref="tokens" class="tokens">
+			<section :id="token.uniqueWithChain()" class="single-asset" :class="{'hoverable':hoverable, 'active':selected && selected.uniqueWithChain() === token.uniqueWithChain()}" v-for="token in sortedBalances" @click="selectToken(token)">
 				<section class="asset-movement">
 					<section class="token-change" v-if="!token.unusable && change(token).perc">
 						<figure class="change-value" :class="{'red':!change(token).plus}" v-if="!token.unusable">{{change(token).perc}}</figure>
@@ -75,6 +75,10 @@
 			selectToken(token){
 				if(!this.hoverable) return;
 				this.$emit('token', token);
+				if(token){
+					console.log('token', this.$refs.tokens.scrollTop, document.getElementById(token.uniqueWithChain()).offsetTop)
+					this.$refs.tokens.scrollTop = document.getElementById(token.uniqueWithChain()).offsetTop - 150;
+				}
 			},
 			change(token, numOnly = false){
 				const dummy = {plus:false, perc:'0%'};

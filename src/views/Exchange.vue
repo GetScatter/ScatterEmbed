@@ -1,110 +1,112 @@
 <template>
 	<section>
 		<section class="exchange" v-if="account && token && toSend">
-			<!----------------------->
-			<!--------- FROM -------->
-			<!----------------------->
-			<section class="greyback">
-				<section class="limit-width">
-					<section class="boxes">
-						<section class="box-container">
-							<label>From & Token</label>
-							<section class="box nested account-selector" @click="selectTokenAndAccount">
-								<section>
-									<figure class="name">{{account.sendable()}}</figure>
-									<figure class="network">{{account.network().name}}</figure>
-									<figure class="token">{{token.amount}} {{token.symbol}}</figure>
-									<figure class="price">{{token.fiatPrice()}}</figure>
-								</section>
-								<figure class="chevron icon-dot-3"></figure>
-							</section>
-						</section>
-						<section class="box-container">
-							<label>Receiver</label>
-							<section class="box nested">
-								<section class="padded recipient-selector" @click="selectRecipient">
-									<figure class="name">Contacts</figure>
+			<section class="scroller">
+				<!----------------------->
+				<!--------- FROM -------->
+				<!----------------------->
+				<section class="greyback">
+					<section class="limit-width">
+						<section class="boxes">
+							<section class="box-container">
+								<label>From & Token</label>
+								<section class="box nested account-selector" @click="selectTokenAndAccount">
+									<section>
+										<figure class="name">{{account.sendable()}}</figure>
+										<figure class="network">{{account.network().name}}</figure>
+										<figure class="token">{{token.amount}} {{token.symbol}}</figure>
+										<figure class="price">{{token.fiatPrice()}}</figure>
+									</section>
 									<figure class="chevron icon-dot-3"></figure>
 								</section>
-								<figure class="line"></figure>
-								<section class="input-container">
-									<input placeholder="Address / Account" v-model="recipient" class="input" />
+							</section>
+							<section class="box-container">
+								<label>Receiver</label>
+								<section class="box nested">
+									<section class="padded recipient-selector" @click="selectRecipient">
+										<figure class="name">Contacts</figure>
+										<figure class="chevron icon-dot-3"></figure>
+									</section>
+									<figure class="line"></figure>
+									<section class="input-container">
+										<input placeholder="Address / Account" v-model="recipient" class="input" />
+									</section>
 								</section>
 							</section>
 						</section>
 					</section>
 				</section>
-			</section>
 
 
 
-			<!----------------------->
-			<!---------- TO --------->
-			<!----------------------->
-			<section class="whiteback">
-				<section class="limit-width">
-					<!--<section class="split-flex">-->
+				<!----------------------->
+				<!---------- TO --------->
+				<!----------------------->
+				<section class="whiteback">
+					<section class="limit-width">
+						<!--<section class="split-flex">-->
 						<!--<label>To Token</label>-->
 						<!--<section class="min-max">-->
-							<!--<div>Min<span>120.0000</span></div>-->
-							<!--<div>Max<span>120.0000</span></div>-->
+						<!--<div>Min<span>120.0000</span></div>-->
+						<!--<div>Max<span>120.0000</span></div>-->
 						<!--</section>-->
-					<!--</section>-->
+						<!--</section>-->
 
 
-					<section class="boxes" style="margin:0;">
+						<section class="boxes" style="margin:0;">
 
 
-						<section class="box" :class="{'not-allowed':!rate}">
-							<section class="input-container">
-								<figure class="label">{{token.truncatedSymbol()}}</figure>
-								<input :disabled="!rate" placeholder="0.00" v-on:input="changedAmount" v-model="toSend.amount" class="input" />
+							<section class="box" :class="{'not-allowed':!rate}">
+								<section class="input-container">
+									<figure class="label">{{token.truncatedSymbol()}}</figure>
+									<input :disabled="!rate" placeholder="0.00" v-on:input="changedAmount" v-model="toSend.amount" class="input" />
+								</section>
+								<figure class="line"></figure>
+								<section class="input-container">
+									<figure class="label">{{displayCurrency}}</figure>
+									<input :disabled="!rate" placeholder="0.00" v-if="toSend.fiatPrice()" v-on:input="changedFiat" v-model="fiat" class="input" />
+									<figure class="input not-available" v-else>Price not available</figure>
+								</section>
 							</section>
-							<figure class="line"></figure>
-							<section class="input-container">
-								<figure class="label">{{displayCurrency}}</figure>
-								<input :disabled="!rate" placeholder="0.00" v-if="toSend.fiatPrice()" v-on:input="changedFiat" v-model="fiat" class="input" />
-								<figure class="input not-available" v-else>Price not available</figure>
+
+
+
+
+							<!--- LOADING PAIRS --->
+							<section class="box account-selector" v-if="loadingPairs">
+								<section class="symbol"><i class="icon-spin4 animate-spin"></i></section>
+								<section>
+									<figure class="name">Loading Pairs</figure>
+									<figure class="network">Please wait</figure>
+								</section>
+							</section>
+
+							<!--- PAIRS LOADED --->
+							<section class="box account-selector" @click="selectToken" v-if="!loadingPairs">
+
+								<section class="symbol icon-attention-circled" v-if="!pair"></section>
+								<section class="symbol" v-else-if="loadingRate"><i class="icon-spin4 animate-spin"></i></section>
+								<section class="symbol" v-else>
+									<figure class="icon" :class="[{'small':pair && pair.symbol.length >= 4}, pair.symbolClass()]">
+										<span v-if="!pair.symbolClass()">{{pair.truncatedSymbol()}}</span>
+									</figure>
+								</section>
+
+
+								<section v-if="!pair">
+									<figure class="name" v-if="pairs.length">Select a Token</figure>
+									<figure class="name" v-else>No pairs found</figure>
+								</section>
+								<section v-if="pair">
+									<figure class="name" v-if="!loadingRate">{{estimatedAmount}}</figure>
+									<figure class="name" v-if="loadingRate">Loading Rate</figure>
+									<figure class="network" v-if="pair">{{pair.symbol}}</figure>
+								</section>
+								<figure class="chevron icon-dot-3" v-if="pairs.length"></figure>
 							</section>
 						</section>
 
-
-
-
-						<!--- LOADING PAIRS --->
-						<section class="box account-selector" v-if="loadingPairs">
-							<section class="symbol"><i class="icon-spin4 animate-spin"></i></section>
-							<section>
-								<figure class="name">Loading Pairs</figure>
-								<figure class="network">Please wait</figure>
-							</section>
-						</section>
-
-						<!--- PAIRS LOADED --->
-						<section class="box account-selector" @click="selectToken" v-if="!loadingPairs">
-
-							<section class="symbol icon-attention-circled" v-if="!pair"></section>
-							<section class="symbol" v-else-if="loadingRate"><i class="icon-spin4 animate-spin"></i></section>
-							<section class="symbol" v-else>
-								<figure class="icon" :class="[{'small':pair && pair.symbol.length >= 4}, pair.symbolClass()]">
-									<span v-if="!pair.symbolClass()">{{pair.truncatedSymbol()}}</span>
-								</figure>
-							</section>
-
-
-							<section v-if="!pair">
-								<figure class="name" v-if="pairs.length">Select a Token</figure>
-								<figure class="name" v-else>No pairs found</figure>
-							</section>
-							<section v-if="pair">
-								<figure class="name" v-if="!loadingRate">{{estimatedAmount}}</figure>
-								<figure class="name" v-if="loadingRate">Loading Rate</figure>
-								<figure class="network" v-if="pair">{{pair.symbol}}</figure>
-							</section>
-							<figure class="chevron icon-dot-3" v-if="pairs.length"></figure>
-						</section>
 					</section>
-
 				</section>
 			</section>
 

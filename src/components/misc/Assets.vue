@@ -2,7 +2,7 @@
 	<section class="assets">
 		<TokenList hoverable="1" :balances="allBalances" v-on:balances="x => filteredBalances = x" v-on:token="selectToken" :selected="selectedToken" />
 
-		<section class="graph-and-accounts">
+		<section class="graph-and-accounts" :class="{'open':selectedToken}">
 			<TokenGraph :balances="selectedToken ? [selectedToken] : filteredBalances.length ? filteredBalances : allBalances" />
 
 			<SearchAndFilter full-search="1" v-if="needsAccountSearchBar" v-on:terms="x => terms = x" />
@@ -109,7 +109,6 @@
 
 	.assets {
 		display:flex;
-		margin: 70px 0 20px;
 		flex-direction:column;
 		height:100%;
 
@@ -144,7 +143,7 @@
 			transition:all 0.12s ease-in-out;
 
 			&.open {
-				right:0%;
+				right:0;
 			}
 
 			.no-accounts {
@@ -161,7 +160,6 @@
 			.accounts {
 				padding:30px;
 				overflow:auto;
-
 				height:calc(100% - 180px);
 
 				&.with-search {
@@ -179,7 +177,6 @@
 					.name {
 						font-size: $large;
 						font-weight: bold;
-						color:white;
 						margin-bottom:2px;
 					}
 
@@ -200,12 +197,10 @@
 							font-size: $medium;
 							font-weight: bold;
 							margin-bottom:2px;
-							color:white;
 						}
 
 						.fiat {
 							font-size: $medium;
-							color:white;
 						}
 					}
 
