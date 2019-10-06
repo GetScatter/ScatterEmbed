@@ -236,6 +236,10 @@
 							font-size: $font-size-big;
 							font-family: 'Poppins', sans-serif;
 							font-weight: bold;
+
+							@media (max-width: $breakpoint-mobile) {
+					            font-size: $font-size-standard;
+					        }
 						}
 					}
 
@@ -249,7 +253,7 @@
 						.value {
 							margin-bottom:4px;
 							font-weight:bold;
-							font-size:$large;
+				            font-size: $font-size-standard;
 							color:black;
 						}
 					}

@@ -114,7 +114,6 @@
 		height:100%;
 
 		@media (max-width: $breakpoint-mobile) {
-            margin:0;
             border:0;
             border-radius:0;
         }

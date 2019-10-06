@@ -16,7 +16,7 @@
 	@import "../styles/variables";
 
 	.assets {
-		height:calc(100vh - 160px);
+		height:calc(100vh - 139px);
 	}
 
 
