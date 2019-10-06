@@ -2,17 +2,21 @@
 
 .blockchain-list-container {
   display:flex;
-  height: $fullheight;
+  height: 100%;
+  border-top:1px solid $lightgrey;
+  margin-top:70px;
 
   .head {
     flex:1;
     display:flex;
     align-items: center;
     padding:0 20px;
-    font-size: $medium;
+    font-size: $font-size-standard;
+    color:black;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
     height:70px;
-    border-bottom:1px solid $lightgrey;
+    background-color:$lightergrey;
 
     &.with-button {
       display:flex;
@@ -45,10 +49,10 @@
     }
 
     &.with-tail {
-      height:calc(100vh - 40px - 70px - 60px);
+      // height:calc(100vh - 100px);
 
       &.with-search {
-        height:calc(100vh - 40px - 70px - 60px - 70px);
+        // height:calc(100vh - 285px);
       }
     }
   }
@@ -72,17 +76,17 @@
 
   .list-container {
     flex:1;
+    margin-bottom:40px;
 
     .back-button {
-      padding:10px;
-      border:1px solid $border-standard;
-      margin-right:10px;
-      border-radius:$radius;
+      font-size:24px;
+      color:$blue;
       cursor: pointer;
+      margin-right:10px;
     }
 
     .search-and-filter {
-      padding:0 20px;
+      padding:10px;
     }
 
     .item-list {

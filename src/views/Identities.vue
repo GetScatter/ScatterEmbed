@@ -518,12 +518,20 @@
 
 	.identity {
 		padding:0;
-		height: calc(100vh - 40px - 60px);
+		height: calc(100vh - 210px);
 
 		.id-card {
-			padding:45px;
+			padding:30px;
 			position: relative;
 			overflow:hidden;
+
+			@media (max-width: $breakpoint-tablet) {
+		        padding:20px;
+		    }
+		    
+		    @media (max-width: $breakpoint-mobile) {
+		        padding:0px;
+		    }
 
 			.bg {
 				position:absolute;
@@ -550,6 +558,12 @@
 				max-width:600px;
 				margin:0 auto;
 				display:flex;
+
+				@media (max-width: $breakpoint-mobile) {
+			        border-radius:0px;
+					box-shadow:0;
+					border-bottom:1px solid $lightgrey;
+			    }
 
 
 				.avatar {
@@ -670,7 +684,15 @@
 		}
 
 		.id-details {
-			padding:45px;
+			padding:30px;
+
+			@media (max-width: $breakpoint-tablet) {
+		        padding:20px;
+		    }
+		    
+		    @media (max-width: $breakpoint-mobile) {
+		        padding:10px;
+		    }
 
 			.ridl-actions {
 				display:flex;

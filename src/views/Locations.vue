@@ -174,7 +174,12 @@
 	@import "../styles/variables";
 
 	.location {
-		padding:45px;
+		padding:30px;
+
+		@media (max-width: $breakpoint-tablet) {
+	        padding:20px;
+	    }
+	    
 	}
 
 </style>

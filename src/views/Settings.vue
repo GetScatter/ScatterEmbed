@@ -181,14 +181,13 @@
     }
 
     .list-container {
-        height:100vh;
+        height:100%;
         overflow-y:hidden;
 
         .panels {
             padding:30px;
             overflow-y:auto;
-            height:calc(100vh - 40px);
-            padding-bottom:100px;
+            height:calc(100% - 140px);
         }
     }
 

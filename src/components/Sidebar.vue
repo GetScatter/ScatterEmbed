@@ -47,7 +47,7 @@
 							// this.accounts.length ? {name:'Marketplace', route:RouteNames.ITEMS} : null,
 							{name:'Identities', route:RouteNames.IDENTITIES},
 							{name:'Locations', route:RouteNames.LOCATIONS},
-							this.accounts.length ? {name:'Reputation', route:RouteNames.RIDL} : null,
+							// this.accounts.length ? {name:'Reputation', route:RouteNames.RIDL} : null,
 							this.features.creditCards ? {name:'Purchase', route:RouteNames.PURCHASE} : null,
 							{name:'Contacts', route:RouteNames.CONTACTS},
 							this.history.length ? {name:'History', route:RouteNames.HISTORIES} : null,
@@ -70,7 +70,7 @@
 					case 'Assets': return 'fal fa-coins';
 					case 'Identities': return 'fal fa-passport';
 					case 'Locations': return 'fal fa-map-marker-alt';
-					case 'Reputation': return 'fal fa-shield';
+					// case 'Reputation': return 'fal fa-shield';
 					case 'Contacts': return 'fal fa-address-book';
 					case 'History': return 'fal fa-history';
 					case 'Networks': return 'fal fa-server';

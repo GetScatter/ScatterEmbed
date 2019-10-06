@@ -225,6 +225,7 @@
         height:$quickheightnobuffer;
         display:flex;
         flex-direction:column;
+        padding-top:70px;
 
         .manage {
             padding:0;
