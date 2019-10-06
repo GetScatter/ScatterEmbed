@@ -272,7 +272,7 @@
 	.keys-list {
 		height:calc(100% - 70px);
 		overflow-y:auto;
-		padding:0 20px;
+		padding:0 10px;
 		background:white;
 		padding-bottom:60px;
 

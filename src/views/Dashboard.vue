@@ -106,6 +106,7 @@
         padding:$padding-med;
         display:flex;
         flex-direction:row;
+      margin-top:70px;
 
         @media (max-width: $breakpoint-tablet) {
             flex-direction:column;

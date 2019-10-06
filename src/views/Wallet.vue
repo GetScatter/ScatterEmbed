@@ -131,10 +131,11 @@
         padding-bottom:50px;
 
         .scroller {
+            margin-top:70px;
 
             .keys-and-accounts-list {
-                overflow-y: auto;
-                height:calc(100vh - 180px);
+                height: calc(100vh - 200px);
+                overflow: hidden;
             }
         }
 
@@ -193,7 +194,7 @@
             left:0;
             right:1px;
             border-top:1px solid $lightgrey;
-            background:$white;
+            background-color:$lightergrey;
 
             display:flex;
             align-items: center;

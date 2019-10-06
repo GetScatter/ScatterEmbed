@@ -109,9 +109,9 @@
 
 	.assets {
 		display:flex;
-		margin-bottom: 20px;
-		margin: 20px;
+		margin: 70px 0 20px;
 		flex-direction:column;
+		height:100%;
 
 		@media (max-width: $breakpoint-mobile) {
             margin:0;
@@ -124,9 +124,11 @@
 			flex-direction:column;
 			width:100%;
 			border-radius:20px;
+			height:100%;
 
 			.tokens {
 				height:calc(100vh - 220px);
+				overflow-y:auto;
 			}
 		}
 

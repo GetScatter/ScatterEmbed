@@ -235,6 +235,7 @@
 
 	.apps {
 		position: relative;
+		height: 100%;
 
 		.search-icon {
 			margin:20px 20px 0;
@@ -272,8 +273,9 @@
 
 		.scroller {
 			position: relative;
-			height:auto;
-			overflow-x:hidden;
+			height: 100%;
+			overflow-x: hidden;
+			overflow-y: auto;
 
 			&.with-search {
 				height:calc(100vh - 290px);

@@ -107,7 +107,7 @@
 					this[UIActions.SET_IS_MOBILE](true);
 				}
 			},
-            
+
 
 			...mapActions([
 				UIActions.SET_IS_MOBILE,
@@ -141,6 +141,10 @@
         }
     }
 
+    .router-view {
+        height: 100%;
+    }
+
     .app-content {
         height:$fullheight;
         width:100%;
@@ -164,10 +168,9 @@
     .view-pane {
         flex:1;
         position: relative;
-        overflow: scroll;
+        overflow: hidden;
         display:flex;
         flex-direction:column;
-        padding-top:70px;
 
 
     }
