@@ -4,7 +4,7 @@
 			<section class="head">
 				<figure class="icon font icon-network"></figure>
 				<figure class="subtitle">{{account.sendable()}}</figure>
-				<figure class="title">CPU & NET</figure>
+				<figure class="title">CPU &amp; NET</figure>
 			</section>
 
 			<section class="panel-switch">
@@ -31,7 +31,7 @@
 
 					<section style="flex:1;"></section>
 
-					<section style="width:200px; align-self: flex-end;">
+					<section class="available-input">
 						<Input v-if="state === STATES.STAKE"
 						     :label="locale(langKeys.POPINS.FULLSCREEN.EOS.Available, systemToken.symbol)" :disabled="true"
 						     :text="parseFloat(balance - cpu - net).toFixed(systemToken.decimals)"
@@ -208,9 +208,21 @@
 	}
 
 	.resource-moderator {
-		.input {
-			margin-bottom:0;
+
+		.available-input {
+			width:200px; 
+			align-self: 
+			flex-end;
+
+			@media (max-width: $breakpoint-mobile) {
+	            width:100%;
+	        }
 		}
+
+		@media (max-width: $breakpoint-mobile) {
+            flex-direction: column;
+        }
+
 	}
 
 	.resource {
@@ -230,6 +242,10 @@
 			min-width:50px;
 			text-align:right;
 		}
+
+		@media (max-width: $breakpoint-mobile) {
+            margin:0 0 10px !important;
+        }
 	}
 
 

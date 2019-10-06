@@ -50,7 +50,7 @@
                             ></i>
                             <figure class="percentage">{{resource.text ? resource.text : parseFloat(resource.percentage).toFixed(2) + '%'}}</figure>
                             <figure class="action"> <!--  v-if="resource.actionable" -->
-                                <Button :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="resource.actionText" />
+                                <Button white=1 :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="resource.actionText" />
                             </figure>
                         </section>
                     </section>
@@ -224,21 +224,19 @@
     .account {
         height:$quickheightnobuffer;
         display:flex;
-        background:white;
         flex-direction:column;
 
         .manage {
             padding:0;
             height:calc(#{$quickheightnobuffer});
             position:relative;
-            border-radius:10px;
-            background-image:url('../assets/gs_mobile_apps_homebg.png');
-            background-size:cover;
+            border-radius:$radius-big;
             margin:20px;
+            background:$blue;
 
             @media (max-width: $breakpoint-mobile) {
-                margin:0px;
-                border-radius:0px;
+                border-radius:$radius-big $radius-big 0 0;
+                margin: 0 0 20px;
             }
 
             .account-actions {

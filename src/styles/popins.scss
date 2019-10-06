@@ -30,12 +30,28 @@
     border-left:1px solid $lightgrey;
     border-right:1px solid $lightgrey;
 
+    @media (max-width: $breakpoint-mobile) {
+        overflow-y:auto;
+        overflow-x: hidden;
+        height:calc(100vh - 70px);
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        bottom:70px;
+        padding:40px 20px;
+    }
+
     .icon {
       width:120px;
       height:120px;
       margin:0 auto;
       margin-bottom:30px;
       margin-top:-50px;
+
+      @media (max-width: $breakpoint-mobile) {
+          margin-top:0px;
+      }
 
       &.font {
         width:90px;

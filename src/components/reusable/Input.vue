@@ -91,6 +91,7 @@
 		position: relative;
 		width:100%;
 		margin-bottom:20px;
+		-webkit-appearance: none;
 
 		.copy, .dynamic-button {
 			cursor: pointer;

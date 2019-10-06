@@ -130,6 +130,7 @@
 			box-shadow:0 0 0 transparent, 0 0 0 transparent;
 			transition: width $time ease, box-shadow 1.1s ease;
 			z-index:100;
+			border-right:1px solid $lightgrey;
 
 			@media (max-width: $breakpoint-mobile) {
                 border-right:0;
@@ -245,6 +246,8 @@
 
 		&:not(.locked){
 			.sidebar {
+				border-right:1px solid transparent;
+
 				.item {
 					
 

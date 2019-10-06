@@ -10,7 +10,7 @@
                 <section class="app-content">
                     <BottomActions v-if="unlocked && onboarded" />
                     <Sidebar v-if="unlocked && onboarded" />
-                    <section class="view-pane">
+                    <section class="view-pane" :class="{'viewscrolllocked':viewscrolllocked}">
                         <QuickActions v-if="showQuickActions" />
                         <router-view class="router-view" :class="{'lowered':true, 'floated':unlocked}"></router-view>
                     </section>
@@ -56,7 +56,8 @@
 			...mapState([
 				'scatter',
 				'workingScreen',
-				'processes'
+				'processes',
+                'viewscrolllocked'
 			]),
 			...mapGetters([
 				'unlocked',
@@ -106,10 +107,12 @@
 					this[UIActions.SET_IS_MOBILE](true);
 				}
 			},
+            
 
 			...mapActions([
 				UIActions.SET_IS_MOBILE,
 				UIActions.SET_IS_MOBILE_DEVICE,
+                UIActions.SET_VIEWSCROLLLOCK,
 				// UIActions.SET_THEME,
 			])
 		}

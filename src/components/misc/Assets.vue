@@ -110,9 +110,7 @@
 	.assets {
 		display:flex;
 		margin-bottom: 20px;
-		border: 1px solid $lightgrey;
 		margin: 20px;
-		border-radius: 10px;
 		flex-direction:column;
 
 		@media (max-width: $breakpoint-mobile) {
@@ -176,7 +174,6 @@
 					padding: $padding-small;
 					background: rgba(255,255,255,0.06);
 					border-radius: $radius-big;
-					border-bottom:1px solid rgba(0,0,0,0.12);
 
 					.name {
 						font-size: $large;

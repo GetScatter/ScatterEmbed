@@ -281,7 +281,7 @@
 	    }
 
 		.keypair {
-			background:$white;
+			background-color:$lightergrey;
 			//padding-bottom:20px;
 			margin-bottom:20px;
 			border:1px solid $lightgrey;
@@ -369,8 +369,10 @@
 			}
 
 			.accounts-label {
-				margin-top:20px;
+				margin:20px -10px -10px;
+				padding:10px 15px;
 				font-size: $tiny;
+				background-color:lighten($blue, 40%);
 				text-transform: uppercase;
 				color:$blue;
 				font-weight: bold;
@@ -403,7 +405,7 @@
 					display:flex;
 					align-items: center;
 					padding:15px;
-					border-top:1px solid $blue;
+					background:white;
 					cursor: pointer;
 					margin-left: -10px;
 					margin-right: -10px;

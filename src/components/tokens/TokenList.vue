@@ -110,18 +110,19 @@
 
 		.tokens {
 			height:calc(100% - 70px);
-			border-top:1px solid $lightgrey;
 			overflow-y:auto;
 			background:white;
 
 			.single-asset {
 				cursor: pointer;
 				background:transparent;
-				border-bottom:1px solid $lightergrey;
-				height:88px;
+				border-bottom:1px solid $lightgrey;
+				height:60px;
+				margin:0 10px ;
 				transition: all 0.12s ease-in-out;
 				grid-template-columns:120px auto;
 				display: grid;
+				width:calc(100% - 20px);
 
 				@media (max-width: $breakpoint-mobile) {
 		            grid-template-columns:80px auto;
@@ -134,7 +135,7 @@
 
 				.asset-movement {
 					border-right:1px solid rgba(0,0,0,.06);
-					height:88px;
+					height:60px;
 					text-align:center;
 					display: flex;
 					justify-content: center;

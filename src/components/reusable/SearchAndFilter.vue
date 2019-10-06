@@ -37,17 +37,21 @@
 	.search-and-filter {
 		display:flex;
 		align-items: center;
-		padding:0 $padding-small;
-		height:70px;
+		padding:20px 0;
+		width:calc(100% - 20px);
+		margin:0 10px;
 
 		.search-bar {
 			flex:1;
-			margin-right:20px;
 
 			input {
 				border-radius:50px;
 				height:36px;
 				text-align:center;
+				font-size:$font-size-standard;
+				box-shadow:none;
+				outline:0;
+				-webkit-appearance: none;
 			}
 		}
 
@@ -81,7 +85,7 @@
 		}
 
 		&.full {
-			width:100%;
+			width:calc(100% - 20px);
 
 			.search-bar {
 				margin:0;

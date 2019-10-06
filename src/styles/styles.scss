@@ -174,9 +174,17 @@ input {
   display:flex;
   align-items: center;
 
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+  }
+
   > section, > button {
     &:not(:first-child){
       margin-left:10px;
+
+      @media (max-width: $breakpoint-mobile) {
+        margin-left:0;
+      }
     }
   }
 }
