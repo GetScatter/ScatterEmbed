@@ -16,7 +16,7 @@
 			<section class="head">
 				<section class="details">
 					<figure class="logo scatter-logologo"></figure>
-					<figure class="version">meteoric</figure>
+					<figure class="version">nebula</figure>
 				</section>
 			</section>
 
@@ -261,8 +261,6 @@
 			left:0;
 			right:0;
 			overflow: hidden;
-			border-left:1px solid $darkerblue;
-			border-right:1px solid $darkerblue;
 			display:flex;
 			align-items: center;
 			justify-content: center;
@@ -337,6 +335,7 @@
 						font-weight: bold;
 						color:$white;
 						text-transform: uppercase;
+						margin-top:4px;
 						letter-spacing: 20px;
 						margin-right:-20px;
 						opacity:0.9;
@@ -409,7 +408,8 @@
 					}
 
 					&:hover {
-						transform:scale(1.4);
+						transform:scale(1.1);
+						background: rgba(0,0,0,0.08);
 					}
 
 				}

@@ -352,8 +352,13 @@
 
 		&.for-login {
 			input {
-				background:transparent;
+				background:rgba(0,0,0,0.12);
+				border: 1px solid rgba(255,255,255, 0.32);
 
+				&:focus, &:active, &:hover {
+					background:rgba(0,0,0,0.22);
+					border: 1px solid rgba(255,255,255, 1);
+				}
 			}
 		}
 
