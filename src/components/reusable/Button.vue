@@ -32,6 +32,7 @@
 		font-size:$font-size-standard;
 		transition:background-color 0.12s ease-in-out;
 		cursor: pointer;
+		outline:0;
 
 		@media (max-width: $breakpoint-mobile) {
         padding:8px 10px;

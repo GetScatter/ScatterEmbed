@@ -218,15 +218,16 @@
         -webkit-app-region: no-drag;
 
         position:fixed;
-        top:10px;
-        bottom:10px;
+        top:20px;
+        bottom:20px;
         left:10px;
         right:10px;
+        max-width:800px;
+        margin:0 auto;
 
         display:flex;
         justify-content: center;
         align-items: center;
-        margin:0 50px;
     }
 
     .fader {

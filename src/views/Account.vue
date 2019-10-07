@@ -63,8 +63,8 @@
 
             <section class="assets">
                 <section class="fiat-title">
-                    <h5>Fiat balance for this account</h5>
-                    <h3><!-- TODO ADD TOTAL FIAT BALANCE -->$2,345.00</h3>
+                    <h5>Total Fiat Balance</h5>
+                    <h3>{{fiatSymbol}}{{formatNumber(account.totalFiatBalance(), true)}}</h3>
                 </section>
                 <TokenGraph :balances="filteredBalances || account.tokens()" />
                 <TokenList :balances="account.tokens()" v-on:balances="x => filteredBalances = x" />
@@ -82,6 +82,7 @@
 	import PanelTabs from "../components/reusable/PanelTabs";
 	import ResourceService from "@walletpack/core/services/blockchain/ResourceService";
 	import BalanceService from "@walletpack/core/services/blockchain/BalanceService";
+	import PriceService from "@walletpack/core/services/apis/PriceService";
 	import PluginRepository from '@walletpack/core/plugins/PluginRepository'
 	import TokenGraph from "../components/tokens/TokenGraph";
 	import TokenList from "../components/tokens/TokenList";
@@ -100,6 +101,7 @@
 			]),
 			...mapGetters([
 				'accounts',
+                'displayCurrency',
 			]),
 			tabs(){
 				return [
@@ -122,6 +124,9 @@
 				if(!hasActions) return null;
 				return plugin.accountActions(this.account);
 			},
+            fiatSymbol(){
+				return PriceService.fiatSymbol(this.displayCurrency)
+            }
 		},
 		mounted(){
 			setTimeout(() => {

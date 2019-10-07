@@ -40,6 +40,7 @@
   .scroller {
     flex:1;
     overflow:auto;
+    height:calc(100vh - 40px - 70px - 30px);
 
     &.dynamic {
       height:auto;

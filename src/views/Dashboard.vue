@@ -31,7 +31,7 @@
                     <span class="suggested-action">You should convert to a stable coin</span>
                   </div>
                   <div class="cta">
-                    <Button text="Stabilize" />
+                      <Button text="Exchange" />
                   </div>
                 </section>
                 <section class="convert-to-rising">
@@ -43,7 +43,7 @@
                     <span class="suggested-action">Use those earnings to buy a rising token.</span>
                   </div>
                   <div class="cta">
-                    <Button text="Exchange" />
+                      <Button text="Exchange" />
                   </div>
                 </section>
               </section>
@@ -54,9 +54,12 @@
         <section class="focus-boxes">
             <a id="proxy" ref="https://get-scatter.com/vote"  target="_blank">
                 <span class="earn-rewards">Earn rewards</span>
-                <h3>Make our ecosystem better by proxying your tokens</h3>
-                <h5>Help define the gold standard for what a Block Producer should be by proxying your tokens.</h5>
-                <Button text="Get started now" />
+                <h3>Proxy your EOSIO votes to get daily rewards!</h3>
+                <h5>
+                    By proxying your votes you can earn daily rewards.
+                    The third party proxies we select all have our Block Producer in them, so you'll also be voting for Scatter and helping us grow!
+                </h5>
+                <Button text="Proxy Now!" />
             </a>
         </section>
 
@@ -103,7 +106,7 @@
 
     .dashboard {
         height:calc(100vh - 140px);
-        padding:10px 20px 90px;
+        padding:10px 20px 20px;
         display:flex;
         flex-direction:row;
 
@@ -435,8 +438,7 @@
             background:white;
             border:1px solid $lightgrey;
             border-radius:$radius-big;
-            background-size:cover;
-            margin:0 10px 0px 20px;
+            margin:0 10px 0 20px;
             position:relative;
             transition: border 0.12s ease-in-out;
             display:flex;
@@ -447,9 +449,10 @@
             background-position:center center;
             background-repeat:no-repeat;
             overflow:hidden;
+            padding:10px;
 
             .earn-rewards {
-                padding:8px 16px 7px;
+                padding:8px 26px 7px;
                 background:black;
                 color:white;
                 border-radius:$radius-big;
