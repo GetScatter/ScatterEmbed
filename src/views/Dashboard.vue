@@ -52,7 +52,7 @@
 
         </section>
         <section class="focus-boxes">
-            <a id="proxy" ref="https://get-scatter.com/vote"  target="_blank">
+            <a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(./static/assets/voting.png);"  target="_blank">
                 <span class="earn-rewards">Earn rewards</span>
                 <h3>Proxy your EOSIO votes to get daily rewards!</h3>
                 <h5>
@@ -444,7 +444,6 @@
             display:flex;
             flex-direction:column;
             justify-content:center;
-            background-image:url('../assets/voting.png');
             background-size:100%;
             background-position:center center;
             background-repeat:no-repeat;
@@ -515,71 +514,6 @@
 
             button {
                 margin: 0 60px 20px;
-            }
-        }
-
-        #vote {
-            text-align:center;
-            border-radius:$radius-big;
-            background:white;
-            padding:0;
-            position:relative;
-            overflow:hidden;
-            border:1px solid $lightgrey;
-            transition: border 0.12s ease-in-out;
-            margin:10px 10px 0 20px;
-            display:flex;
-            flex-direction:column;
-            justify-content:end;
-            background-image:url('../assets/love.png');
-            background-size:90%;
-            background-position:top center;
-            background-repeat:no-repeat;
-            overflow:hidden;
-
-            @media (max-width: $breakpoint-tablet) {
-                height:400px;
-                width:100%;
-                display:flex;
-                flex-direction:column;
-                margin:20px 0 20px;
-            }
-
-            h3 {
-                color:black;
-                font-size:$font-size-big;
-                line-height:28px;
-                display:block;
-                background-image: linear-gradient(180deg, rgba(255,255,255,0.00) 0%, #FFFFFF 100%);
-                padding:20px 20px 5px;
-                margin:0;
-                text-shadow:0 0 10px white, 0 0 20px white;
-            }
-
-            h5 {
-                color:$blue;
-                display:block;
-                background:white;
-                padding:0px 20px 20px;
-                font-size:$font-size-standard;
-            }
-
-            img {
-                width: 60%;
-                margin:20px auto;
-                height:60%;
-            }
-
-            &:hover {
-                border:1px solid $blue;
-
-                @media (max-width: $breakpoint-mobile) {
-                    border:0;
-                }
-            }
-
-            button {
-                margin: 0 20px 20px;
             }
         }
     }

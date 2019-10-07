@@ -2,7 +2,7 @@
 	<section class="pop-over confirm">
 
 		<section class="details">
-			<img src="../../../assets/icon_exchange_big.png" class="icon" />
+			<img src="./static/assets/icon_exchange_big.png" class="icon" />
 			<label>Exchanging</label>
 
 			<section class="amounts">

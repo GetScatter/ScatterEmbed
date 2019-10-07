@@ -1,3 +1,3 @@
 <template>
-	<img src="../../../assets/icon_exchange.png" />
+	<img src="./static/assets/icon_exchange.png" />
 </template>

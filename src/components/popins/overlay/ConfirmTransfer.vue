@@ -2,7 +2,7 @@
 	<section class="pop-over confirm">
 
 		<section class="details">
-			<img src="../../../assets/icon_send_big.png" class="icon" />
+			<img src="./static/assets/icon_send_big.png" class="icon" />
 			<label>Transferring</label>
 
 			<figure class="amount">{{token.amount}} {{token.symbol}}</figure>

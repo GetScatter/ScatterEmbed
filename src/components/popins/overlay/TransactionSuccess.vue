@@ -3,7 +3,7 @@
         <PopInHead title="Transaction Success" v-on:close="returnResult" />
         <section class="success">
             <section>
-                <img src="../../../assets/piggy_bank.png" />
+                <img src="static/assets/piggy_bank.png" />
                 <figure class="info">{{locale(langKeys.POPINS.OVERLAY.TRX_SUCCESS.Desc, explorer.name)}}</figure>
                 <figure class="link" style="cursor:pointer;" @click="open"><u>{{tx}}</u></figure>
 
