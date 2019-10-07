@@ -144,6 +144,8 @@
     @import "../styles/variables";
 
     .blockchain-list-container {
+        height: calc(100% - 70px);
+
         .blockchains {
             overflow-y: auto;
             height: calc(100vh - 70px);
@@ -190,14 +192,15 @@
     }
 
     .list-container {
-        height:100%;
-        overflow-y:hidden;
+        height: 100%;
 
         .scroller {
-            padding:30px;
+            padding:20px;
+            height: calc(100vh - 210px);
+            overflow-y: auto;
 
-            @media (max-width: $breakpoint-tablet) {
-                padding:20px;
+            @media (max-width: $breakpoint-mobile) {
+                height: calc(100vh - 310px);
             }
         }
     }

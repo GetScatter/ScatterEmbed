@@ -465,7 +465,7 @@
                 margin:0 0 70px 0;
                 padding:40px 40px 80px;
                 display:block;
-                flex-direction:column;
+                height: 400px;
 
                 &:hover {
                     border:0;
