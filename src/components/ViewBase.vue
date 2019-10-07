@@ -9,7 +9,7 @@
             <section v-else>
                 <section class="app-content">
                     <Sidebar v-if="unlocked && onboarded" />
-                    <section class="view-pane">
+                    <section class="view-pane" :class="{'borders':unlocked && onboarded}">
                         <QuickActions v-if="showQuickActions" />
                         <router-view class="router-view"></router-view>
                         <BottomActions v-if="showBottomActions" />
@@ -180,9 +180,10 @@
         display:flex;
         flex-direction:column;
 
-        border-bottom:1px solid $border-standard;
-        border-right:1px solid $border-standard;
-
+        &.borders {
+            border-bottom:1px solid $border-standard;
+            border-right:1px solid $border-standard;
+        }
 
     }
 
