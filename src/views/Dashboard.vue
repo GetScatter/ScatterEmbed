@@ -52,7 +52,7 @@
 
         </section>
         <section class="focus-boxes">
-            <a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(./static/assets/voting.png);"  target="_blank">
+            <a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(static/assets/voting.png);"  target="_blank">
                 <span class="earn-rewards">Earn rewards</span>
                 <h3>Proxy your EOSIO votes to get daily rewards!</h3>
                 <h5>
