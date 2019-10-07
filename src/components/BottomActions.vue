@@ -72,11 +72,15 @@
         color:$white;
         z-index:99;
         flex:0 0 auto;
+
         /* FOR SAFARI ON iOS - DO NOT REMOVE */
-        position:fixed;
-        left:64px;
-        bottom:0;
-        right:0;
+        /* nsjames: This is not a good way to do this. By having this element be a floating element it causes flexbox to break. */
+        /*position:fixed;*/
+        /*left:64px;*/
+        /*bottom:0;*/
+        /*right:0;*/
+
+
 
         &.sidebarLocked {
             left:240px;

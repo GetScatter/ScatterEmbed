@@ -180,6 +180,9 @@
         display:flex;
         flex-direction:column;
 
+        border-bottom:1px solid $border-standard;
+        border-right:1px solid $border-standard;
+
 
     }
 
