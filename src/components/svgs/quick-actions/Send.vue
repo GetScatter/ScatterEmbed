@@ -1,3 +1,3 @@
 <template>
-	<img src="./static/assets/icon_send.png" />
+	<img src="static/assets/icon_send.png" />
 </template>
