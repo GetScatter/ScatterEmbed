@@ -218,10 +218,10 @@
         -webkit-app-region: no-drag;
 
         position:fixed;
-        top:40px;
-        bottom:0;
-        left:0;
-        right:0;
+        top:10px;
+        bottom:10px;
+        left:10px;
+        right:10px;
 
         display:flex;
         justify-content: center;

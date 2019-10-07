@@ -211,26 +211,24 @@ input {
     height:38px;
     line-height:38px;
     font-weight: bold;
-    color: $lightgrey;
+    color: $blue;
     font-size: 16px;
     position: relative;
     cursor: pointer;
     transition:all 0.08s ease;
     transition-property: color, height, line-height;
-
-    &:not(:last-child) {
-      margin-right:40px;
-    }
+    width:100%;
+    text-align: center;
 
     &:after {
       content:'';
       display:block;
       position:absolute;
-      bottom:-10px;
+      bottom:-11px;
       left:0;
       right:0;
       background:$blue;
-      height:2px;
+      height:1px;
       z-index:2;
       opacity:0;
       transition:all 0.08s ease;
@@ -242,7 +240,7 @@ input {
     }
 
     &.active {
-      color:$blue;
+      color:black;
 
       &:after { opacity:1; }
 
@@ -445,13 +443,13 @@ label {
 }
 
 .greyback {
-  padding:40px;
+  padding:20px;
   background: $lightergrey;
 }
 
 .whiteback {
   flex:1;
-  padding:40px;
+  padding:20px;
 }
 
 

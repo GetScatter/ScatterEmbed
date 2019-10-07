@@ -2,8 +2,8 @@
 	<section class="pop-over">
 		<PopInHead title="Select Token" v-on:close="returnResult" />
 		<section class="select-token">
-			<section style="display:flex;" class="scroller">
-				<section v-for="category in categories" style="flex:1;">
+			<section class="scroller">
+				<section class="scroller-category" v-for="category in categories">
 					<TokenList :key="category.title" :balances="category.tokens" hoverable="1" v-on:token="returnResult" />
 				</section>
 			</section>
@@ -66,12 +66,32 @@
 	@import "../../../styles/variables";
 
 	.select-token {
-		min-width:600px;
+		width:80vw;
+
+		@media (max-width: $breakpoint-tablet) {
+			width: 100%;
+		}
 
 		.scroller {
-			min-width:600px;
+			width:80vw;
 			height:calc(100vh - 40px - 100px);
 			overflow-y: hidden;
+			display:flex;
+			flex-direction:row;
+
+			@media (max-width: $breakpoint-tablet) {
+				min-width:100%;
+				flex-direction:column;
+				overflow-y: scroll;
+			}
+
+			.scroller-category {
+				width:50%;
+
+				@media (max-width: $breakpoint-tablet) {
+					width:100%;
+				}
+			}
 
 			.token-list {
 				height:100%;

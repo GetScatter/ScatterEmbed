@@ -1,5 +1,5 @@
 <template>
-    <section class="bottom-actions">
+    <section class="bottom-actions" :class="{'sidebarLocked':!sidebarLocked}">
 
         <section class="flex-wrapper" v-if="accounts.length">
             <section class="action" @click="quickAction(RouteNames.TRANSFER)">
@@ -33,6 +33,7 @@
         computed:{
             ...mapState([
                 'scatter',
+                'sidebarLocked'
             ]),
             ...mapGetters([
                 'accounts',
@@ -69,8 +70,17 @@
         height:70px;
         background:black;
         color:$white;
-        z-index:101;
+        z-index:99;
         flex:0 0 auto;
+        /* FOR SAFARI ON iOS - DO NOT REMOVE */
+        position:fixed;
+        left:64px;
+        bottom:0;
+        right:0;
+
+        &.sidebarLocked {
+            left:240px;
+        }
 
         .flex-wrapper {
             display:flex;

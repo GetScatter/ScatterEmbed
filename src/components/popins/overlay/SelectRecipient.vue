@@ -74,7 +74,9 @@
 	@import "../../../styles/variables";
 
 	.select-recipient {
-		min-width:800px;
+		display:flex;
+		flex-direction:column;
+		width:100%;
 
 		.head {
 			.panel-switch {
@@ -90,6 +92,7 @@
 		.keys-and-accounts-list {
 			height: calc(100vh - 230px);
 			overflow-y:auto;
+			padding-top:20px;
 		}
 
 		.blockchain-list-container {

@@ -111,7 +111,8 @@
 		display:flex;
 		flex-direction:column;
 		height:100%;
-
+		overflow-y: scroll;
+		
 		@media (max-width: $breakpoint-mobile) {
             border:0;
             border-radius:0;
@@ -122,7 +123,6 @@
 			flex-direction:column;
 			width:100%;
 			border-radius:20px;
-			height:100%;
 
 			.tokens {
 				height:calc(100vh - 220px);

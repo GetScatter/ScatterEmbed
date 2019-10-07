@@ -103,7 +103,7 @@
 
     .dashboard {
         height:calc(100vh - 140px);
-        padding:$padding-med;
+        padding:10px 20px 90px;
         display:flex;
         flex-direction:row;
 

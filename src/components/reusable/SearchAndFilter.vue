@@ -42,7 +42,7 @@
 
 		@media (max-width: $breakpoint-mobile) {
 	        flex-direction:column;
-	        margin:4px 20px;
+	        margin:20px;
 	        width:calc(100% - 40px);
 	    }
 
@@ -106,7 +106,11 @@
 		}
 
 		&.full {
-			width:calc(100% - 20px);
+			width:calc(100% - 40px);
+
+			@media (max-width: $breakpoint-mobile) {
+		        width:calc(100vw - 40px);
+		    }
 
 			.search-bar {
 				margin:0;

@@ -109,27 +109,41 @@
 
 	.token-list {
 		width:100%;
-		padding:0;
+		padding:0 0 90px;
 		background:white;
+
+		@media (max-width: $breakpoint-mobile) {
+			height: calc(100vh - 70px);
+		}
 
 		.tokens {
 			height:calc(100% - 70px);
 			overflow-y:auto;
 			background:white;
+			width:100%;
+
+			@media (max-width: $breakpoint-mobile) {
+		        width:100vw;
+		    }
 
 			.single-asset {
 				cursor: pointer;
 				background:transparent;
-				border-bottom:1px solid $lightgrey;
 				height:60px;
-				margin:0 20px ;
+				margin:0 20px;
 				transition: all 0.12s ease-in-out;
 				grid-template-columns:120px auto;
 				display: grid;
 				width:calc(100% - 40px);
 
+				&:nth-child(even) {
+					background-color:$lightestgrey;
+				}
+
 				@media (max-width: $breakpoint-mobile) {
 		            grid-template-columns:80px auto;
+		            margin:0;
+		            width:100%;
 		        }
 
 				&:hover,
