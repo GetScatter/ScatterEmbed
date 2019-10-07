@@ -37,12 +37,21 @@
 	.search-and-filter {
 		display:flex;
 		align-items: center;
-		padding:10px;
-		width:calc(100% - 20px);
-		margin:10px;
+		width:calc(100% - 40px);
+		margin:20px;
+
+		@media (max-width: $breakpoint-mobile) {
+	        flex-direction:column;
+	        margin:4px 20px;
+	        width:calc(100% - 40px);
+	    }
 
 		.search-bar {
 			flex:1;
+
+			@media (max-width: $breakpoint-mobile) {
+		        width:100%;
+		    }
 
 			input {
 				border-radius:50px;
@@ -77,10 +86,22 @@
 			display:flex;
 			justify-content: flex-end;
 
+			@media (max-width: $breakpoint-mobile) {
+		        justify-content: space-between;
+		        text-align:left;
+		        width:100%;
+		        padding:6px 0;
+		    }
+
 			.filter {
 				flex:1;
 				max-width:150px;
 				margin-left:20px;
+
+				@media (max-width: $breakpoint-mobile) {
+					max-width:initial;
+					margin:0;
+				}
 			}
 		}
 

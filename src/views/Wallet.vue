@@ -193,6 +193,7 @@
             left:0;
             right:0;
             border-top:1px solid $lightgrey;
+            background:white;
 
             display:flex;
             align-items: center;

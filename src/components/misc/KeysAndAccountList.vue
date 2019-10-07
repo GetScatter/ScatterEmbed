@@ -276,13 +276,21 @@
 		background:white;
 		padding-bottom:60px;
 
+		@media (max-width: 400px) {
+			padding:0;
+		}
+
 		.keypair {
 			background-color:$lightergrey;
-			//padding-bottom:20px;
 			margin-bottom:20px;
 			border:1px solid $lightgrey;
 			padding:10px 10px 0;
 			border-radius:$radius;
+
+			@media (max-width: 400px) {
+				border-radius:0;
+				border:0;
+			}
 
 			&.new {
 				border:1px solid $lighterblue;
@@ -307,6 +315,11 @@
 				align-items: center;
 				margin-bottom:10px;
 
+				@media (max-width: $breakpoint-mobile) {
+			        flex-direction:column;
+			        margin-bottom:-10px;
+			    }
+
 				.blockchain {
 					font-size: 36px;
 					background:$blue;
@@ -321,6 +334,10 @@
 					margin-right:10px;
 					position: relative;
 
+					@media (max-width: $breakpoint-mobile) {
+						margin:0;
+					}
+
 					.icon-spin4 {
 						font-size: 28px;
 						padding-top:2px;
@@ -330,6 +347,11 @@
 
 				.info {
 					flex:1;
+
+					@media (max-width: $breakpoint-mobile) {
+				        margin-top:10px;
+				        text-align:center;
+				    }
 
 					.name {
 						font-size: $large;
@@ -415,13 +437,21 @@
 						flex:1;
 
 						.name {
-							font-size: $large;
+							font-size: $font-size-standard;
 							font-weight: bold;
+
+							@media (max-width: $breakpoint-mobile) {
+								font-size: $font-size-small;
+							}
 						}
 
 						.network {
-							font-size: $small;
+							font-size: $font-size-standard;
 							color:$silver;
+
+							@media (max-width: $breakpoint-mobile) {
+								font-size: $font-size-small;
+							}
 						}
 					}
 
