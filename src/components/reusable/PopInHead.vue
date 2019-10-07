@@ -59,11 +59,6 @@
             color:$blue;
             font-size:$font-size-large;
             border-radius:$radius;
-
-
-            &:hover {
-                background:$lightergrey;
-            }
         }
     }
 

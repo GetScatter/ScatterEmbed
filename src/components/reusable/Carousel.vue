@@ -136,6 +136,10 @@
 		margin:0 auto;
 		margin-top:1px;
 
+		@media (max-width: $breakpoint-tablet) {
+			height:440px;
+		}
+
 		.go-right, .go-left {
 			cursor: pointer;
 			position: absolute;
@@ -178,6 +182,10 @@
 			height:300px;
 			width:100%;
 			border-radius:$radius-big;
+
+			@media (max-width: $breakpoint-tablet) {
+				height:440px;
+			}
 		}
 
 		.slider {
@@ -266,7 +274,7 @@
 					height: 80px;
 
 					@media (max-width: $breakpoint-tablet) {
-						height:120px;
+						height:140px;
 						flex-direction:column;
 					}
 

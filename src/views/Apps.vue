@@ -416,10 +416,19 @@
 			.linked-apps {
 				padding:40px;
 
+				@media (max-width: $breakpoint-mobile) {
+					padding:20px;
+				}
+
 				.app {
 					display:flex;
 					align-items: center;
 					margin-bottom:20px;
+
+					@media (max-width: $breakpoint-mobile) {
+						padding:20px;
+						flex-direction:column;
+					}
 
 					.image {
 						flex:0 0 auto;
@@ -447,26 +456,33 @@
 						flex:1;
 						padding:0 20px;
 						cursor: pointer;
-						background:$blue;
 						font-size: $font-size-standard;
 						font-family: 'Poppins', sans-serif;
 
 						.name {
 							font-size: $medium;
 							font-weight: bold;
-							color:white;
-							font-size: $font-size-small;
+							color:black;
+							font-size: $font-size-standard;
 						}
 
 						.category {
 							font-size: $font-size-small;
 							opacity:0.6;
-							color:white;
+							color:black;
 						}
 					}
 
 					.actions {
 						flex:0 0 auto;
+
+						@media (max-width: $breakpoint-mobile) {
+							margin:10px -10px 0 0;
+						}
+
+						button + button {
+							margin-left:10px;
+						}
 					}
 				}
 			}
