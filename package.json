@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "webpack -p --mode=production --progress --config build/webpack.config.prod.js",
+    "build:watch": "webpack --watch -p --mode=production --progress --config build/webpack.config.prod.js",
     "prod": "http-server ./dist -p 8081 -g -P --cors='*'",
     "dev": "webpack-dev-server --port 8081 --inline --progress --config build/webpack.config.dev.js",
     "start": "npm run dev",

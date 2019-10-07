@@ -39,11 +39,11 @@
 				<section class="scroller identity">
 					<section class="id-card">
 						<figure class="bg">
-							<img src="../assets/login_bg.png" />
+							<img src="static/assets/login_bg.png" />
 						</figure>
 						<section class="card">
 							<section class="avatar" :class="{'has-image':scatter.keychain.avatars[identity.id]}">
-								<img v-if="!avatar" src="../assets/id_card_avatar.png" />
+								<img v-if="!avatar" src="static/assets/id_card_avatar.png" />
 								<figure class="image" v-else :style="`background-image:url('${avatar}')`"></figure>
 								<figure class="upload">
 									<figure v-tooltip="'Remove'" v-if="scatter.keychain.avatars[identity.id]" class="icon icon-cancel" @click="removeAvatar"></figure>
@@ -52,7 +52,7 @@
 							</section>
 							<section class="personal">
 								<figure class="bg">
-									<img src="../assets/id_card_bg.png" />
+									<img src="static/assets/id_card_bg.png" />
 								</figure>
 								<section class="inputs">
 									<Input :label-styles="labelStyles" :label="locale(langKeys.IDENTITY.PERSONAL.NameLabel)"
