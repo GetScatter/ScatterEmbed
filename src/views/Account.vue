@@ -64,7 +64,7 @@
             <section class="assets">
                 <section class="fiat-title">
                     <h5>Total Fiat Balance</h5>
-                    <h3>{{fiatSymbol}}{{formatNumber(account.totalFiatBalance(), true)}}</h3>
+                    <h3>{{fiatSymbol(displayCurrency)}}{{formatNumber(account.totalFiatBalance(), true)}}</h3>
                 </section>
                 <TokenGraph :balances="filteredBalances || account.tokens()" />
                 <TokenList :balances="account.tokens()" v-on:balances="x => filteredBalances = x" />
@@ -124,9 +124,6 @@
 				if(!hasActions) return null;
 				return plugin.accountActions(this.account);
 			},
-            fiatSymbol(){
-				return PriceService.fiatSymbol(this.displayCurrency)
-            }
 		},
 		mounted(){
 			setTimeout(() => {
@@ -135,6 +132,7 @@
 			}, 250);
 		},
 		methods:{
+			fiatSymbol:PriceService.fiatSymbol,
 			actionTypeToText(type){
 				switch(type){
 					case 'unlink_account': return 'Unlink Account';
