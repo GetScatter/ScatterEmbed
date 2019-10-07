@@ -19,11 +19,11 @@
 	button {
 		display: inline-block;
 		padding: 10px 14px;
-		background-color: $blue;
-		border: 1px solid $blue;
+		background-color: lighten($blue, 40%);
+		border: 1px solid lighten($blue, 40%);
 		border-radius: 3px;
 		text-transform: uppercase;
-		color: $white;
+		color: $blue;
 		text-decoration: none;
 		position: relative;
 		overflow: hidden;

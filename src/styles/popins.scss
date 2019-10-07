@@ -13,6 +13,10 @@
   }
 }
 
+.total-height {
+  height:100%;
+}
+
 .pop-ins {
   position: absolute;
   top:0;
@@ -79,7 +83,8 @@
     }
 
     .disclaimer {
-      border:2px solid $red;
+      border:1px solid lighten($red,35%);
+      background-color:lighten($red,45%);
       padding:20px;
       border-radius:$radius;
       max-width:300px;
@@ -87,12 +92,12 @@
       margin-top:40px;
 
       .title {
-        font-size: $medium;
+        font-size: $font-size-medium;
         color:$red;
       }
 
       .description {
-        font-size: $small;
+        font-size: $font-size-standard;
       }
     }
 

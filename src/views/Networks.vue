@@ -18,6 +18,7 @@
 								<figure class="secondary">{{networksFor(blockchain).length}} network{{networksFor(blockchain).length === 1 ? '' : 's'}}</figure>
 							</figure>
 						</section>
+						<i class="fal fa-chevron-right"></i>
 					</section>
 				</section>
 			</section>
@@ -38,7 +39,7 @@
 					<section class="item" v-for="network in visibleNetworks">
 						<section class="basics" :class="{'open':expanded && expanded.unique() === network.unique()}">
 							<figure class="chevron" @click="toggleExpansion(network)">
-								<i class="icon-right-open-big"></i>
+								<i class="fas fa-caret-circle-down"></i>
 							</figure>
 							<section class="details" @click="toggleExpansion(network)">
 								<figure class="name">{{network.name}}</figure>

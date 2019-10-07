@@ -86,12 +86,21 @@
 
 <style scoped lang="scss">
 	@import "../../styles/variables";
+	
+	input {
+		-webkit-appearance: none;
+	}
+
 	.input {
 		text-align:left;
 		position: relative;
 		width:100%;
 		margin-bottom:20px;
 		-webkit-appearance: none;
+
+		@media (max-width: $breakpoint-mobile) {
+	    margin-bottom:10px;
+	  }
 
 		.copy, .dynamic-button {
 			cursor: pointer;
@@ -134,11 +143,10 @@
 
 		input, textarea {
 			outline:0;
-			height:38px;
 			width:100%;
 			border:1px solid #dfe0e1;
-			border-radius:3px;
-			padding:0 12px;
+			border-radius:2px;
+			padding: 10px 14px;
 			cursor: text;
 			resize: none;
 			font-size: $small-font;

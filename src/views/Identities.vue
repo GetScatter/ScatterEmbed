@@ -552,17 +552,22 @@
 				z-index:1;
 				background:$white;
 				width:100%;
-				border-radius:10px;
+				border-radius:$radius-big;
 				box-shadow:0 2px 10px rgba(0,0,0,0.2), 0 2px 5px rgba(0,0,0,0.2);
 				overflow: hidden;
 				max-width:600px;
 				margin:0 auto;
 				display:flex;
 
+				@media (max-width: $breakpoint-tablet) {
+			        border-radius:$radius;
+			    }
+
 				@media (max-width: $breakpoint-mobile) {
 			        border-radius:0px;
 					box-shadow:0;
 					border-bottom:1px solid $lightgrey;
+					flex-direction:column;
 			    }
 
 
@@ -688,10 +693,6 @@
 
 			@media (max-width: $breakpoint-tablet) {
 		        padding:20px;
-		    }
-
-		    @media (max-width: $breakpoint-mobile) {
-		        padding:10px;
 		    }
 
 			.ridl-actions {

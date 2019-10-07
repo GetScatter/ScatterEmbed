@@ -41,7 +41,7 @@
     flex:1;
     height:calc(100vh - 40px - 70px - 30px);
     overflow:auto;
-    padding:20px;
+    padding:10px 0;
 
     &.dynamic {
       height:auto;
@@ -49,6 +49,7 @@
 
     &.with-tail {
        height:calc(100vh - 210px);
+       padding:20px;
 
       &.with-search {
          height:calc(100vh - 285px);
@@ -112,7 +113,7 @@
           align-items: center;
 
           .chevron{
-            padding:0 30px 0 0;
+            padding:0 20px 0 0;
             color:$blue;
             cursor: pointer;
 
@@ -120,13 +121,14 @@
               display:block;
               transition:all 0.2s ease;
               transition-property: transform;
+              font-size:18px;
             }
           }
 
           &.open {
             .chevron {
               i {
-                transform:rotateZ(90deg);
+                transform:rotateZ(180deg);
               }
             }
           }

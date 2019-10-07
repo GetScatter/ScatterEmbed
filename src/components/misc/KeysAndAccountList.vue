@@ -272,13 +272,9 @@
 	.keys-list {
 		height:calc(100% - 95px);
 		overflow-y:auto;
-		padding:0 10px;
+		padding:0 20px;
 		background:white;
 		padding-bottom:60px;
-
-		@media (max-width: $breakpoint-mobile) {
-	        padding:0 10px;
-	    }
 
 		.keypair {
 			background-color:$lightergrey;

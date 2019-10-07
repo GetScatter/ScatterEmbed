@@ -142,7 +142,7 @@
 		transition: all 0.12s ease-in-out;
 
 		@media (max-width: $breakpoint-mobile) {
-            padding:0 14px 0 4px;
+            padding:0 15px;
         }
 
 		&.sidebarLocked {

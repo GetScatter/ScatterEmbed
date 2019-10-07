@@ -18,6 +18,7 @@
 								<figure class="secondary">{{contactsFor(blockchain).length}} contact{{contactsFor(blockchain).length === 1 ? '' : 's'}}</figure>
 							</figure>
 						</section>
+						<i class="fal fa-chevron-right"></i>
 					</section>
 				</section>
 			</section>

@@ -245,10 +245,6 @@
 			border-radius:$radius;
 			position:relative;
 
-			@media (max-width: $breakpoint-mobile) {
-                margin:10px 10px 0;
-            }
-
 			.icon-search {
 				right: 10px;
 				top:16px;
@@ -259,7 +255,7 @@
 				border-radius:24px;
 				font-size: $large;
 				width:100%;
-
+				-webkit-appearance: none;
 				transition:opacity 0.5s ease;
 			}
 
@@ -273,8 +269,8 @@
 
 		.scroller {
 			position: relative;
-			height: calc(100% - 160px);
-			margin-top:20px;
+			height: calc(100vh - 288px);
+			margin-top:10px;
 			overflow-x: hidden;
 			overflow-y: auto;
 
@@ -286,10 +282,6 @@
 				padding:20px;
 				position: relative;
 				z-index:2;
-
-				@media (max-width: $breakpoint-mobile) {
-	                padding:10px;
-	            }
 			}
 
 			.featured {
@@ -308,7 +300,7 @@
 					padding:40px;
 
 					@media (max-width: $breakpoint-mobile) {
-		                margin:0 -10px 20px;
+		                margin:0 -20px 20px;
 						padding:20px;
 		            }
 

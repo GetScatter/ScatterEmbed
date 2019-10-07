@@ -139,9 +139,9 @@
 		.go-right, .go-left {
 			cursor: pointer;
 			position: absolute;
-			color:$blue;
+			color:white;
 			font-size: 20px;
-			background-color:white;
+			background: rgba(255,255,255,0.12);
 			width:44px;
 			height:44px;
 			line-height:44px;
@@ -151,6 +151,8 @@
 
 			&:hover {
 				width:40px;
+				background: rgba(255,255,255,1);
+				color:$blue;
 			}
 		}
 
@@ -175,7 +177,7 @@
 			overflow:hidden;
 			height:300px;
 			width:100%;
-			border-radius:$radius;
+			border-radius:$radius-big;
 		}
 
 		.slider {
@@ -259,7 +261,7 @@
 					flex-direction: row;
 					justify-content: space-between;
 					align-content:center;
-					border-radius:0 0 10px 10px;
+					border-radius:0;
 					background-color:$blue;
 					height: 80px;
 

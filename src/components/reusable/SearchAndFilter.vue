@@ -37,7 +37,7 @@
 	.search-and-filter {
 		display:flex;
 		align-items: center;
-		padding:10px 0;
+		padding:10px;
 		width:calc(100% - 20px);
 		margin:10px;
 

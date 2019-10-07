@@ -11,6 +11,7 @@
                     <section class="blockchain-list">
                         <section class="badge-item hoverable" :class="{'active':selectedOption && selectedOption.name === item.name}" v-for="item in generalItems" @click="selectOption(item)">
                             <section class="details"><figure class="title">{{translate(item)}}</figure></section>
+                            <i class="fal fa-chevron-right"></i>
                         </section>
                     </section>
                 </section>
@@ -22,6 +23,7 @@
                     <section class="blockchain-list">
                         <section class="badge-item hoverable" :class="{'active':selectedOption && selectedOption.name === item.name}" v-for="item in lockedItems" @click="selectOption(item)">
                             <section class="details"><figure class="title">{{translate(item)}}</figure></section>
+                            <i class="fal fa-chevron-right"></i>
                         </section>
                     </section>
                 </section>
@@ -193,6 +195,10 @@
 
         .scroller {
             padding:30px;
+
+            @media (max-width: $breakpoint-tablet) {
+                padding:20px;
+            }
         }
     }
 
