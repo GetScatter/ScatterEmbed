@@ -4,9 +4,9 @@
 		<!-------------------------->
 		<!------ BLOCKCHAINS ------->
 		<!-------------------------->
-		<section class="blockchains">
+		<section class="blockchains" v-if="!isMobile || !selectedBlockchain" :class="{'full-width':isMobile}">
 			<section class="head">
-				Blockchains
+				Select a Blockchain
 			</section>
 			<section class="scroller">
 				<section class="blockchain-list">
@@ -18,6 +18,7 @@
 								<figure class="secondary">{{networksFor(blockchain).length}} network{{networksFor(blockchain).length === 1 ? '' : 's'}}</figure>
 							</figure>
 						</section>
+						<i class="fal fa-chevron-right"></i>
 					</section>
 				</section>
 			</section>
@@ -26,8 +27,11 @@
 		<!-------------------------->
 		<!------- NETWORKS --------->
 		<!-------------------------->
-		<section class="list-container">
+		<section class="list-container" v-if="!isMobile || selectedBlockchain">
 			<section class="head">
+				<figure v-if="isMobile" class="back-button" @click="selectBlockchain(null)">
+					<i class="fal fa-arrow-left"></i>
+				</figure>
 				Networks
 			</section>
 			<section class="scroller with-tail">
@@ -35,7 +39,7 @@
 					<section class="item" v-for="network in visibleNetworks">
 						<section class="basics" :class="{'open':expanded && expanded.unique() === network.unique()}">
 							<figure class="chevron" @click="toggleExpansion(network)">
-								<i class="icon-right-open-big"></i>
+								<i class="fas fa-caret-circle-down"></i>
 							</figure>
 							<section class="details" @click="toggleExpansion(network)">
 								<figure class="name">{{network.name}}</figure>
@@ -86,7 +90,7 @@
 			knownNetworks:[],
 			test:false,
 			blockchains: BlockchainsArray.map(x => x.value),
-			selectedBlockchain:BlockchainsArray[0].value,
+			selectedBlockchain:null,
 			unreachable:{},
 		}},
 		computed:{
@@ -109,6 +113,9 @@
 		},
 		methods:{
 			async init(){
+				if(!this.isMobile){
+					this.selectedBlockchain = this.blockchains[0];
+				}
 				this.setWorkingScreen(true);
 				this.knownNetworks = await Promise.race([
 					new Promise(resolve => setTimeout(() => resolve([]), 2000)),

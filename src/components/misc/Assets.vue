@@ -2,7 +2,14 @@
 	<section class="assets">
 		<TokenList hoverable="1" :balances="allBalances" v-on:balances="x => filteredBalances = x" v-on:token="selectToken" :selected="selectedToken" />
 
-		<section class="graph-and-accounts">
+		<section class="graph-and-accounts" :class="{'open':selectedToken}">
+			<section class="graph-and-accounts-header">
+				<span v-if="selectedToken" class="graph-and-accounts-content">
+					<span class="graph-and-accounts-name">{{selectedToken.name}}</span>
+					<span class="graph-and-accounts-balance">{{selectedToken.amount}}</span>
+				</span>
+				<i class="fal fa-times graph-and-accounts-close" v-on:click="selectToken(selectedToken)"></i>
+			</section>
 			<TokenGraph :balances="selectedToken ? [selectedToken] : filteredBalances.length ? filteredBalances : allBalances" />
 
 			<SearchAndFilter full-search="1" v-if="needsAccountSearchBar" v-on:terms="x => terms = x" />
@@ -90,6 +97,10 @@
 			selectToken(token){
 				this.selectedToken = this.selectedToken && this.selectedToken.uniqueWithChain() === token.uniqueWithChain() ? null : token;
 			},
+			deselectToken(){
+				this.selectedToken = null;
+				console.log('close');
+			},
 			sendToken(token, account){
 				this.$router.push({name:this.RouteNames.TRANSFER, query:{account:account.identifiable(), token:token.uniqueWithChain()}})
 			}
@@ -109,11 +120,14 @@
 
 	.assets {
 		display:flex;
-		margin-bottom: 20px;
-		border: 1px solid $lightgrey;
-		margin: 20px;
-		border-radius: 10px;
 		flex-direction:column;
+		height:100%;
+		overflow-y: scroll;
+
+		@media (max-width: $breakpoint-mobile) {
+            border:0;
+            border-radius:0;
+        }
 
 		.token-list {
 			display:flex;
@@ -123,6 +137,7 @@
 
 			.tokens {
 				height:calc(100vh - 220px);
+				overflow-y:auto;
 			}
 		}
 
@@ -134,12 +149,67 @@
 			position:absolute;
 			top:205px;
 			right: -100%;
-			bottom:0;
-			height:calc(100vh - 205px);
 			transition:all 0.12s ease-in-out;
+		    width: 50vw;
+		    top: 0;
+		    position: fixed;
+		    top: 0;
+		    bottom: 0;
+		    height: initial;
+		    z-index: 102;
+		    opacity:0;
+		    transition: box-shadow 0.3s ease, right .44s ease-in-out, opacity .12 ease;
+		    box-shadow:none;
+
+		    @media (max-width: $breakpoint-tablet) {
+		    	width:calc(100vw);
+		    }
 
 			&.open {
-				right:0%;
+				right:0;
+				box-shadow:10px 0 30px rgba(0,0,0,0.15), 2px 0 10px $blue-shadow;
+				opacity:1;
+			}
+
+			.graph-and-accounts-header {
+				display:flex;
+		        width:100%;
+		        height:120px;
+		        justify-content: space-between;
+		        align-items: center;
+		        padding:20px;
+		        background:$lightergrey;
+
+		        @media (max-width: $breakpoint-mobile) {
+		            width:100vw;
+		        }
+
+		        .graph-and-accounts-content {
+		        	display:flex;
+		        	flex-direction:column;
+
+		            .graph-and-accounts-name {
+		            	font-size: $font-size-large;
+			            font-family: 'Poppins', sans-serif;
+			            font-weight: bold;
+			            color:black;
+		            }
+
+		            .graph-and-accounts-balance {
+		            	font-size: $font-size-standard;
+			            font-family: 'Poppins', sans-serif;
+			            font-weight: bold;
+			            color:black;
+		            }
+		        }
+
+		        .graph-and-accounts-close {
+		            padding:10px;
+		            cursor: pointer;
+		            color:$blue;
+		            font-size:$font-size-large;
+		            border-radius:$radius;
+		        }
 			}
 
 			.no-accounts {
@@ -154,10 +224,10 @@
 			}
 
 			.accounts {
-				padding:30px;
+				padding:20px;
 				overflow:auto;
-
 				height:calc(100% - 180px);
+				border-top:1px solid $lightgrey;
 
 				&.with-search {
 					height:calc(100% - 180px - 70px);
@@ -166,22 +236,22 @@
 				.account {
 					display:flex;
 					flex-direction: column;
-					margin-bottom:$padding-small;
-					padding: $padding-small;
-					background: rgba(255,255,255,0.06);
-					border-radius: $radius-big;
-					border-bottom:1px solid rgba(0,0,0,0.12);
+					margin-bottom:20px;
+					padding-bottom:20px;
+					border-bottom:1px solid $lightgrey;
+
+					&:last-child { border:0; }
 
 					.name {
-						font-size: $large;
+						font-size: $font-size-medium;
+						font-family: 'Poppins', sans-serif;
 						font-weight: bold;
-						color:white;
-						margin-bottom:2px;
 					}
 
 					.network {
-						font-size: $small;
-						color:rgba(255,255,255,.6);
+						font-size: $font-size-small;
+						font-family: 'Poppins', sans-serif;
+						color:rgba(0,0,0,.6);
 						margin-bottom:6px;
 					}
 
@@ -196,12 +266,10 @@
 							font-size: $medium;
 							font-weight: bold;
 							margin-bottom:2px;
-							color:white;
 						}
 
 						.fiat {
 							font-size: $medium;
-							color:white;
 						}
 					}
 

@@ -129,18 +129,17 @@
         position: relative;
         height:calc(100vh - 220px);
         padding-bottom:50px;
-        border-bottom:1px solid $lightgrey;
 
         .scroller {
 
             .keys-and-accounts-list {
-                overflow-y: auto;
-                height:calc(100vh - 180px);
+                height: calc(100vh - 200px);
+                overflow: hidden;
             }
         }
 
         &.no-panels {
-            height:calc(100vh - 150px);
+            height:calc(100vh - 140px);
 
             .scroller {
 
@@ -192,26 +191,58 @@
             position:absolute;
             bottom:0;
             left:0;
-            right:1px;
+            right:0;
             border-top:1px solid $lightgrey;
-            height:70px;
-            background:$white;
+            background:white;
 
             display:flex;
             align-items: center;
-            padding:0 20px;
+            padding:10px 20px;
 
-            .left { flex:1; }
-            .right { flex:0 0 auto; }
+            @media (max-width: $breakpoint-mobile) {
+                flex-direction:column;
+                height:auto;
+                padding:10px;
+            }
+
+            .left {
+                flex:1;
+
+                @media (max-width: $breakpoint-mobile) {
+                    width:100%;
+                    text-align:left;
+                }
+            }
+
+            .right {
+                display:flex;
+                flex-direction:row;
+                text-align:right;
+                justify-content:end;
+
+                button + button {
+                    margin-left:6px;
+                }
+
+                @media (max-width: $breakpoint-mobile) {
+                    width:100%;
+                    margin-top:10px;
+
+                    button {
+                        width:50%;
+                    }
+                }
+            }
 
             .info {
                 .keys {
-                    font-size: $medium;
+                    font-size: $font-size-medium;
+                    font-family: 'Poppins', sans-serif;
                     font-weight: bold;
                 }
 
                 .accounts {
-                    font-size: $small;
+                    font-size: $font-size-standard;
                 }
             }
         }

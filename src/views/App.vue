@@ -7,7 +7,6 @@
         <!------------ APP DATA ----------->
         <!--------------------------------->
         <section class="scroller" v-if="state === applink">
-            <figure class="blue-bg" v-if="getAppData(applink).hasOwnProperty('img')"></figure>
             <section class="padder">
                 <section class="featured" v-if="getAppData(applink).hasOwnProperty('img')">
                     <Carousel :no-info="true" :slides="[getAppData(applink)]" />
@@ -203,20 +202,8 @@
             height:calc(100vh - 220px);
             overflow-y:auto;
 
-            .blue-bg {
-                position: absolute;
-                top:0;
-                left:0;
-                right:0;
-                height:70px;
-                background:$blue-gradient-completer;
-                z-index:1;
-            }
-
             .padder {
-                padding:0 40px;
-                position: relative;
-                z-index:2;
+                padding:20px;
             }
 
             .featured {

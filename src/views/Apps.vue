@@ -235,6 +235,7 @@
 
 	.apps {
 		position: relative;
+		height: 100%;
 
 		.search-icon {
 			margin:20px 20px 0;
@@ -254,7 +255,7 @@
 				border-radius:24px;
 				font-size: $large;
 				width:100%;
-
+				-webkit-appearance: none;
 				transition:opacity 0.5s ease;
 			}
 
@@ -268,21 +269,13 @@
 
 		.scroller {
 			position: relative;
-			height:auto;
-			overflow-x:hidden;
+			height: calc(100vh - 288px);
+			margin-top:10px;
+			overflow-x: hidden;
+			overflow-y: auto;
 
 			&.with-search {
 				height:calc(100vh - 290px);
-			}
-
-			.blue-bg {
-				position: absolute;
-				top:0;
-				left:0;
-				right:0;
-				height:70px;
-				background:$blue-gradient-completer;
-				z-index:1;
 			}
 
 			.padder {
@@ -298,8 +291,22 @@
 			.categories {
 				margin-top:40px;
 
+				@media (max-width: $breakpoint-mobile) {
+	                margin-top:20px;
+	            }
+
 				.category {
-					margin-bottom:40px;
+					margin:0 -20px 40px;
+					padding:40px;
+
+					@media (max-width: $breakpoint-mobile) {
+		                margin:0 -20px 20px;
+						padding:20px;
+		            }
+
+					&:nth-child(even) {
+						background:$lightergrey;
+					}
 
 					.info {
 						display:flex;
@@ -309,7 +316,9 @@
 						margin-bottom:15px;
 
 						.name {
-							font-size: $large;
+							font-size: $font-size-medium;
+	                        font-family: 'Poppins', sans-serif;
+	                        font-weight: bold;
 						}
 
 						.view-all {
@@ -332,7 +341,7 @@
 						.app {
 							display:inline-block;
 							width:calc(20% - 10px);
-							max-width:200px;
+							max-width:100px;
 
 							@media (max-width: $breakpoint-tablet) {
 								width:calc(50% - 5px);
@@ -407,10 +416,19 @@
 			.linked-apps {
 				padding:40px;
 
+				@media (max-width: $breakpoint-mobile) {
+					padding:20px;
+				}
+
 				.app {
 					display:flex;
 					align-items: center;
 					margin-bottom:20px;
+
+					@media (max-width: $breakpoint-mobile) {
+						padding:20px;
+						flex-direction:column;
+					}
 
 					.image {
 						flex:0 0 auto;
@@ -438,26 +456,33 @@
 						flex:1;
 						padding:0 20px;
 						cursor: pointer;
-						background:$blue;
 						font-size: $font-size-standard;
 						font-family: 'Poppins', sans-serif;
 
 						.name {
 							font-size: $medium;
 							font-weight: bold;
-							color:white;
-							font-size: $font-size-small;
+							color:black;
+							font-size: $font-size-standard;
 						}
 
 						.category {
 							font-size: $font-size-small;
 							opacity:0.6;
-							color:white;
+							color:black;
 						}
 					}
 
 					.actions {
 						flex:0 0 auto;
+
+						@media (max-width: $breakpoint-mobile) {
+							margin:10px -10px 0 0;
+						}
+
+						button + button {
+							margin-left:10px;
+						}
 					}
 				}
 			}

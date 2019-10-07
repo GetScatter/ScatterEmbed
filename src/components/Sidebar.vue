@@ -4,9 +4,7 @@
 		<section class="sidebar">
 			<figure class="bar-bg"></figure>
 			<figure class="category" v-for="category in items">
-				<figure class="category-name" v-if="category.name">{{category.name}}</figure>
-				<router-link :key="item.name" :to="{name:item.route}" class="item" :class="{'active':$route.name === item.route}" v-for="(item, i) in category.items">
-					<!-- <i :class="itemIcon(item)"></i> -->
+				<router-link :key="item.name" :to="{name:item.route}" @click.native="checkMobileClick" class="item" :class="{'active':$route.name === item.route}" v-for="(item, i) in category.items">
 					<i :class="itemIcon(item)"></i>
 					<span>{{item.name}}</span>
 				</router-link>
@@ -49,7 +47,7 @@
 							// this.accounts.length ? {name:'Marketplace', route:RouteNames.ITEMS} : null,
 							{name:'Identities', route:RouteNames.IDENTITIES},
 							{name:'Locations', route:RouteNames.LOCATIONS},
-							this.accounts.length ? {name:'Reputation', route:RouteNames.RIDL} : null,
+							// this.accounts.length ? {name:'Reputation', route:RouteNames.RIDL} : null,
 							this.features.creditCards ? {name:'Purchase', route:RouteNames.PURCHASE} : null,
 							{name:'Contacts', route:RouteNames.CONTACTS},
 							this.history.length ? {name:'History', route:RouteNames.HISTORIES} : null,
@@ -66,50 +64,28 @@
 		methods:{
 			itemIcon(item){
 				switch(item.name) {
-					case 'Dashboard':
-						return 'fal fa-rocket'
-
-					case 'Apps':
-						return 'fal fa-star'
-
-					case 'Wallet':
-						return 'fal fa-wallet'
-
-					case 'Assets':
-						return 'fal fa-coins'
-
-					case 'Identities':
-						return 'fal fa-passport'
-
-					case 'Locations':
-						return 'fal fa-map-marker-alt'
-
-					case 'Reputation':
-						return 'fal fa-shield'
-
-					case 'Contacts':
-						return 'fal fa-address-book'
-
-					case 'History':
-						return 'fal fa-history'
-
-					case 'Networks':
-						return 'fal fa-server'
-
-					case 'Settings':
-						return 'fal fa-cog'
-
-					case 'Marketplace':
-						return 'fal fa-shopping-cart'
-
-					default:
-						return 'fal fa-star'
+					case 'Dashboard': return 'fal fa-rocket';
+					case 'Apps': return 'fal fa-star';
+					case 'Wallet': return 'fal fa-wallet';
+					case 'Assets': return 'fal fa-coins';
+					case 'Identities': return 'fal fa-passport';
+					case 'Locations': return 'fal fa-map-marker-alt';
+					// case 'Reputation': return 'fal fa-shield';
+					case 'Contacts': return 'fal fa-address-book';
+					case 'History': return 'fal fa-history';
+					case 'Networks': return 'fal fa-server';
+					case 'Settings': return 'fal fa-cog';
+					case 'Marketplace': return 'fal fa-shopping-cart';
+					default: return 'fal fa-star';
 
 				}
 			},
 			toggleSidebar(){
 				this[UIActions.SET_SIDEBAR](!this.sidebarLocked);
 				window.localStorage.setItem('sidebar', this.sidebarLocked);
+			},
+			checkMobileClick(){
+				if(this.isMobile && !this.sidebarLocked) this.toggleSidebar();
 			},
 			...mapActions([
 				UIActions.SET_SIDEBAR
@@ -141,20 +117,21 @@
 		.sidebar {
 			flex:0 0 auto;
 			width:$closed;
-			border-right:1px solid $lightgrey;
-			padding:20px 0;
 			overflow-x:hidden;
 			white-space: nowrap;
 			position:fixed;
+			bottom:0;
+			top:0;
 			left:0;
+			padding:20px 0;
 			padding-top:69px;
-			top:0px;
-			bottom:70px;
 			background-color:white;
-			z-index:10000;
 			box-shadow:0 0 0 transparent, 0 0 0 transparent;
-
 			transition: width $time ease, box-shadow 1.1s ease;
+			z-index:100;
+			border-right:1px solid $lightgrey;
+			border-left:1px solid $border-standard;
+			border-bottom:1px solid $border-standard;
 
 			.bar-bg {
 				width:$closed;
@@ -215,8 +192,9 @@
 
 			.item {
 				cursor: pointer;
-				padding:14px 12px;
-				margin:0;
+				padding:10px;
+				border-radius:22px;
+				margin:4px;
 				display:flex;
 				align-items: center;
 				color: black;
@@ -224,10 +202,6 @@
 				transition-property: background, padding;
 				font-size:$medium;
 				text-transform:uppercase;
-
-				&:first-child {
-					border-top:1px solid $lightgrey;
-				}
 
 				i {
 					padding-right:18px;
@@ -264,28 +238,17 @@
 				}
 			}
 
-			.category-name {
-				font-size: $small;
-				font-weight: bold;
-				text-transform: uppercase;
-				padding:0 20px;
-				margin-top:40px;
-				margin-bottom:10px;
-				opacity:0;
-				transition:all $time ease;
-				transition-property: opacity;
-			}
-
 
 		}
 
 		&:not(.locked){
 			.sidebar {
+
 				.item {
-					padding:14px 12px;
+
 
 					i {
-						margin-left:7px;
+						margin-left:4px;
 					}
 				}
 
@@ -293,34 +256,10 @@
 					opacity:0;
 				}
 
-				.category {
-					i {
-
-					}
-
-					span {
-
-					}
-				}
-
 				&:hover {
-					width:$open;
-					transition: width $time ease, box-shadow 0.3s ease;
+					transition: box-shadow 0.3s ease;
 					box-shadow:10px 0 30px rgba(0,0,0,0.15), 2px 0 10px $blue-shadow;
-					border-right:0;
 
-					.category-name {
-						opacity:1;
-					}
-
-					.item {
-						color:$silver;
-
-						span {
-							margin-left:0;
-							opacity:1;
-						}
-					}
 				}
 			}
 		}
@@ -331,10 +270,6 @@
 			.sidebar {
 				width:$open;
 				transition: width $time ease, box-shadow 0.3s ease;
-
-				.category-name {
-					opacity:1;
-				}
 
 				.item {
 					color:$silver;
@@ -353,25 +288,23 @@
 		.sidebar-container {
 			width:$mobileClosed;
 
-			.placeholder {
-				width:$mobileClosed;
-			}
-
-			.sidebar {
-				width:$mobileClosed;
-			}
-
 			&:not(.locked){
 				.sidebar {
+					box-shadow:0 0 0 transparent, 0 0 0 transparent;
 
 					&:hover {
-						width:$mobileOpen;
+						width:$mobileClosed;
+					}
+
+					.item {
+						span {
+							opacity:0;
+						}
 					}
 				}
 			}
 
 			&.locked {
-				width:$mobileOpen;
 
 				.sidebar {
 					width:$mobileOpen;

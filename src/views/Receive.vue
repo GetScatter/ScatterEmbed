@@ -1,40 +1,42 @@
 <template>
 	<section class="receive">
 
-		<section class="greyback" v-if="account">
-			<section class="limit-width">
-				<label>Receiving Account</label>
-				<section class="boxes">
-					<section class="box account-selector" @click="selectAccount">
-						<section>
-							<figure class="name">{{account.sendable()}}</figure>
-							<figure class="network">{{account.network().name}}</figure>
+		<section class="scroller">
+			<section class="greyback" v-if="account">
+				<section class="limit-width">
+					<label>Receiving Account</label>
+					<section class="boxes">
+						<section class="box account-selector" @click="selectAccount">
+							<section>
+								<figure class="name">{{account.sendable()}}</figure>
+								<figure class="network">{{account.network().name}}</figure>
+							</section>
+							<figure class="chevron icon-dot-3"></figure>
 						</section>
-						<figure class="chevron icon-dot-3"></figure>
 					</section>
 				</section>
 			</section>
-		</section>
 
-		<section class="whiteback" v-if="account">
-			<section class="limit-width">
-				<section class="boxes">
-					<section class="box nested auto-width" v-if="qr">
-						<img :src="qr" />
-					</section>
-					<section class="box nested data-box">
-						<section>
-							<label>Send funds to</label>
-							<figure class="receiver">{{account.sendable()}}</figure>
+			<section class="whiteback" v-if="account">
+				<section class="limit-width">
+					<section class="boxes">
+						<section class="box nested auto-width" v-if="qr">
+							<img :src="qr" />
 						</section>
+						<section class="box nested data-box">
+							<section>
+								<label>Send funds to</label>
+								<figure class="receiver">{{account.sendable()}}</figure>
+							</section>
 
-						<section>
-							<figure class="small-info" v-if="account.blockchain() === Blockchains.EOSIO">
-								Some exchanges will ask you for an addressTag, memo, or some other form of secondary input.
-								You can enter anything in that field since this is a real EOSIO account.
-							</figure>
+							<section>
+								<figure class="small-info" v-if="account.blockchain() === Blockchains.EOSIO">
+									Some exchanges will ask you for an addressTag, memo, or some other form of secondary input.
+									You can enter anything in that field since this is a real EOSIO account.
+								</figure>
 
-							<Button blue="1" text="Copy to clipboard" @click.native="copy" />
+								<Button blue="1" text="Copy to clipboard" @click.native="copy" />
+							</section>
 						</section>
 					</section>
 				</section>

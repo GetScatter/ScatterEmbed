@@ -41,9 +41,9 @@
 
 	.pop-over {
 		max-width:900px;
-		min-width:700px;
 		width:100%;
 		margin:0 auto;
+		overflow:hidden;
 	}
 
 	.assets {

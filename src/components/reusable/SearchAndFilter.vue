@@ -37,17 +37,30 @@
 	.search-and-filter {
 		display:flex;
 		align-items: center;
-		padding:0 $padding-small;
-		height:70px;
+		width:calc(100% - 40px);
+		margin:20px;
+
+		@media (max-width: $breakpoint-mobile) {
+	        flex-direction:column;
+	        margin:20px;
+	        width:calc(100% - 40px);
+	    }
 
 		.search-bar {
 			flex:1;
-			margin-right:20px;
+
+			@media (max-width: $breakpoint-mobile) {
+		        width:100%;
+		    }
 
 			input {
 				border-radius:50px;
 				height:36px;
 				text-align:center;
+				font-size:$font-size-standard;
+				box-shadow:none;
+				outline:0;
+				-webkit-appearance: none;
 			}
 		}
 
@@ -73,15 +86,31 @@
 			display:flex;
 			justify-content: flex-end;
 
+			@media (max-width: $breakpoint-mobile) {
+		        justify-content: space-between;
+		        text-align:left;
+		        width:100%;
+		        padding:6px 0;
+		    }
+
 			.filter {
 				flex:1;
 				max-width:150px;
 				margin-left:20px;
+
+				@media (max-width: $breakpoint-mobile) {
+					max-width:initial;
+					margin:0;
+				}
 			}
 		}
 
 		&.full {
-			width:100%;
+			width:calc(100% - 40px);
+
+			@media (max-width: $breakpoint-mobile) {
+		        width:calc(100vw - 40px);
+		    }
 
 			.search-bar {
 				margin:0;

@@ -29,7 +29,7 @@
 					<span class="balance" style="opacity:0.2;">No accounts</span>
 				</section>
 			</section>
-			<i class="fal fa-sync" :class="{'spin':loadingBalances}" @click.native="refreshTokens"></i>
+			<i class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
 		</section>
 
 	</section>
@@ -129,7 +129,6 @@
 
 	.quick-actions {
 		background:white;
-		border-bottom:1px solid $lightgrey;
 		padding:0 20px;
 		display:flex;
 		align-items:center;
@@ -139,7 +138,16 @@
 		height:70px;
 		min-height:70px;
 		width:auto;
-		z-index:100;
+		z-index:99;
+		transition: all 0.12s ease-in-out;
+
+		@media (max-width: $breakpoint-mobile) {
+            padding:0 15px;
+        }
+
+		&.sidebarLocked {
+			left:240px;
+		}
 
 		.left {
 			opacity:1;

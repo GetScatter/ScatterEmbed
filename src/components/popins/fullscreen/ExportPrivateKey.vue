@@ -1,9 +1,9 @@
 <template>
 	<section class="pop-in">
-		<section>
+		<section class="total-height">
 
 			<!-- SELECT EXPORT TYPE -->
-			<section v-if="state === STATES.SELECT">
+			<section class="export-your-key" v-if="state === STATES.SELECT">
 				<h1>Exporting Private Key</h1>
 				<section class="disclaimer">
 					<figure class="title">Keep your private keys safe!</figure>
@@ -33,7 +33,7 @@
 			<section class="export-text" v-if="state === STATES.KEY">
 				<h1>{{locale(langKeys.KEYPAIR.EXPORT.KEY.Title)}}</h1>
 				<section class="split-inputs">
-					<Input style="flex:1; margin-bottom:0;" :text="privateKey" />
+					<Input style="flex:1;" :text="privateKey" />
 					<Button text="Copy" @click.native="copyPrivateKey" />
 				</section>
 			</section>
@@ -45,9 +45,9 @@
 					<section class="disclaimer" style="margin:0 auto 10px; max-width:500px;">
 						<figure class="description">This QR code is encrypted with your password.</figure>
 					</section>
-					<section class="split-inputs" style="max-width:500px; margin:0 auto;">
+					<section class="split-inputs">
 
-						<Button style="flex:0 0 auto;" text="Save QR as Image" @click.native="screenshot" />
+						<Button style="flex:1;" text="Save QR as Image" @click.native="screenshot" />
 					</section>
 				</section>
 				<section v-else>
@@ -187,8 +187,26 @@
 <style scoped lang="scss" rel="stylesheet/scss">
 	@import "../../../styles/variables";
 
+	.export-your-key {
+		height:100%;
+	}
+
+	.split-inputs {
+		input {
+			padding:inherit !important;
+		}
+		.input {
+			margin:0;
+		}
+	}
+
 	.export-text {
 		width:500px;
+
+		@media (max-width: $breakpoint-tablet) {
+			width:100%;
+			margin:0 20px;
+		}
 	}
 
 	.keys {
@@ -210,6 +228,13 @@
 		display:flex;
 		flex-direction: row;
 		justify-content: center;
+		margin-bottom:70px;
+
+		@media (max-width: $breakpoint-tablet) {
+			flex-direction:column;
+			margin-top:20px;
+			max-width: 300px;
+		}
 
 		.type {
 			width:calc(50% - 10px);
@@ -223,11 +248,20 @@
 			text-align: center;
 			cursor: pointer;
 
+			@media (max-width: $breakpoint-tablet) {
+				width:100%;
+				padding-top: 70px;
+			}
+
 			transition: all 0.15s ease;
 			transition-property: background;
 
 			&:last-child {
 				margin-left:20px;
+
+				@media (max-width: $breakpoint-tablet) {
+					margin:20px 0 0 0;
+				}
 			}
 
 			.badge {
@@ -246,6 +280,12 @@
 				left:0;
 				right:0;
 				margin:0 auto;
+
+				@media (max-width: $breakpoint-tablet) {
+					width:60px;
+					height:60px;
+					top:-10px;
+				}
 
 				transition: all 0.15s ease;
 				transition-property: background, color, border;

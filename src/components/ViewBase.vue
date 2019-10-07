@@ -9,11 +9,11 @@
             <section v-else>
                 <section class="app-content">
                     <Sidebar v-if="unlocked && onboarded" />
-                    <section class="view-pane">
+                    <section class="view-pane" :class="{'borders':unlocked && onboarded}">
                         <QuickActions v-if="showQuickActions" />
-                        <router-view class="router-view" :class="{'lowered':true, 'floated':unlocked}"></router-view>
+                        <router-view class="router-view"></router-view>
+                        <BottomActions v-if="showBottomActions" />
                     </section>
-                    <BottomActions v-if="unlocked && onboarded" />
 
                     <Processes />
                 </section>
@@ -51,13 +51,12 @@
 		},
 		data(){ return {
 			routeNames:RouteNames,
-			initialized:false,
 		}},
 		computed:{
 			...mapState([
 				'scatter',
 				'workingScreen',
-				'processes'
+				'processes',
 			]),
 			...mapGetters([
 				'unlocked',
@@ -75,20 +74,30 @@
 				if(!this.onboarded) return false;
 				return ![
 					RouteNames.ITEMS,
+					// RouteNames.NETWORKS,
+					// RouteNames.CONTACTS,
+					// RouteNames.HISTORIES,
+					RouteNames.RIDL,
+					// RouteNames.SETTINGS,
+					RouteNames.PURCHASE,
+					// RouteNames.IDENTITIES,
+					// RouteNames.LOCATIONS,
+				].includes(this.$route.name);
+			},
+			showBottomActions(){
+				if(!this.unlocked) return false;
+				if(!this.onboarded) return false;
+				return ![
+					RouteNames.IDENTITIES,
+					RouteNames.LOCATIONS,
 					RouteNames.NETWORKS,
 					RouteNames.CONTACTS,
 					RouteNames.HISTORIES,
-					RouteNames.RIDL,
-					RouteNames.SETTINGS,
-					RouteNames.PURCHASE,
-					RouteNames.IDENTITIES,
-					RouteNames.LOCATIONS,
 				].includes(this.$route.name);
 			},
 
 		},
 		mounted(){
-			this.initialized = true;
 			// this[UIActions.SET_THEME](window.localStorage.getItem('theme') || this.THEMES.FLUORESCENT);
 			this.checkDevice();
 			this.checkMobileSize();
@@ -97,7 +106,7 @@
 		methods:{
 			checkMobileSize(){
 				if(this.isMobileDevice) return;
-				this[UIActions.SET_IS_MOBILE](window.innerWidth < 600);
+				this[UIActions.SET_IS_MOBILE](window.innerWidth < 800);
 			},
 			checkDevice(){
 				let check = false;
@@ -107,6 +116,7 @@
 					this[UIActions.SET_IS_MOBILE](true);
 				}
 			},
+
 
 			...mapActions([
 				UIActions.SET_IS_MOBILE,
@@ -139,6 +149,10 @@
         }
     }
 
+    .router-view {
+        flex:1;
+    }
+
     .app-content {
         height:$fullheight;
         width:100%;
@@ -162,10 +176,14 @@
     .view-pane {
         flex:1;
         position: relative;
-        overflow: auto;
+        overflow: hidden;
         display:flex;
         flex-direction:column;
 
+        &.borders {
+            border-bottom:1px solid $border-standard;
+            border-right:1px solid $border-standard;
+        }
 
     }
 

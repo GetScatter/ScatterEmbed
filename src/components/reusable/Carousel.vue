@@ -136,11 +136,16 @@
 		margin:0 auto;
 		margin-top:1px;
 
+		@media (max-width: $breakpoint-tablet) {
+			height:440px;
+		}
+
 		.go-right, .go-left {
 			cursor: pointer;
 			position: absolute;
-			color:$blue;
-			font-size: 28px;
+			color:white;
+			font-size: 20px;
+			background: rgba(255,255,255,0.12);
 			width:44px;
 			height:44px;
 			line-height:44px;
@@ -150,11 +155,13 @@
 
 			&:hover {
 				width:40px;
+				background: rgba(255,255,255,1);
+				color:$blue;
 			}
 		}
 
 		.go-left {
-			left:-40px;
+			left:0px;
 			top:60%;
 			margin-top:-54px;
 			border-top-right-radius: 3px;
@@ -162,7 +169,7 @@
 		}
 
 		.go-right {
-			right:-40px;
+			right:0px;
 			top:60%;
 			margin-top:-54px;
 			border-top-left-radius: 3px;
@@ -174,7 +181,11 @@
 			overflow:hidden;
 			height:300px;
 			width:100%;
-			border-radius:$radius;
+			border-radius:$radius-big;
+
+			@media (max-width: $breakpoint-tablet) {
+				height:440px;
+			}
 		}
 
 		.slider {
@@ -258,23 +269,20 @@
 					flex-direction: row;
 					justify-content: space-between;
 					align-content:center;
-					border-radius:0 0 10px 10px;
+					border-radius:0;
 					background-color:$blue;
-					background-image:url('../../assets/gs_mobile_apps_homebg.png');
-					background-size:cover;
-					background-position:center 160px;
 					height: 80px;
 
 					@media (max-width: $breakpoint-tablet) {
-						height:120px;
+						height:140px;
 						flex-direction:column;
 					}
 
 					.name {
-						font-size: $medium;
+						font-size: $font-size-medium;
+                        font-family: 'Poppins', sans-serif;
 						font-weight: bold;
 						color:white;
-						font-size: $font-size-small;
 						white-space:nowrap;
 						overflow:hidden;
 						text-overflow:ellipsis;

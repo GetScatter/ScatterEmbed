@@ -1,14 +1,17 @@
 <template>
     <section>
-        <section class="blockchain-list-container" v-if="selectedOption">
-            <section class="blockchains">
+        <section class="blockchain-list-container">
+
+
+            <section class="blockchains" v-if="!isMobile || !selectedOption" :class="{'full-width':isMobile}">
                 <section class="head">
                     Basics
                 </section>
                 <section class="scroller dynamic">
                     <section class="blockchain-list">
-                        <section class="badge-item hoverable" :class="{'active':selectedOption.name === item.name}" v-for="item in generalItems" @click="selectOption(item)">
+                        <section class="badge-item hoverable" :class="{'active':selectedOption && selectedOption.name === item.name}" v-for="item in generalItems" @click="selectOption(item)">
                             <section class="details"><figure class="title">{{translate(item)}}</figure></section>
+                            <i class="fal fa-chevron-right"></i>
                         </section>
                     </section>
                 </section>
@@ -18,24 +21,32 @@
                 </section>
                 <section class="scroller dynamic">
                     <section class="blockchain-list">
-                        <section class="badge-item hoverable" :class="{'active':selectedOption.name === item.name}" v-for="item in lockedItems" @click="selectOption(item)">
+                        <section class="badge-item hoverable" :class="{'active':selectedOption && selectedOption.name === item.name}" v-for="item in lockedItems" @click="selectOption(item)">
                             <section class="details"><figure class="title">{{translate(item)}}</figure></section>
+                            <i class="fal fa-chevron-right"></i>
                         </section>
                     </section>
                 </section>
             </section>
 
-            <section class="list-container">
+            <section class="list-container" v-if="!isMobile || selectedOption">
 
-                <h1>{{translate(selectedOption)}}</h1>
+                <section class="head">
+                    <figure v-if="isMobile" class="back-button" @click="selectOption(null)">
+                        <i class="fal fa-arrow-left"></i>
+                    </figure>
+                    {{translate(selectedOption)}}
+                </section>
 
-                <SettingsGeneral v-if="selectedOption.name === settingsOptions.GENERAL.name" />
-                <SettingsTokens v-if="selectedOption.name === settingsOptions.TOKENS.name" />
-                <SettingsExplorer v-if="selectedOption.name === settingsOptions.EXPLORER.name" />
-                <SettingsPassword v-if="selectedOption.name === settingsOptions.PASSWORD.name" />
-                <SettingsBackup v-if="selectedOption.name === settingsOptions.BACKUP.name" />
-                <SettingsDestroy v-if="selectedOption.name === settingsOptions.DESTROY.name" />
-                <SettingsFirewall v-if="selectedOption.name === settingsOptions.FIREWALL.name" />
+                <section class="scroller">
+                    <SettingsGeneral v-if="selectedOption.name === settingsOptions.GENERAL.name" />
+                    <SettingsTokens v-if="selectedOption.name === settingsOptions.TOKENS.name" />
+                    <SettingsExplorer v-if="selectedOption.name === settingsOptions.EXPLORER.name" />
+                    <SettingsPassword v-if="selectedOption.name === settingsOptions.PASSWORD.name" />
+                    <SettingsBackup v-if="selectedOption.name === settingsOptions.BACKUP.name" />
+                    <SettingsDestroy v-if="selectedOption.name === settingsOptions.DESTROY.name" />
+                    <SettingsFirewall v-if="selectedOption.name === settingsOptions.FIREWALL.name" />
+                </section>
             </section>
         </section>
 
@@ -109,7 +120,7 @@
 				this.$router.back();
 			},
 			selectOption(option){
-				if((option.locked || false) && !this.unlocked) {
+				if(option && (option.locked || false) && !this.unlocked) {
 					return this.unlock(option);
 				}
 				this.selectedOption = option;
@@ -131,6 +142,14 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../styles/variables";
+
+    .blockchain-list-container {
+
+        .blockchains {
+            height: calc(100% - 70px);
+            overflow-y: auto;
+        }
+    }
 
     .head {
         .danger {
@@ -172,9 +191,13 @@
     }
 
     .list-container {
-        padding:30px;
-        height:calc(100vh - 40px);
-        overflow-y:auto;
+        height: 100%;
+
+        .scroller {
+            padding:20px;
+            height: calc(100vh - 210px);
+            overflow-y: auto;
+        }
     }
 
 </style>

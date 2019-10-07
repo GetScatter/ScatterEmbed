@@ -11,7 +11,7 @@
 
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar:horizontal {
@@ -44,6 +44,7 @@ input::-webkit-inner-spin-button {
 html, body {
   height:100%;
   background:$white;
+  overflow: hidden;
 }
 
 hr {
@@ -174,9 +175,17 @@ input {
   display:flex;
   align-items: center;
 
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+  }
+
   > section, > button {
     &:not(:first-child){
       margin-left:10px;
+
+      @media (max-width: $breakpoint-mobile) {
+        margin-left:0;
+      }
     }
   }
 }
@@ -202,26 +211,24 @@ input {
     height:38px;
     line-height:38px;
     font-weight: bold;
-    color: $lightgrey;
+    color: $blue;
     font-size: 16px;
     position: relative;
     cursor: pointer;
     transition:all 0.08s ease;
     transition-property: color, height, line-height;
-
-    &:not(:last-child) {
-      margin-right:40px;
-    }
+    width:100%;
+    text-align: center;
 
     &:after {
       content:'';
       display:block;
       position:absolute;
-      bottom:-10px;
+      bottom:-11px;
       left:0;
       right:0;
       background:$blue;
-      height:2px;
+      height:1px;
       z-index:2;
       opacity:0;
       transition:all 0.08s ease;
@@ -233,7 +240,7 @@ input {
     }
 
     &.active {
-      color:$blue;
+      color:black;
 
       &:after { opacity:1; }
 
@@ -305,7 +312,7 @@ label {
 
 .badge-item {
   display:flex;
-  margin-bottom:15px;
+  margin-bottom:10px;
   padding-bottom:10px;
 
   .badge {
@@ -396,12 +403,16 @@ label {
 
   &.hoverable {
     cursor: pointer;
-    padding:15px 20px;
-    border-radius:$radius;
+    padding:10px 20px;
     margin-bottom:2px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 
     &:hover, &.active {
-      background:rgba(0,0,0,0.03);
+      color:$blue;
 
       .badge {
         background:$blue;
@@ -414,12 +425,16 @@ label {
 }
 
 .action-box {
-  border:5px solid $lightergrey;
+  border:1px solid $lightgrey;
   border-radius:$radius;
   padding:20px;
 
   &:not(:last-child){
     margin-bottom:20px;
+  }
+
+  &:last-child{
+    margin-bottom:40px;
   }
 
   p {
@@ -428,13 +443,13 @@ label {
 }
 
 .greyback {
-  padding:40px;
+  padding:20px;
   background: $lightergrey;
 }
 
 .whiteback {
   flex:1;
-  padding:40px;
+  padding:20px;
 }
 
 
@@ -503,8 +518,39 @@ label {
     }
   }
 
+}
+
+.mobile {
+
+  .type-selector {
+    .types {
+      flex-direction: column;
+
+      .type {
+        width:100%;
+        margin:0 0 20px 0;
+        flex-direction: row;
+        align-items: center;
+        text-align:left;
+        padding:10px 0;
+
+        .type-icon {
+          font-size: 22px;
+          width:40px;
+        }
+
+        .type-text {
+          margin:0;
+          flex:1;
+        }
+      }
+    }
+  }
 
 }
+
+
+
 
 .key-val {
 

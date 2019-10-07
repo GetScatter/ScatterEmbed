@@ -2,7 +2,7 @@
     <section class="pop-in-head">
         <figure class="popin-title">{{title}}</figure>
         <figure class="popin-close" @click="$emit('close')">
-            <i class="icon-cancel"></i>
+            <i class="fal fa-times"></i>
         </figure>
     </section>
 </template>
@@ -36,27 +36,29 @@
     .pop-in-head {
         display:flex;
         width:100%;
-        height:40px;
+        height:70px;
         justify-content: space-between;
         align-items: center;
-        padding:0 10px 0 20px;
-        border-bottom:1px solid $lightgrey;
+        padding:20px;
+        background:$lightergrey;
+
+        @media (max-width: $breakpoint-mobile) {
+            width:100vw;
+        }
 
         .popin-title {
-            font-size: $small;
+            font-size: $font-size-standard;
+            font-family: 'Poppins', sans-serif;
             font-weight: bold;
-            color:$silver;
+            color:black;
         }
 
         .popin-close {
-            padding:5px 10px;
+            padding:10px;
             cursor: pointer;
-            color:$silver;
+            color:$blue;
+            font-size:$font-size-large;
             border-radius:$radius;
-
-            &:hover {
-                background:$lightergrey;
-            }
         }
     }
 

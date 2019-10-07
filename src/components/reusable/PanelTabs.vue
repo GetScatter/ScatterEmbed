@@ -17,13 +17,12 @@
 	@import "../../styles/variables";
 
 	.panel-tabs {
-		width:100%;
-		height:70px;
 		display:flex;
 		flex-direction:row;
 		align-items:center;
 		justify-content:center;
-		padding:0 20px;
+		padding:0 0 20px;
+		margin:0 20px;
 		border-bottom: 1px solid $lightgrey;
 
 		.tab-name {
@@ -36,10 +35,12 @@
 			transition:all 0.1s ease;
 			width: 100%;
 			text-align: center;
+			border-bottom: 1px solid tranparent;
+			margin-bottom:-21px;
 
 			&:hover, &.active {
 				color: black;
-				border-bottom: 4px solid $blue;
+				border-bottom: 1px solid $blue;
 			}
 		}
 	}

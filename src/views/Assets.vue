@@ -16,7 +16,7 @@
 	@import "../styles/variables";
 
 	.assets {
-		height:$quickheightnobuffer;
+		height:calc(100vh - 139px);
 	}
 
 

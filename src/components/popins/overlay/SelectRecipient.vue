@@ -74,7 +74,9 @@
 	@import "../../../styles/variables";
 
 	.select-recipient {
-		min-width:800px;
+		display:flex;
+		flex-direction:column;
+		width:100%;
 
 		.head {
 			.panel-switch {
@@ -83,17 +85,29 @@
 		}
 
 		.body {
-			height:calc(100vh - 130px - 60px - 40px);
+			height:calc(100vh - 60px - 70px);
 			overflow-y:hidden;
 		}
 
 		.keys-and-accounts-list {
-			height: calc(100vh - 230px);
+			height: calc(100vh - 120px);
 			overflow-y:auto;
+			padding-top:20px;
 		}
 
 		.blockchain-list-container {
 			//max-height:calc(100vh - 130px);
+		}
+	}
+
+	.mobile {
+
+
+		.select-recipient {
+
+			.keys-and-accounts-list {
+				height: calc(100vh - 80px);
+			}
 		}
 	}
 
