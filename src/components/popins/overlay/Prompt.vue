@@ -48,7 +48,7 @@
 	@import "../../../styles/variables";
 
 	.prompt {
-		width:400px;
+		max-width:600px;
 		padding:30px;
 		display:flex;
 		flex-direction: column;

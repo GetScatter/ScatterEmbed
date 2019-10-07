@@ -144,11 +144,10 @@
     @import "../styles/variables";
 
     .blockchain-list-container {
-        height: calc(100% - 70px);
 
         .blockchains {
+            height: calc(100% - 70px);
             overflow-y: auto;
-            height: calc(100vh - 70px);
         }
     }
 
@@ -198,10 +197,6 @@
             padding:20px;
             height: calc(100vh - 210px);
             overflow-y: auto;
-
-            @media (max-width: $breakpoint-mobile) {
-                height: calc(100vh - 310px);
-            }
         }
     }
 

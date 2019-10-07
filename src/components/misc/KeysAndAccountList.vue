@@ -242,7 +242,7 @@
 						KeyPairService.updateKeyPair(clone);
 						this.actionsMenu = null;
 					},
-					false,
+					true,
 					{
 						placeholder:'Enter a name',
 					}
@@ -487,7 +487,7 @@
 
 	.mobile {
 		.keys-list {
-			height:calc(100% - 130px);
+			height:calc(100% - 170px);
 		}
 	}
 
