@@ -1,66 +1,68 @@
 <template>
 	<section class="transfer">
 
-		<!----------------------->
-		<!--------- FROM -------->
-		<!----------------------->
-		<section class="greyback" v-if="account && token && toSend">
-			<section class="limit-width">
-				<section class="boxes">
-					<section class="box-container">
-						<label>Sending from</label>
-						<section class="box nested account-selector" @click="selectTokenAndAccount">
-							<section>
-								<figure class="name">{{account.sendable()}}</figure>
-								<figure class="network">{{account.network().name}}</figure>
-								<figure class="token">{{token.amount}} {{token.symbol}}</figure>
-								<figure class="price">{{token.fiatPrice() || '--'}}</figure>
-							</section>
-							<figure class="chevron icon-dot-3"></figure>
-						</section>
-					</section>
-					<section class="box-container">
-						<label>Receiving to</label>
-						<section class="box nested">
-							<section class="padded recipient-selector" @click="selectRecipient">
-								<figure class="name">Contacts</figure>
+		<section class="scroller">
+			<!----------------------->
+			<!--------- FROM -------->
+			<!----------------------->
+			<section class="greyback" v-if="account && token && toSend">
+				<section class="limit-width">
+					<section class="boxes">
+						<section class="box-container">
+							<label>Sending from</label>
+							<section class="box nested account-selector" @click="selectTokenAndAccount">
+								<section>
+									<figure class="name">{{account.sendable()}}</figure>
+									<figure class="network">{{account.network().name}}</figure>
+									<figure class="token">{{token.amount}} {{token.symbol}}</figure>
+									<figure class="price">{{token.fiatPrice() || '--'}}</figure>
+								</section>
 								<figure class="chevron icon-dot-3"></figure>
+							</section>
+						</section>
+						<section class="box-container">
+							<label>Receiving to</label>
+							<section class="box nested">
+								<section class="padded recipient-selector" @click="selectRecipient">
+									<figure class="name">Contacts</figure>
+									<figure class="chevron icon-dot-3"></figure>
+								</section>
+								<figure class="line"></figure>
+								<section class="input-container">
+									<input placeholder="Address / Account" v-model="recipient" class="input" />
+								</section>
+							</section>
+						</section>
+
+					</section>
+				</section>
+			</section>
+
+
+
+			<!----------------------->
+			<!---------- TO --------->
+			<!----------------------->
+			<section class="whiteback" v-if="account && token && toSend">
+				<section class="limit-width">
+					<label>Amount & Details</label>
+					<section class="boxes">
+						<section class="box">
+							<section class="input-container">
+								<figure class="label">{{token.truncatedSymbol()}}</figure>
+								<input placeholder="0.00" v-on:input="changedAmount" v-model="toSend.amount" class="input" />
 							</section>
 							<figure class="line"></figure>
 							<section class="input-container">
-								<input placeholder="Address / Account" v-model="recipient" class="input" />
+								<figure class="label">{{displayCurrency}}</figure>
+								<input placeholder="0.00" v-if="toSend.fiatPrice()" v-on:input="changedFiat" v-model="fiat" class="input" />
+								<figure class="input not-available" v-else>Price not available</figure>
 							</section>
 						</section>
-					</section>
-
-				</section>
-			</section>
-		</section>
-
-
-
-		<!----------------------->
-		<!---------- TO --------->
-		<!----------------------->
-		<section class="whiteback" v-if="account && token && toSend">
-			<section class="limit-width">
-				<label>Amount & Details</label>
-				<section class="boxes">
-					<section class="box">
-						<section class="input-container">
-							<figure class="label">{{token.truncatedSymbol()}}</figure>
-							<input placeholder="0.00" v-on:input="changedAmount" v-model="toSend.amount" class="input" />
-						</section>
-						<figure class="line"></figure>
-						<section class="input-container">
-							<figure class="label">{{displayCurrency}}</figure>
-							<input placeholder="0.00" v-if="toSend.fiatPrice()" v-on:input="changedFiat" v-model="fiat" class="input" />
-							<figure class="input not-available" v-else>Price not available</figure>
-						</section>
-					</section>
-					<section class="box">
-						<section class="input-container">
-							<textarea placeholder="optional memo" v-model="memo" class="input"></textarea>
+						<section class="box">
+							<section class="input-container">
+								<textarea placeholder="optional memo" v-model="memo" class="input"></textarea>
+							</section>
 						</section>
 					</section>
 				</section>

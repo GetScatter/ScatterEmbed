@@ -45,6 +45,9 @@ export const state = {
 	sidebarLocked:false,
 
 	popOut:null,
+
+	isMobile:false,
+	isMobileDevice:false,
 };
 
 export const getters = {

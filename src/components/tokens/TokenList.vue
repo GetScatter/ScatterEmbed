@@ -1,8 +1,8 @@
 <template>
 	<section class="token-list" :class="{'blue':blue}">
 		<SearchAndFilter full-search="1" v-on:terms="x => terms = x" />
-		<section class="tokens">
-			<section class="single-asset" :class="{'hoverable':hoverable, 'active':selected && selected.uniqueWithChain() === token.uniqueWithChain()}" v-for="token in sortedBalances" @click="selectToken(token)">
+		<section ref="tokens" class="tokens">
+			<section :id="token.uniqueWithChain()" class="single-asset" :class="{'hoverable':hoverable, 'active':selected && selected.uniqueWithChain() === token.uniqueWithChain()}" v-for="token in sortedBalances" @click="selectToken(token)">
 				<section class="asset-movement">
 					<section class="token-change" v-if="!token.unusable && change(token).perc">
 						<figure class="change-value" :class="{'red':!change(token).plus}" v-if="!token.unusable">{{change(token).perc}}</figure>
@@ -75,6 +75,10 @@
 			selectToken(token){
 				if(!this.hoverable) return;
 				this.$emit('token', token);
+				if(token){
+					console.log('token', this.$refs.tokens.scrollTop, document.getElementById(token.uniqueWithChain()).offsetTop)
+					this.$refs.tokens.scrollTop = document.getElementById(token.uniqueWithChain()).offsetTop - 150;
+				}
 			},
 			change(token, numOnly = false){
 				const dummy = {plus:false, perc:'0%'};
@@ -105,23 +109,42 @@
 
 	.token-list {
 		width:100%;
-		padding:0;
+		padding:0 0 90px;
 		background:white;
 
+		@media (max-width: $breakpoint-mobile) {
+			height: calc(100vh - 70px);
+		}
+
 		.tokens {
-			height:calc(100% - 70px);
-			border-top:1px solid $lightgrey;
+			// height:calc(100% - 70px);
 			overflow-y:auto;
 			background:white;
+			width:100%;
+
+			@media (max-width: $breakpoint-mobile) {
+		        width:100vw;
+		    }
 
 			.single-asset {
 				cursor: pointer;
 				background:transparent;
-				border-bottom:1px solid $lightergrey;
-				height:88px;
+				height:60px;
+				margin:0 20px;
 				transition: all 0.12s ease-in-out;
 				grid-template-columns:120px auto;
 				display: grid;
+				width:calc(100% - 40px);
+
+				&:nth-child(even) {
+					background-color:$lightestgrey;
+				}
+
+				@media (max-width: $breakpoint-mobile) {
+		            grid-template-columns:80px auto;
+		            margin:0;
+		            width:100%;
+		        }
 
 				&:hover,
 				&.active {
@@ -130,9 +153,11 @@
 
 				.asset-movement {
 					border-right:1px solid rgba(0,0,0,.06);
-					height:88px;
-					line-height:88px;
+					height:60px;
 					text-align:center;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 
 					.staked {
 						font-size:$large;
@@ -161,10 +186,18 @@
 					display: grid;
 					grid-template-columns:72px auto auto;
 
+					@media (max-width: $breakpoint-mobile) {
+						grid-template-columns:44px auto auto;
+					}
+
 					.token-icon {
 						width:72px;
 						text-align:center;
 						align-self:center;
+
+						@media (max-width: $breakpoint-mobile) {
+							width:44px;
+						}
 					}
 
 					.token-symbol {
@@ -177,6 +210,15 @@
 						margin: 0 auto;
 						position: relative;
 
+						@media (max-width: $breakpoint-mobile) {
+				            width: 24px;
+							height: 24px;
+							border-radius: 12px;
+							text-align: center;
+							font-size: 18px;
+							line-height: 24px;
+				        }
+
 						.symbol {
 							width: 44px;
 							height: 44px;
@@ -185,6 +227,15 @@
 							font-size: 32px;
 							line-height: 44px;
 							color:white;
+
+							@media (max-width: $breakpoint-mobile) {
+					            width: 24px;
+								height: 24px;
+								border-radius: 12px;
+								text-align: center;
+								font-size: 18px;
+								line-height: 24px;
+					        }
 						}
 
 						.icon-lock {
@@ -203,6 +254,10 @@
 							font-size: $font-size-big;
 							font-family: 'Poppins', sans-serif;
 							font-weight: bold;
+
+							@media (max-width: $breakpoint-mobile) {
+					            font-size: $font-size-standard;
+					        }
 						}
 					}
 
@@ -216,7 +271,7 @@
 						.value {
 							margin-bottom:4px;
 							font-weight:bold;
-							font-size:$large;
+				            font-size: $font-size-standard;
 							color:black;
 						}
 					}

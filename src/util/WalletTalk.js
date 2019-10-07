@@ -63,9 +63,18 @@ export default class WalletTalk {
 					networkUnique:network.unique(),
 				})
 
+				const account2 = require('@walletpack/core/models/Account').default.fromJson({
+					name:'ramijames123',
+					authority:'active',
+					publicKey:keypair.publicKeys[0].key,
+					keypairUnique:keypair.unique(),
+					networkUnique:network.unique(),
+				})
+
 				fakeScatter.settings.networks.push(network);
 				fakeScatter.keychain.keypairs.push(keypair);
 				fakeScatter.keychain.accounts.push(account);
+				fakeScatter.keychain.accounts.push(account2);
 
 				window.wallet = {
 					/************************************/

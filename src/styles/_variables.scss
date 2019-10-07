@@ -51,6 +51,7 @@ $black:#333;
 
 // Gradients
 $blue-gradient:linear-gradient(180deg, #007fd7 0%,$blue 100%);
+$blue-gradient-to-opaque:linear-gradient(180deg, $blue 20%, rgba(7, 153, 255, 0) 70%);
 $blue-gradient-completer:linear-gradient(135deg, #0095ed 0%,#00a8ff 100%);;
 
 // Shadows
@@ -88,7 +89,7 @@ $border-standard:rgba(0,0,0,0.08);
 // Responsive breakpoints
 $breakpoint-mobile:        600px;
 $breakpoint-tablet:        920px;
-$breakpoint-small-desktop: 1200px;
-$breakpoint-large-desktop: 1600px;
+$breakpoint-small-desktop: 1020px;
+$breakpoint-large-desktop: 1200px;
 
 $win-height:calc(100vh - 160px);

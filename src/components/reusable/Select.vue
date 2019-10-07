@@ -103,6 +103,10 @@
 		width:100%;
 		display:inline-block;
 
+		@media (max-width: $breakpoint-mobile) {
+	    margin-bottom:10px;
+	  }
+
 		input {
 			position: absolute;
 			top:-100px;
@@ -124,7 +128,7 @@
 			height:24px;
 			width:100%;
 			line-height:24px;
-			border-radius:$radius;
+			border-radius:2px;
 			padding:0 10px;
 			z-index:1;
 			background:#fff;
@@ -190,7 +194,7 @@
 			min-width:200px;
 			right:0;
 			z-index:2;
-			border-radius:$radius;
+			border-radius:2px;
 			overflow: hidden;
 			border:1px solid $lightgrey;
 			box-shadow:0 0 1px rgba(0,0,0,0);
@@ -260,7 +264,7 @@
 
 		&.bordered {
 			border:1px solid $lightgrey;
-			border-radius:$radius;
+			border-radius:2px;
 			padding:6px 0;
 
 			display:flex;

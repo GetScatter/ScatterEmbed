@@ -98,6 +98,10 @@
     .split-inputs {
         .input {
             margin-bottom:0;
+
+            @media (max-width: $breakpoint-mobile) {
+              margin-bottom:10px;
+            }
         }
     }
 

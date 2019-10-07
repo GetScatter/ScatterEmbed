@@ -2,17 +2,20 @@
 
 .blockchain-list-container {
   display:flex;
-  height: $fullheight;
+  height: 100%;
+  border-top:1px solid $lightgrey;
 
   .head {
     flex:1;
     display:flex;
     align-items: center;
     padding:0 20px;
-    font-size: $medium;
+    font-size: $font-size-standard;
+    color:black;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
     height:70px;
-    border-bottom:1px solid $lightgrey;
+    background-color:$lightergrey;
 
     &.with-button {
       display:flex;
@@ -36,19 +39,19 @@
 
   .scroller {
     flex:1;
-    height:calc(100vh - 40px - 70px);
     overflow:auto;
-    padding:20px;
+    height:calc(100vh - 40px - 70px - 30px);
 
     &.dynamic {
       height:auto;
     }
 
     &.with-tail {
-      height:calc(100vh - 40px - 70px - 60px);
+       height:calc(100vh - 210px);
+       padding:20px;
 
       &.with-search {
-        height:calc(100vh - 40px - 70px - 60px - 70px);
+         height:calc(100vh - 285px);
       }
     }
   }
@@ -57,6 +60,11 @@
     flex:0 0 auto;
     width:280px;
     border-right:1px solid $lightgrey;
+
+    &.full-width {
+      width:100%;
+      flex:1;
+    }
 
     .head {
       &:not(:first-child){
@@ -67,13 +75,20 @@
 
   .list-container {
     flex:1;
+    margin-bottom:40px;
+
+    .back-button {
+      font-size:24px;
+      color:$blue;
+      cursor: pointer;
+      margin-right:10px;
+    }
 
     .search-and-filter {
-      padding:0 20px;
+      padding:10px;
     }
 
     .item-list {
-      padding:20px;
 
       .item {
         margin-bottom:40px;
@@ -97,7 +112,7 @@
           align-items: center;
 
           .chevron{
-            padding:0 30px 0 0;
+            padding:0 20px 0 0;
             color:$blue;
             cursor: pointer;
 
@@ -105,13 +120,14 @@
               display:block;
               transition:all 0.2s ease;
               transition-property: transform;
+              font-size:18px;
             }
           }
 
           &.open {
             .chevron {
               i {
-                transform:rotateZ(90deg);
+                transform:rotateZ(180deg);
               }
             }
           }

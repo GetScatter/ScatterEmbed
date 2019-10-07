@@ -5,12 +5,27 @@
   border-radius:$radius;
   box-shadow:0 2px 5px rgba(0,0,0,0.2), 0 8px 25px rgba(0,0,0,0.2);
   position: relative;
+  overflow: hidden;
+  width:100%;
+  max-height: calc(100vh - 40px);
 
+  @media (max-width: $breakpoint-mobile) {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-radius:0;
+  }
 
   .scroller {
     height:calc(100vh - 40px - 100px - 70px);
     overflow-y: scroll;
   }
+}
+
+.total-height {
+  height:100%;
 }
 
 .pop-ins {
@@ -30,12 +45,28 @@
     border-left:1px solid $lightgrey;
     border-right:1px solid $lightgrey;
 
+    @media (max-width: $breakpoint-mobile) {
+        overflow-y:auto;
+        overflow-x: hidden;
+        height:calc(100vh - 70px);
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        bottom:70px;
+        padding:40px 20px;
+    }
+
     .icon {
       width:120px;
       height:120px;
       margin:0 auto;
       margin-bottom:30px;
       margin-top:-50px;
+
+      @media (max-width: $breakpoint-mobile) {
+          margin-top:0px;
+      }
 
       &.font {
         width:90px;
@@ -63,7 +94,8 @@
     }
 
     .disclaimer {
-      border:2px solid $red;
+      border:1px solid lighten($red,35%);
+      background-color:lighten($red,45%);
       padding:20px;
       border-radius:$radius;
       max-width:300px;
@@ -71,12 +103,12 @@
       margin-top:40px;
 
       .title {
-        font-size: $medium;
+        font-size: $font-size-medium;
         color:$red;
       }
 
       .description {
-        font-size: $small;
+        font-size: $font-size-standard;
       }
     }
 

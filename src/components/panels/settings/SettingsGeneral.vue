@@ -4,17 +4,6 @@
         <section class="action-box top-pad">
             <label>{{locale(langKeys.SETTINGS.GENERAL.VersionLabel)}}</label>
             <b>Scatter Desktop v{{version}}</b>
-            <br>
-            <br>
-
-            <Button :class="{'wiggle':needsUpdate}"
-                 :disabled="!needsUpdate"
-                 :red="needsUpdate"
-                 @click.native="openUpdateLink"
-                 :text="needsUpdate
-                     ? locale(langKeys.SETTINGS.GENERAL.UpdateAvailable)
-                     : locale(langKeys.SETTINGS.GENERAL.NoUpdateAvailable)"
-            />
         </section>
 
         <section class="action-box top-pad">

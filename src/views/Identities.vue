@@ -7,7 +7,7 @@
 			<!-------------------------->
 			<!------ BLOCKCHAINS ------->
 			<!-------------------------->
-			<section class="blockchains" v-if="identities.length > 1">
+			<section class="blockchains" v-if="!isMobile || !identity" :class="{'full-width':isMobile}">
 				<section class="head with-button">
 					<figure>Identities</figure>
 					<Button text="Add" @click.native="addIdentity" />
@@ -27,11 +27,14 @@
 			<!-------------------------->
 			<!------- NETWORKS --------->
 			<!-------------------------->
-			<section class="list-container">
+			<section class="list-container" v-if="identity">
 				<section class="head with-button">
-					<figure></figure>
+					<figure>
+						<figure v-if="isMobile" class="back-button" @click="selectIdentity(null)">
+							<i class="fal fa-arrow-left"></i>
+						</figure>
+					</figure>
 					<Button text="Remove" @click.native="removeIdentity" v-if="identities.length > 1" />
-					<Button text="Add new Identity" @click.native="addIdentity" v-if="identities.length === 1" />
 				</section>
 				<section class="scroller identity">
 					<section class="id-card">
@@ -297,7 +300,7 @@
 		},
 		methods:{
 			selectIdentity(identity){
-				this.identity = identity.clone();
+				this.identity = !identity ? null : identity.clone();
 				this.fullname = [this.identity.personal.firstname, this.identity.personal.lastname].filter(x => x && x.length).join(' ');
 			},
 			addIdentity(){
@@ -463,6 +466,7 @@
 
 
 			save(){
+				if(!this.identity) return;
 				const original = this.identities.find(x => x.id === this.identity.id);
 				if(original && JSON.stringify(original) === JSON.stringify(this.identity)) return;
 				if(!this.isValidName) return;
@@ -514,12 +518,20 @@
 
 	.identity {
 		padding:0;
-		height: calc(100vh - 40px - 60px);
+		height: calc(100vh - 140px);
 
 		.id-card {
-			padding:45px;
+			padding:30px;
 			position: relative;
 			overflow:hidden;
+
+			@media (max-width: $breakpoint-tablet) {
+		        padding:20px;
+		    }
+
+		    @media (max-width: $breakpoint-mobile) {
+		        padding:0px;
+		    }
 
 			.bg {
 				position:absolute;
@@ -540,12 +552,23 @@
 				z-index:1;
 				background:$white;
 				width:100%;
-				border-radius:10px;
+				border-radius:$radius-big;
 				box-shadow:0 2px 10px rgba(0,0,0,0.2), 0 2px 5px rgba(0,0,0,0.2);
 				overflow: hidden;
 				max-width:600px;
 				margin:0 auto;
 				display:flex;
+
+				@media (max-width: $breakpoint-tablet) {
+			        border-radius:$radius;
+			    }
+
+				@media (max-width: $breakpoint-mobile) {
+			        border-radius:0px;
+					box-shadow:0;
+					border-bottom:1px solid $lightgrey;
+					flex-direction:column;
+			    }
 
 
 				.avatar {
@@ -666,7 +689,11 @@
 		}
 
 		.id-details {
-			padding:45px;
+			padding:30px;
+
+			@media (max-width: $breakpoint-tablet) {
+		        padding:20px;
+		    }
 
 			.ridl-actions {
 				display:flex;

@@ -1,5 +1,5 @@
 <template>
-    <section class="bottom-actions" >
+    <section class="bottom-actions" :class="{'sidebarLocked':!sidebarLocked}">
 
         <section class="flex-wrapper" v-if="accounts.length">
             <section class="action" @click="quickAction(RouteNames.TRANSFER)">
@@ -28,16 +28,17 @@
         components:{
         },
         data(){return {
-            
+
         }},
         computed:{
             ...mapState([
                 'scatter',
+                'sidebarLocked'
             ]),
             ...mapGetters([
                 'accounts',
             ]),
-            
+
         },
         mounted(){
         },
@@ -67,16 +68,27 @@
 
     .bottom-actions {
         height:70px;
-        background:$blue;
-        position:fixed;
-        bottom:0;
-        width:100vw;
+        background:black;
+        color:$white;
+        z-index:99;
+        flex:0 0 auto;
+
+        /* FOR SAFARI ON iOS - DO NOT REMOVE */
+        /* nsjames: This is not a good way to do this. By having this element be a floating element it causes flexbox to break. */
+        /*position:fixed;*/
+        /*left:64px;*/
+        /*bottom:0;*/
+        /*right:0;*/
+
+
+
+        &.sidebarLocked {
+            left:240px;
+        }
 
         .flex-wrapper {
             display:flex;
-            width:100vw;
             height:70px;
-            color:$white;
             flex-direction:row;
             align-items:center;
             justify-content: center;
@@ -85,12 +97,14 @@
                 width:120px;
                 display:block;
                 text-transform: uppercase;
-                color: $white;
                 font-weight:bold;
                 font-size:$medium;
                 text-align:center;
                 cursor: pointer;
-                color:white;
+
+                @media (max-width: $breakpoint-mobile) {
+                    width:33.33333%;
+                }
 
                 i {
                     transition:transform 0.2s ease;

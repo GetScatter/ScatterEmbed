@@ -34,7 +34,6 @@
                 </div>
                 <div class="flex-wrapper">
 
-
                     <!-- Resources -->
                     <section class="resources" v-if="usesResources">
                         <section class="loading" v-if="!accountResources">
@@ -50,7 +49,7 @@
                             ></i>
                             <figure class="percentage">{{resource.text ? resource.text : parseFloat(resource.percentage).toFixed(2) + '%'}}</figure>
                             <figure class="action"> <!--  v-if="resource.actionable" -->
-                                <Button :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="resource.actionText" />
+                                <Button white=1 :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="resource.actionText" />
                             </figure>
                         </section>
                     </section>
@@ -64,8 +63,8 @@
 
             <section class="assets">
                 <section class="fiat-title">
-                    <h5>Fiat balance for this account</h5>
-                    <h3><!-- TODO ADD TOTAL FIAT BALANCE -->$2,345.00</h3>
+                    <h5>Total Fiat Balance</h5>
+                    <h3>{{fiatSymbol(displayCurrency)}}{{formatNumber(account.totalFiatBalance(), true)}}</h3>
                 </section>
                 <TokenGraph :balances="filteredBalances || account.tokens()" />
                 <TokenList :balances="account.tokens()" v-on:balances="x => filteredBalances = x" />
@@ -83,6 +82,7 @@
 	import PanelTabs from "../components/reusable/PanelTabs";
 	import ResourceService from "@walletpack/core/services/blockchain/ResourceService";
 	import BalanceService from "@walletpack/core/services/blockchain/BalanceService";
+	import PriceService from "@walletpack/core/services/apis/PriceService";
 	import PluginRepository from '@walletpack/core/plugins/PluginRepository'
 	import TokenGraph from "../components/tokens/TokenGraph";
 	import TokenList from "../components/tokens/TokenList";
@@ -101,6 +101,7 @@
 			]),
 			...mapGetters([
 				'accounts',
+                'displayCurrency',
 			]),
 			tabs(){
 				return [
@@ -131,6 +132,7 @@
 			}, 250);
 		},
 		methods:{
+			fiatSymbol:PriceService.fiatSymbol,
 			actionTypeToText(type){
 				switch(type){
 					case 'unlink_account': return 'Unlink Account';
@@ -222,19 +224,24 @@
     $panelheight:180px;
 
     .account {
-        height:$quickheightnobuffer;
+        height:calc(100vh - 60px - 80px);
         display:flex;
-        background:white;
         flex-direction:column;
+        overflow-y:auto;
 
         .manage {
             padding:0;
             height:calc(#{$quickheightnobuffer});
             position:relative;
-            border-radius:10px;
-            background-image:url('../assets/gs_mobile_apps_homebg.png');
-            background-size:cover;
+            border-radius:$radius-big;
             margin:20px;
+            margin-top:0;
+            background:$blue;
+
+            @media (max-width: $breakpoint-mobile) {
+                border-radius:$radius-big $radius-big 0 0;
+                margin: 0 0 20px;
+            }
 
             .account-actions {
                 width:44px;
@@ -310,6 +317,10 @@
                     justify-content: center;
                     width:100%;
 
+                    @media (max-width: $breakpoint-mobile) {
+                        flex-direction:column;
+                    }
+
                     .loading {
                         font-size: 36px;
                         color: white;
@@ -326,6 +337,14 @@
                         justify-content: center;
                         padding:0 20px;
 
+                        @media (max-width: $breakpoint-mobile) {
+                            flex-direction:row;
+                            flex-grow:1;
+                            align-items: center;
+                            justify-content: space-evenly;
+                            padding:10px 0;
+                        }
+
                         i {
                             display:flex;
                             justify-content: center;
@@ -337,11 +356,23 @@
                             background:white;
                             border-radius:22px;
 
+                            @media (max-width: $breakpoint-mobile) {
+                                width:28px;
+                                height:28px;
+                                font-size: 18px;
+                                border-radius:22px;
+                            }
+
                             &.red {
                                 color:$red;
                                 border-color: $red;
                                 font-size: 20px;
                                 margin-top:-2px;
+
+                                @media (max-width: $breakpoint-mobile) {
+                                    font-size: 16px;
+                                    margin-top:-4px;
+                                }
                             }
                         }
 
@@ -351,6 +382,11 @@
                             font-size: $font-size-big;
                             font-family: 'Poppins', sans-serif;
                             font-weight: bold;
+
+                            @media (max-width: $breakpoint-mobile) {
+                                margin:0;
+                                font-size: $font-size-standard;
+                            }
                         }
 
                         .percentage {
@@ -359,11 +395,19 @@
                             font-family: 'Poppins', sans-serif;
                             font-weight: bold;
                             color: white;
+
+                            @media (max-width: $breakpoint-mobile) {
+                                margin:0;
+                            }
                         }
 
                         .action {
                             margin-top:10px;
                             color: $blue;
+
+                            @media (max-width: $breakpoint-mobile) {
+                                margin:0;
+                            }
                         }
                     }
                 }

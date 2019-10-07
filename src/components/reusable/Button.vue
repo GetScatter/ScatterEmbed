@@ -1,5 +1,5 @@
 <template>
-	<button :disabled="disabled || loading" :class="{'blue':blue, 'red':red, 'big':big, 'small':small, 'icon':icon && !text}" @click="click && !loading ? click() : ()=>{}">
+	<button :disabled="disabled || loading" :class="{'blue':blue, 'white':white, 'red':red, 'big':big, 'small':small, 'icon':icon && !text}" @click="click && !loading ? click() : ()=>{}">
 		<span v-if="icon" class="icon" :class="icon"></span>
 		<span v-if="loading" class="loading icon-spin4 animate-spin"></span>
 		<span v-if="text">{{text}}</span>
@@ -8,7 +8,7 @@
 
 <script>
 	export default {
-		props:['text','click', 'blue', 'red', 'disabled', 'big', 'icon', 'small', 'loading']
+		props:['white','text','click', 'blue', 'red', 'disabled', 'big', 'icon', 'small', 'loading']
 	}
 </script>
 
@@ -19,11 +19,11 @@
 	button {
 		display: inline-block;
 		padding: 10px 14px;
-		background-color: $blue;
-		border: 1px solid $blue;
+		background-color: lighten($blue, 40%);
+		border: 1px solid lighten($blue, 40%);
 		border-radius: 3px;
 		text-transform: uppercase;
-		color: $white;
+		color: $blue;
 		text-decoration: none;
 		position: relative;
 		overflow: hidden;
@@ -31,12 +31,13 @@
 		font-weight:bold;
 		font-size:$font-size-standard;
 		transition:background-color 0.12s ease-in-out;
+		cursor: pointer;
+		outline:0;
 
-		// @media (max-width: $breakpoint-mobile) {
-		//   width:100%;
-		//   margin:1rem 0;
-		//   text-align: center;
-		// }
+		@media (max-width: $breakpoint-mobile) {
+        padding:8px 10px;
+        font-size:$font-size-small;
+    }
 
 		&.button-text {
 			background: transparent !important;
@@ -50,8 +51,7 @@
 			font-size:1rem;
 		}
 
-		&.button-white,
-		&.button-default {
+		&.white {
 			color: $blue;
 			background-color:darken($white, 5%);
 			border-color: $white;
