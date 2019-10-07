@@ -117,7 +117,7 @@
 		}
 
 		.tokens {
-			height:calc(100% - 70px);
+			// height:calc(100% - 70px);
 			overflow-y:auto;
 			background:white;
 			width:100%;
