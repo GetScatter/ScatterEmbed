@@ -24,6 +24,7 @@ export default class SingletonService {
 
 		AppsService.getApps();
 		PriceService.watchPrices();
+		PriceService.loadPriceTimelineData();
 		PermissionService.removeDanglingPermissions();
 		AccountService.fixOrphanedAccounts();
 		RecurringService.checkProxies();

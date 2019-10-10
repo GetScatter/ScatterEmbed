@@ -9,7 +9,7 @@
 
 		<section class="scroller" ref="scroller" v-if="state === STATES.EXPLORE">
 			<section class="padder">
-				<section class="featured" v-if="!exploreTerms.length">
+				<section class="featured" v-if="!exploreTerms.length && !selectedCategory">
 					<Carousel :slides="featuredApps" /> <!-- featuredApps -->
 				</section>
 

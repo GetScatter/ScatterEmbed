@@ -97,10 +97,6 @@
 			selectToken(token){
 				this.selectedToken = this.selectedToken && this.selectedToken.uniqueWithChain() === token.uniqueWithChain() ? null : token;
 			},
-			deselectToken(){
-				this.selectedToken = null;
-				console.log('close');
-			},
 			sendToken(token, account){
 				this.$router.push({name:this.RouteNames.TRANSFER, query:{account:account.identifiable(), token:token.uniqueWithChain()}})
 			}

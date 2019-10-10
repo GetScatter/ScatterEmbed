@@ -62,13 +62,23 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../styles/variables";
 
+    .pop-over {
+        min-width:0;
+        max-width:380px;
+    }
+
+    .mobile {
+        .pop-over {
+            max-width:none;
+        }
+    }
+
     .success {
         display:flex;
         justify-content: center;
         align-items: center;
         text-align:center;
         padding:30px;
-        max-width:380px;
 
         .info {
             font-size: $small;
