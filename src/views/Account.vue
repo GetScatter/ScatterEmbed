@@ -19,7 +19,7 @@
                         </figure>
                     </section>
 
-                    <figure class="account-actions icon-dot-3" v-tooltip="'Actions'" @click="setActionsMenu(keypair)"></figure>
+                    <figure class="account-actions fas fa-caret-square-down" v-tooltip="'Actions'" @click="setActionsMenu(keypair)"></figure>
 
                     <!-- TODO ADD MENU OF ACTIONS -->
                     <!-- Actions -->
