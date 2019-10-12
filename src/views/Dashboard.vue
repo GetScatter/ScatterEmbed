@@ -1,27 +1,29 @@
 <template>
-    <section class="dashboard">
+    <section class="dashboard" :class="{'full-mobile':!tokens && (!votableAccounts || !votableAccounts.length)}">
         <section id="asset-updates">
-            <section class="attraction">
-                <!-- Promoted app -->
-                <div class="promoted-pill">
-                    Promoted app
-                </div>
-                <a href="" class="premium-attraction">
-                    <div class="logo">
-                        <img src="https://get-scatter.com/promos/prospectors.jpg">
-                    </div>
-                    <img src="https://prospectors.io/assets/landing/main_back-8c9f9ebc866cfda98aa32ee12eb975e0a5307ab4fadc296ce05ec93cad876beb.jpg">
+
+            <section class="attraction" :class="{'full-mobile':!tokens && (!votableAccounts || !votableAccounts.length)}">
+                <div class="promoted-pill">Promoted App</div>
+                <section class="premium-attraction" :class="{'no-tokens':!tokens}">
+                    <img class="logo" src="https://cryptolegends.io/assets/use-images/logo_crypto.png">
+                    <!--<img class="promo" src="https://prospectors.io/assets/landing/main_back-8c9f9ebc866cfda98aa32ee12eb975e0a5307ab4fadc296ce05ec93cad876beb.jpg">-->
+                    <video class="promo" data-v-1b6b9b64="" data-v-3b6b0f2a="" loop="loop" muted="muted" autoplay="autoplay">
+                        <source data-v-1b6b9b64="" data-v-3b6b0f2a="" src="https://cryptolegends.io/assets/video/crypto-03.mp4" type="video/mp4">
+                    </video>
                     <div class="description">
                         <div class="premium-content">
-                            <span class="premium-name">Prospectors</span>
-                            <span class="premium-description">First MMO Game on EOS! Real Time Economic Strategy with fully user-generated economy. Prices for in-game goods and services are determined based on supply and demand, making the Prospectors economy equivalent to an economy during the Gold Rush.</span>
+                            <span class="premium-name">Crypto Legends</span>
+                            <span class="premium-description">
+                                You can set up separate battle decks for each class.
+                                Win the battle by building the battle deck according to your strategy and changing the deck according to your opponent.
+                            </span>
                         </div>
-                        <Button text="Open Prospectors" />
+                        <Button blue="1" text="Open Crypto Legends" @click.native="openInBrowser('https://cryptolegends.io/home?ref=scatterrefer')" />
                     </div>
-                </a>
+                </section>
 
                 <!-- Exchange CTA -->
-                <section class="suggested-exchanges">
+                <section class="suggested-exchanges" v-if="tokens">
                     <section class="exchange-panel" v-if="tokens && tokens.lowest">
                         <div class="token-logo">
                             <i class="fad fa-chart-line-down"></i>
@@ -59,7 +61,7 @@
             <!--</a>-->
         <!--</section>-->
 
-        <section class="focus-boxes">
+        <section class="focus-boxes" v-if="votableAccounts && votableAccounts.length">
             <a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(static/assets/voting.png);"  target="_blank">
                 <span class="earn-rewards">Vote for Scatter</span>
                 <h3>Show us some love!</h3>
@@ -67,7 +69,7 @@
                     We've launched an EOS Mainnet Block Producer which you can now vote for. Help us get into a producing position by
                     voting for us.
                 </h5>
-                <Button text="Join our Proxy" @click.native="voteForScatter" />
+                <Button text="Join our Proxy" @click.native="voteForScatter" :loading="proxying" />
             </a>
         </section>
 
@@ -85,7 +87,7 @@
 	let saveTimeout;
 	export default {
 		data() {return {
-
+            proxying:false,
         }},
 		computed:{
 			...mapState([
@@ -124,6 +126,16 @@
 		            highest,
 		            lowest
 	            }
+            },
+            eosMainnet(){
+	            const plugin = PluginRepository.plugin(Blockchains.EOSIO);
+				return this.networks.find(x => x.blockchain === Blockchains.EOSIO && x.chainId === plugin.getEndorsedNetwork().chainId);
+            },
+            votableAccounts(){
+				if(!this.eosMainnet) return false;
+	            // There could be hundreds of accounts here, and some of them might not even have CPU to vote with.
+	            // So we're gonna filter this list down.
+				return this.eosMainnet.accounts(true).filter(account => account.systemBalance() >= 5)
             }
 
 		},
@@ -137,25 +149,24 @@
 				this.$router.push({name:this.RouteNames.EXCHANGE, query:{account:account.identifiable(), token:token.uniqueWithChain()}})
             },
             voteForScatter(){
+				if(this.proxying) return;
+				this.proxying = true;
+
+				const reset = () => {
+					this.proxying = false;
+                }
+
 				// TODO: ERROR MSGS
 				const plugin = PluginRepository.plugin(Blockchains.EOSIO);
-				if(!plugin) return;
-				const network = this.networks.find(x => x.blockchain === Blockchains.EOSIO && x.chainId === plugin.getEndorsedNetwork().chainId);
-				if(!network) return;
+				if(!plugin) return reset();
 
-
-
-				let accounts = network.accounts(true);
-				console.log(accounts);
-				if(!accounts.length) return;
-
-				// There could be hundreds of accounts here, and some of them might not even have CPU to vote with.
-                // So we're gonna filter this list down.
-	            accounts = accounts.filter(account => account.systemBalance() >= 5);
+				const accounts = this.votableAccounts;
 
 	            return new Promise(async (resolve, reject) => {
 
-		            const eos = plugin.getSignableEosjs(accounts, reject);
+		            const eos = plugin.getSignableEosjs(accounts, () => {
+		            	reset();
+                    });
 
 		            const actions = accounts.map(account => {
 		            	return {
@@ -176,13 +187,11 @@
 		            await eos.transact({ actions }, { blocksBehind: 3, expireSeconds: 30 })
 			            .then(trx => {
 				            PopupService.push(Popup.transactionSuccess(Blockchains.EOSIO, trx.transaction_id));
-				            // const history = new HistoricAction(account, 'proxy', trx.transaction_id);
-				            // StoreService.get().dispatch(StoreActions.DELTA_HISTORY, history);
-				            // resolve(trx.transaction_id)
+				            reset()
 			            })
 			            .catch(res => {
 			            	PopupService.push(Popup.snackbar(res));
-				            // reject({error:popupError(res)});
+				            reset()
 			            })
 
 
@@ -207,17 +216,23 @@
         @media (max-width: $breakpoint-tablet) {
             flex-direction:column;
             padding:0;
-            border-radius: $radius-big 0 0 0;
+            border-radius:0;
             overflow-y: scroll;
-            height:auto;
+        }
+
+        &.full-mobile {
+            overflow-y: hidden;
+            padding:0;
         }
     }
 
     #asset-updates {
-        width:60%;
+        flex:1;
+        display:flex;
 
         @media (max-width: $breakpoint-tablet) {
             width:100%;
+            display:block;
         }
 
         .attraction {
@@ -227,16 +242,17 @@
             border-radius: 50px;
             position: relative;
             z-index: 0;
+            width:100%;
 
             @media (max-width: $breakpoint-tablet) {
                 height:auto;
-                border-radius:$radius-big;
                 border:0;
                 margin-bottom:30px;
-            }
 
-            @media (max-width: $breakpoint-mobile) {
-
+                &.full-mobile {
+                    height:100%;
+                    margin:0;
+                }
             }
 
             .promoted-pill {
@@ -252,12 +268,6 @@
                 margin:0 auto;
                 text-transform:uppercase;
                 z-index:1;
-
-                @media (max-width: 420px) {
-                    border-radius: 0 0 0 $radius;
-                    top:0;
-                    right:0;
-                }
             }
 
             .premium-attraction {
@@ -268,84 +278,39 @@
                 overflow:hidden;
                 border-radius:$radius-big $radius-big 0 0;
 
-                img {
-                    width:90vw;
-                    height:90vw;
-                    border-radius:50%;
+                @media (max-width: $breakpoint-tablet) {
+                    border-radius:0;
+                    min-height:400px;
+                }
+
+                &.no-tokens {
+                    height:100%;
+                }
+
+                .promo {
+                    width:100%;
+                    height:100%;
                     object-fit:cover;
                     position:absolute;
-                    top:-60%;
-                    left:40%;
-                    box-shadow: 0 0 100px #010b11b5;
+                    top:0;
+                    bottom:0;
+                    left:0;
+                    right:0;
 
-                    @media (max-width: $breakpoint-tablet) {
-                        width:120vw;
-                        height:120vw;
-                        top:-20%;
-                        left:40%;
-                    }
+                    video {
 
-                    @media (max-width: $breakpoint-mobile) {
-                        display:none;
+                        width:100%;
                     }
                 }
 
                 .logo {
                     width:120px;
-                    height:120px;
                     border-radius:$radius;
-                    overflow:hidden;
                     position:absolute;
                     top:30px;
                     left:30px;
-                    border: 1px solid rgba(255,255,255,0.16);
-
-                    @media (max-width: $breakpoint-large-desktop) {
-                        width:80px;
-                        height:80px;
-                        top:20px;
-                        left:20px;
-                    }
-
-                    @media (max-width: $breakpoint-mobile) {
-                        width:100%;
-                        height:180px;
-                        top:0px;
-                        left:0px;
-                        border-radius:$radius-big 0 0 0;
-                    }
-
-                    img {
-                        width:100%;
-                        height:100%;
-                        object-fit:cover;
-                        opacity:1.0;
-                        border-radius:0;
-                        position:relative;
-                        top:0;
-                        left:0;
-
-                        @media (max-width: $breakpoint-mobile) {
-                            display:block;
-                        }
-                    }
-                }
-
-                @media (max-width: $breakpoint-tablet) {
-                    height:400px;
-                }
-
-                @media (max-width: $breakpoint-mobile) {
-                    height:440px;
-                    border-radius:$radius-big 0 0 0;
-                }
-
-
-                &:hover {
-
-                    img {
-
-                    }
+                    z-index:2;
+                    object-fit:cover;
                 }
 
                 .description {
@@ -354,16 +319,20 @@
                     position:absolute;
                     bottom:0;
                     left:0;
-                    right:40%;
+                    right:0;
                     text-align:left;
 
-                    @media (max-width: $breakpoint-small-desktop) {
-                        right:20%;
-                    }
-
-                    @media (max-width: $breakpoint-mobile) {
-                        right:0%;
-                        padding:40px 20px;
+                    &:before {
+                        content:'';
+                        display:block;
+                        position: absolute;
+                        z-index:0;
+                        bottom:- calc(200% - 200px);
+                        left:0;
+                        right:0;
+                        background:rgba(0,0,0,0.9);
+                        height:200%;
+                        transform: skewY(10deg);
                     }
 
                     button {
@@ -380,6 +349,7 @@
                         justify-content:end;
                         align-content:center;
                         align-self:end;
+                        position: relative;
 
                         .premium-name {
                             font-size: $font-size-large;
@@ -397,12 +367,12 @@
                         }
 
                         .premium-description {
-                            font-size: $medium;
                             color:white;
                             opacity:0.9;
                             font-size: $font-size-standard;
                             line-height:1.1rem;
                             margin-bottom:10px;
+                            max-width:400px;
 
                             @media (max-width: 1120px) {
                                 font-size: $font-size-small;
@@ -415,6 +385,13 @@
                 }
 
             }
+
+
+            &.full-mobile {
+                .premium-attraction {
+                    border-radius: 0;
+                }
+            }
         }
 
         .suggested-exchanges {
@@ -423,12 +400,13 @@
             height:35%;
             padding:20px 30px;
             background:$lightergrey;
-            border-radius:$radius-big 0 29px 29px;
+            border-radius:0 0 $radius-big $radius-big;
             z-index: 1;
             position:relative;
 
             @media (max-width: $breakpoint-tablet) {
-                min-height: 200px;
+                border-radius:0;
+                height:auto;
             }
 
             .token-logo {
@@ -470,7 +448,6 @@
                 }
 
                 .suggested-action {
-                    font-size: $medium;
                     color:black;
                     opacity:1;
                     font-size: $font-size-small;
