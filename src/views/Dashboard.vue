@@ -14,8 +14,8 @@
                         <div class="premium-content">
                             <span class="premium-name">Crypto Legends</span>
                             <span class="premium-description">
-                                You can set up separate battle decks for each class.
-                                Win the battle by building the battle deck according to your strategy and changing the deck according to your opponent.
+                                Get ready for the battle of your lifetime.<br>
+                                Win with strategy by changing your decks according to your opponent and fight to become globally adorned a Crypto Legend.
                             </span>
                         </div>
                         <Button blue="1" text="Open Crypto Legends" @click.native="openInBrowser('https://cryptolegends.io/home?ref=scatterrefer')" />
