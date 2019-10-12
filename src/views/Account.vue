@@ -19,7 +19,15 @@
                         </figure>
                     </section>
 
-                    <figure class="account-actions fas fa-caret-square-down" v-tooltip="'Actions'" @click="setActionsMenu(keypair)"></figure>
+                    <figure class="actions account-actions">
+                        <figure class="button fas fa-caret-square-down" @click="actionsMenu = !actionsMenu"></figure>
+                        <section class="action-menu" :class="{'hidden':!actionsMenu}">
+                            <section class="item" :key="action.id" v-for="action in accountActions" @click="commitAction(action)">
+                                <i :class="actionIcon(action)"></i>
+                                {{actionText(action)}}
+                            </section>
+                        </section>
+                    </figure>
 
                     <!-- TODO ADD MENU OF ACTIONS -->
                     <!-- Actions -->
@@ -93,6 +101,7 @@
 		components: {TokenList, TokenGraph, PanelTabs},
 		data(){return {
 			filteredBalances:null,
+			actionsMenu:false,
 		}},
 		computed:{
 			...mapState([
@@ -126,40 +135,23 @@
 			},
 		},
 		mounted(){
+			window.addEventListener('click', this.handleClick);
 			setTimeout(() => {
 				ResourceService.cacheResourceFor(this.account)
 				BalanceService.loadBalancesFor(this.account)
 			}, 250);
 		},
+		destroyed(){
+			window.removeEventListener('click', this.handleClick)
+		},
 		methods:{
+			handleClick(e){
+				const paths = e.path.map(x => x.className)
+				if(this.actionsMenu && !paths.includes('action-menu') && !paths.includes('button fas fa-caret-square-down')){
+					this.actionsMenu = null;
+				}
+			},
 			fiatSymbol:PriceService.fiatSymbol,
-			actionTypeToText(type){
-				switch(type){
-					case 'unlink_account': return 'Unlink Account';
-					case 'change_permissions': return 'Change Permissions';
-					case 'proxy_vote': return 'Vote';
-					case 'create_account': return 'Create Account';
-					default: return '';
-				}
-			},
-			actionTypeToButton(type){
-				switch(type){
-					case 'unlink_account': return 'Unlink';
-					case 'change_permissions': return 'Change';
-					case 'proxy_vote': return 'Vote';
-					case 'create_account': return 'Create';
-					default: return '';
-				}
-			},
-			actionTypeToIcon(type){
-				switch(type){
-					case 'unlink_account': return 'icon-trash';
-					case 'change_permissions': return 'icon-key';
-					case 'proxy_vote': return 'icon-heart-1';
-					case 'create_account': return 'icon-user-add';
-					default: return '';
-				}
-			},
 			async moderateResource(resource){
 				new Promise(async resolve => {
 					const {name} = resource;
@@ -189,6 +181,22 @@
 			copyAuthKey(account){
 				this.copyText(account.publicKey);
 			},
+			actionText(action){
+			    switch(action.type){
+                    case 'unlink_account': return 'Unlink Account';
+                    case 'change_permissions': return 'Change Permissions';
+                    case 'proxy_vote': return 'Proxy Vote';
+                    case 'create_account': return 'Create Account';
+                }
+            },
+			actionIcon(action){
+			    switch(action.type){
+                    case 'unlink_account': return 'icon-trash';
+                    case 'change_permissions': return 'icon-key';
+                    case 'proxy_vote': return 'icon-heart-1';
+                    case 'create_account': return 'icon-user-add';
+                }
+            },
 			async commitAction(action){
 				const plugin = PluginRepository.plugin(this.account.blockchain());
 
@@ -249,12 +257,23 @@
                 border-radius:22px;
                 background:rgba(255,255,255,0.12);
                 display:block;
-                color:white;
-                line-height:44px;
-                text-align:center;
                 position:absolute;
                 top:20px;
                 right:20px;
+                cursor: pointer;
+                padding-right:0;
+
+                .button {
+                    width:44px;
+                    height:44px;
+                    color:white;
+                    line-height:44px;
+                    text-align:center;
+                }
+
+                .action-menu {
+                    color:$black;
+                }
             }
 
             .wrapper {
