@@ -97,11 +97,11 @@
 
         .expanded {
           pre {
-            font-size: $small;
+            font-size: $medium;
             white-space: pre-wrap;
             padding:20px;
-            background:$blue;
-            color:$white;
+            background:$lightergrey;
+            color:$black;
             border-radius:$radius;
           }
         }

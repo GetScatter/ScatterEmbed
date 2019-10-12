@@ -29,16 +29,6 @@
                         </section>
                     </figure>
 
-                    <!-- TODO ADD MENU OF ACTIONS -->
-                    <!-- Actions -->
-                    <!-- <section class="actions" v-if="accountActions">
-                        <section class="action" :key="action.id" v-for="action in accountActions">
-                            <figure class="icon" :class="`${action.icon} ${action.isDangerous ? ' red' : ''}`"></figure>
-                            <figure class="name">{{action.title}}</figure>
-                            <Button small="1" :red="action.isDangerous" :text="action.buttonText" @click.native="commitAction(action)" />
-                        </section>
-                    </section> -->
-
                 </div>
                 <div class="flex-wrapper">
 
