@@ -70,7 +70,7 @@
 	}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	@import "../../../styles/variables";
 
 	.select-recipient {
@@ -87,6 +87,14 @@
 		.body {
 			height:calc(100vh - 60px - 70px);
 			overflow-y:hidden;
+
+			.blockchain-list-container {
+				.blockchains {
+					.scroller {
+						max-height:calc(100vh - 240px);
+					}
+				}
+			}
 		}
 
 		.keys-and-accounts-list {
@@ -95,9 +103,7 @@
 			padding-top:20px;
 		}
 
-		.blockchain-list-container {
-			//max-height:calc(100vh - 130px);
-		}
+
 	}
 
 	.mobile {

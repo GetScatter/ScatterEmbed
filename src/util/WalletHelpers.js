@@ -12,7 +12,6 @@ export default class WalletHelpers {
 
 	static init(){
 		const eventListener = async (type, data) => {
-			console.log('event listener', type, data);
 			if(type === 'popout') {
 				const popup =  new Popup(PopupDisplayTypes.POP_OUT, new PopupData(data.type, data));
 				popup.data.props.appData = AppsService.getAppData(popup.data.props.payload.origin);

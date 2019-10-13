@@ -51,7 +51,7 @@
        padding:20px;
 
       &.with-search {
-         height:calc(100vh - 285px);
+         height:calc(100vh - 305px);
       }
     }
   }
@@ -97,11 +97,11 @@
 
         .expanded {
           pre {
-            font-size: $small;
+            font-size: $medium;
             white-space: pre-wrap;
             padding:20px;
-            background:$blue;
-            color:$white;
+            background:$lightergrey;
+            color:$black;
             border-radius:$radius;
           }
         }

@@ -39,7 +39,7 @@
 					<section class="item" v-for="network in visibleNetworks">
 						<section class="basics" :class="{'open':expanded && expanded.unique() === network.unique()}">
 							<figure class="chevron" @click="toggleExpansion(network)">
-								<i class="fas fa-caret-circle-down"></i>
+								<i class="fas fa-caret-circle-up"></i>
 							</figure>
 							<section class="details" @click="toggleExpansion(network)">
 								<figure class="name">{{network.name}}</figure>

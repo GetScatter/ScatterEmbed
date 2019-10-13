@@ -15,7 +15,7 @@
 					<section class="actions" v-if="!asSelector">
 						<figure class="action icon-key" v-tooltip="'Export Key'" v-if="!keypair.external" @click="exportPrivateKey(keypair)"></figure>
 						<figure class="action hardware icon-microchip" v-if="keypair.external"></figure>
-						<figure class="action icon-dot-3" v-tooltip="'Actions'" @click="setActionsMenu(keypair)"></figure>
+						<figure class="action fas fa-caret-square-down" v-tooltip="'Actions'" @click="setActionsMenu(keypair)"></figure>
 
 						<section class="action-menu" :class="{'hidden':actionsMenu !== keypair.id}">
 							<figure class="item" @click="editKeypairName(keypair)">
@@ -166,7 +166,7 @@
 		methods:{
 			handleClick(e){
 				const paths = e.path.map(x => x.className)
-				if(this.actionsMenu && !paths.includes('action-menu') && !paths.includes('action icon-dot-3')){
+				if(this.actionsMenu && !paths.includes('action-menu') && !paths.includes('action fas fa-caret-square-down')){
 					this.actionsMenu = null;
 				}
 			},

@@ -11,7 +11,7 @@
 								<figure class="name">{{account.sendable()}}</figure>
 								<figure class="network">{{account.network().name}}</figure>
 							</section>
-							<figure class="chevron icon-dot-3"></figure>
+							<figure class="chevron fas fa-caret-square-down"></figure>
 						</section>
 					</section>
 				</section>

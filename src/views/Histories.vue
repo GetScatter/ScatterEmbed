@@ -3,7 +3,7 @@
 		<SearchAndFilter v-on:terms="x => terms = x" />
 
 		<section class="events">
-			
+
 			<section v-for="item in allHistories">
 
 				<!-- TRANSFER OR EXCHANGE -->
@@ -66,11 +66,15 @@
 						<Button text="View" @click.native="view(item)" />
 					</section>
 				</section>
-				
-				
-			</section>
-			
 
+
+			</section>
+
+
+		</section>
+
+		<section class="tail">
+			<Button @click.native="clearHistory" text="Clear History" blue="1" />
 		</section>
 	</section>
 </template>
@@ -98,6 +102,15 @@
 			terms:'',
 			loadingStatus:false,
 		}},
+		mounted(){
+			// Fix for old bug which might have left dangling histories
+			this.history.map(x => {
+				const acc = x.type === 'action' ? x.account : x.from;
+				if(!this.keypairs.find(kp => kp.unique() === acc.keypairUnique)){
+					this[Actions.DELTA_HISTORY](x);
+				}
+			})
+		},
 		computed:{
 			...mapState([
 				'history',
@@ -105,6 +118,7 @@
 			...mapGetters([
 				'accounts',
 				'explorers',
+				'keypairs',
 			]),
 			filteredTokenHistories(){
 				return this.history
@@ -178,6 +192,14 @@
 				}
 				this.loadingStatus = false;
 			},
+			clearHistory(){
+				PopupService.push(Popup.prompt('Clearing history', 'You are about to erase your entire local history. This will not erase keys or accounts.', yes => {
+					if(yes) {
+						this[Actions.DELTA_HISTORY](null);
+						this.$router.push({name:this.RouteNames.HOME})
+					}
+				}, true));
+			},
 			view(item){
 				const explorer = this.explorers[item.token.blockchain].parsed();
 				this.openInBrowser(explorer.transaction(item.txid));
@@ -203,11 +225,24 @@
 
 	.histories {
 		height:$fullheight;
+		display:flex;
+		flex-direction: column;
+
+		.tail {
+			flex:0 0 auto;
+			display:flex;
+			align-items: center;
+			padding:0 20px;
+			height:70px;
+			border-top:1px solid $lightgrey;
+			justify-content: flex-end;
+
+		}
 
 		.events {
-			height:calc(#{$fullheight} - 70px);
 			overflow-y:scroll;
 			padding:10px 40px;
+			flex:1;
 
 			.event {
 				display:flex;
@@ -278,8 +313,12 @@
 
 				.actions {
 					padding-left:20px;
-					flex:0.5;
-					text-align:right;
+					display: flex;
+					justify-content: flex-end;
+
+					button {
+						margin-right:10px;
+					}
 				}
 
 

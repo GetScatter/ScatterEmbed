@@ -60,6 +60,7 @@
 			]),
 			...mapGetters([
 				'unlocked',
+                'accounts',
 			]),
 			onboarded(){
 				return this.unlocked && this.scatter.onboarded && this.route !== RouteNames.LOGIN
@@ -87,6 +88,7 @@
 			showBottomActions(){
 				if(!this.unlocked) return false;
 				if(!this.onboarded) return false;
+				if(!this.accounts.length) return;
 				return ![
 					RouteNames.IDENTITIES,
 					RouteNames.LOCATIONS,

@@ -78,6 +78,21 @@ export default class VueInitializer {
 					totaled = totaled.slice(totaled.length-(totaled.length > 24 ? 24 : totaled.length), totaled.length);
 					return totaled;
 				},
+				change(token, numOnly = false){
+					const dummy = {plus:false, perc:'0%'};
+					if(!this.priceData || !this.priceData.hasOwnProperty('today')) return dummy;
+					if(token.unusable) return dummy;
+					const hour = this.priceData.today.latest;
+					const totaled = this.getTokensTotaled();
+					const latest = totaled[totaled.length-1] ? totaled[totaled.length-1].data : null;
+					const earliest = totaled[0] ? totaled[0].data : null;
+					if(!latest || !earliest || !latest[token.uniqueWithChain()] || !earliest[token.uniqueWithChain()]) return '--';
+					const diff = earliest[token.uniqueWithChain()] - latest[token.uniqueWithChain()];
+					const change = (diff / earliest[token.uniqueWithChain()]) * 100;
+					if(numOnly) return Math.abs(parseFloat(change).toFixed(2));
+					const symbol = change > 0 ? '-' : '+';
+					return {plus:change <= 0, perc:`${symbol}${Math.abs(parseFloat(change).toFixed(2))}%`};
+				},
 				openApp(applink){
 					const data = AppsService.getAppData(applink);
 					if(data.url.length) this.openInBrowser(data.url);

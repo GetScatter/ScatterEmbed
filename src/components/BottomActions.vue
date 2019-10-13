@@ -1,7 +1,7 @@
 <template>
     <section class="bottom-actions" :class="{'sidebarLocked':!sidebarLocked}">
 
-        <section class="flex-wrapper" v-if="accounts.length">
+        <section class="flex-wrapper">
             <section class="action" @click="quickAction(RouteNames.TRANSFER)">
                 <i class="fal fa-sign-out"></i>
                 <span>Send</span>

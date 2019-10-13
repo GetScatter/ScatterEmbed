@@ -1,6 +1,6 @@
 <template>
 	<section class="pop-in">
-		<section class="total-height">
+		<section>
 
 			<!-- SELECT EXPORT TYPE -->
 			<section class="export-your-key" v-if="state === STATES.SELECT">

@@ -37,7 +37,7 @@
 								<figure class="name">{{account.sendable()}}</figure>
 								<figure class="network">{{account.balanceFor(account.network().systemToken()).amount}} EOS</figure>
 							</section>
-							<figure class="chevron icon-dot-3"></figure>
+							<figure class="chevron fas fa-caret-square-down"></figure>
 						</section>
 					</section>
 				</section>

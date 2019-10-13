@@ -135,6 +135,7 @@
 		width:100%;
 		margin:0 auto;
 		margin-top:1px;
+		max-width:900px;
 
 		@media (max-width: $breakpoint-tablet) {
 			height:440px;

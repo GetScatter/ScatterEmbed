@@ -24,12 +24,7 @@
 					</section>
 				</section>
 			</section>
-			<section v-if="!hideMainBalance && !quickBack && !accounts.length">
-				<section class="fiat">
-					<span class="balance" style="opacity:0.2;">No accounts</span>
-				</section>
-			</section>
-			<i class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
+			<i v-if="accounts.length" class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
 		</section>
 
 	</section>

@@ -40,7 +40,7 @@
                             <figure class="token">{{token.symbol}}</figure>
                             <figure class="price">{{token.fiatPrice()}}</figure>
                         </section>
-                        <figure class="chevron icon-dot-3"></figure>
+                        <figure class="chevron fas fa-caret-square-down"></figure>
                     </section>
                 </section>
             </section>

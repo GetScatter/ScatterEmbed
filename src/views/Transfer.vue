@@ -17,7 +17,7 @@
 									<figure class="token">{{token.amount}} {{token.symbol}}</figure>
 									<figure class="price">{{token.fiatPrice() || '--'}}</figure>
 								</section>
-								<figure class="chevron icon-dot-3"></figure>
+								<figure class="chevron fas fa-caret-square-down"></figure>
 							</section>
 						</section>
 						<section class="box-container">
@@ -25,7 +25,7 @@
 							<section class="box nested">
 								<section class="padded recipient-selector" @click="selectRecipient">
 									<figure class="name">Contacts</figure>
-									<figure class="chevron icon-dot-3"></figure>
+									<figure class="chevron fas fa-caret-square-down"></figure>
 								</section>
 								<figure class="line"></figure>
 								<section class="input-container">
@@ -181,6 +181,7 @@
 				}));
 			},
 			setToken(token){
+				if(!token) return;
 				PriceService.setPrices();
 				this.token = (() => {
 					const t = this.account.tokens().find(x => x.uniqueWithChain() === token.uniqueWithChain());

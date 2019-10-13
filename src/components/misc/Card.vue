@@ -5,7 +5,7 @@
 		</section>
 
 		<Button v-if="!asSelector" class="delete" icon="icon-trash" />
-		<Button v-if="asSelector" class="delete" icon="icon-dot-3" />
+		<Button v-if="asSelector" class="delete" icon="fas fa-caret-square-down" />
 
 		<section class="info">
 			<figure class="card-name">{{card.name}}</figure>

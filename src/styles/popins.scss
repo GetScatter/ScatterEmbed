@@ -10,12 +10,13 @@
   max-height: calc(100vh - 40px);
 
   @media (max-width: $breakpoint-mobile) {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     border-radius:0;
+    max-height:none;
   }
 
   .scroller {

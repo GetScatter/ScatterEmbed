@@ -17,7 +17,7 @@
 										<figure class="token">{{token.amount}} {{token.symbol}}</figure>
 										<figure class="price">{{token.fiatPrice()}}</figure>
 									</section>
-									<figure class="chevron icon-dot-3"></figure>
+									<figure class="chevron fas fa-caret-square-down"></figure>
 								</section>
 							</section>
 							<section class="box-container">
@@ -25,7 +25,7 @@
 								<section class="box nested">
 									<section class="padded recipient-selector" @click="selectRecipient">
 										<figure class="name">Contacts</figure>
-										<figure class="chevron icon-dot-3"></figure>
+										<figure class="chevron fas fa-caret-square-down"></figure>
 									</section>
 									<figure class="line"></figure>
 									<section class="input-container">
@@ -102,7 +102,7 @@
 									<figure class="name" v-if="loadingRate">Loading Rate</figure>
 									<figure class="network" v-if="pair">{{pair.symbol}}</figure>
 								</section>
-								<figure class="chevron icon-dot-3" v-if="pairs.length"></figure>
+								<figure class="chevron fas fa-caret-square-down" v-if="pairs.length"></figure>
 							</section>
 						</section>
 
@@ -203,6 +203,12 @@
 
 			if(this.$route.query.account){
 				this.account = this.accounts.find(x => x.identifiable() === this.$route.query.account);
+
+				if(this.$route.query.token){
+					this.setToken(this.account.tokens().find(x => x.uniqueWithChain() === this.$route.query.token));
+					this.recipient = this.account.sendable();
+					return;
+				}
 			}
 
 			if(!this.account){
