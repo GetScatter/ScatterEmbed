@@ -76,7 +76,6 @@
 				if(!this.hoverable) return;
 				this.$emit('token', token);
 				if(token){
-					console.log('token', this.$refs.tokens.scrollTop, document.getElementById(token.uniqueWithChain()).offsetTop)
 					this.$refs.tokens.scrollTop = document.getElementById(token.uniqueWithChain()).offsetTop - 150;
 				}
 			},

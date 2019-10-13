@@ -103,13 +103,12 @@
 			loadingStatus:false,
 		}},
 		mounted(){
-			console.log('history', this.history);
+			// Fix for old bug which might have left dangling histories
 			this.history.map(x => {
 				const acc = x.type === 'action' ? x.account : x.from;
 				if(!this.keypairs.find(kp => kp.unique() === acc.keypairUnique)){
 					this[Actions.DELTA_HISTORY](x);
 				}
-				console.log('acc', acc);
 			})
 		},
 		computed:{

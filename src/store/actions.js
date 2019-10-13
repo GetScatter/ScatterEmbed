@@ -48,7 +48,6 @@ export const actions = {
 
     [Actions.LOAD_SCATTER]:async ({commit, state, dispatch}, forceLocal = false) => {
 	    let scatter = await StorageService.getScatter();
-	    console.log('ispopout', isPopOut, scatter);
 	    if (!scatter) return null;
 
 	    scatter = Scatter.fromJson(scatter);
@@ -57,7 +56,7 @@ export const actions = {
 		    migrationChecked = true;
 
 		    // TODO: HAS PROBLEMS DECRYPTING BACKUPS
-		    // await require('@walletpack/core/migrations/migrator').default(scatter, require('../migrations/version'));
+		    await require('@walletpack/core/migrations/migrator').default(scatter, require('../migrations/version'));
 
 		    scatter.meta.regenerateVersion();
 	    }
@@ -110,7 +109,6 @@ export const actions = {
     [UIActions.LOAD_LANGUAGE]:async ({commit}) => commit(UIActions.SET_LANGUAGE, await StorageService.getTranslation()),
     [Actions.LOAD_HISTORY]:async ({commit}) => {
     	let history = await StorageService.getHistory();
-    	console.log('history', history);
     	if(!history) return;
 
 	    history = history.map(x => {
