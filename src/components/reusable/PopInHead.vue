@@ -42,10 +42,6 @@
         padding:20px;
         background:$lightergrey;
 
-        @media (max-width: $breakpoint-mobile) {
-            width:100vw;
-        }
-
         .popin-title {
             font-size: $font-size-standard;
             font-family: 'Poppins', sans-serif;

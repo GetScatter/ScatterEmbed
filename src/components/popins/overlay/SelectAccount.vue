@@ -51,4 +51,10 @@
 		height:calc(100vh - 160px);
 	}
 
+	.mobile {
+		.keys-and-accounts-list {
+			height:100vh;
+		}
+	}
+
 </style>

@@ -217,17 +217,13 @@
     .pop-in-over {
         -webkit-app-region: no-drag;
 
-        position:fixed;
-        top:20px;
-        bottom:20px;
+        position:absolute;
+        top:10px;
+        bottom:10px;
         left:10px;
         right:10px;
         max-width:800px;
         margin:0 auto;
-
-        display:flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .fader {
