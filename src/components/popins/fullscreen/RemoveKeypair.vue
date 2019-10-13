@@ -37,7 +37,8 @@
 </template>
 
 <script>
-	import {mapActions} from 'vuex';
+	import {mapActions, mapGetters} from 'vuex';
+	import * as Actions from "@walletpack/core/store/constants";
 	import '../../../styles/popins.scss';
 	import KeyPairService from "@walletpack/core/services/secure/KeyPairService";
 	import BalanceService from "@walletpack/core/services/blockchain/BalanceService";
@@ -46,6 +47,9 @@
 	export default {
 		props:['popin'],
 		computed:{
+			...mapGetters([
+				'history'
+			]),
 			keypair(){
 				return this.popin.data.props.keypair;
 			}
@@ -61,7 +65,8 @@
 			},
 
 			...mapActions([
-				UIActions.RELEASE_POPUP
+				UIActions.RELEASE_POPUP,
+				Actions.DELTA_HISTORY
 			])
 		}
 	}

@@ -24,6 +24,7 @@
 
 <script>
 	import { mapActions, mapGetters, mapState } from 'vuex'
+	import * as Actions from "@walletpack/core/store/constants";
 	import '../../../styles/popins.scss';
 	import AccountService from "@walletpack/core/services/blockchain/AccountService";
 	import * as UIActions from "../../../store/ui_actions";
@@ -43,6 +44,7 @@
 			...mapGetters([
 				'keypairs',
 				'accounts',
+				'history',
 			]),
 			account(){
 				return this.accounts.find(x => x.unique() === this.popin.data.props.account.unique());
@@ -59,7 +61,8 @@
 			},
 
 			...mapActions([
-				UIActions.RELEASE_POPUP
+				UIActions.RELEASE_POPUP,
+				Actions.DELTA_HISTORY,
 			])
 		},
 	}

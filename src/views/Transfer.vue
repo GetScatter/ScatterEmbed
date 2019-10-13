@@ -181,6 +181,7 @@
 				}));
 			},
 			setToken(token){
+				if(!token) return;
 				PriceService.setPrices();
 				this.token = (() => {
 					const t = this.account.tokens().find(x => x.uniqueWithChain() === token.uniqueWithChain());
