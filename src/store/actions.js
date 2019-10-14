@@ -58,6 +58,15 @@ export const actions = {
 		    // TODO: HAS PROBLEMS DECRYPTING BACKUPS
 		    await require('@walletpack/core/migrations/migrator').default(scatter, require('../migrations/version'));
 
+		    // Fixing dangling accounts
+		    scatter.keychain.accounts.map(account => {
+			    if(
+			    	!scatter.keychain.keypairs.find(x => x.unique() === account.keypairUnique) ||
+				    !scatter.settings.networks.find(x => x.unique() === account.networkUnique)
+			    ) scatter.keychain.removeAccount(account);
+		    });
+
+
 		    scatter.meta.regenerateVersion();
 	    }
 
