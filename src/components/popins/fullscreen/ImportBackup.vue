@@ -55,6 +55,7 @@
 				const unrestore = () => {
 					this.setWorkingScreen(false);
 					this.restoringBackup = false;
+					window.wallet.lock();
 				}
 
 				if(this.restoringBackup) return;
@@ -74,8 +75,10 @@
 						return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.ErrorParsingBackup)));
 					}
 
+					await window.wallet.lock();
 					await window.wallet.unlock(password, true, salt);
 					const decrypted = window.wallet.decrypt(obj);
+					console.log('decrypted', decrypted);
 					if(typeof decrypted === 'object' && decrypted.hasOwnProperty('keychain')){
 						decrypted.keychain = await window.wallet.decrypt(decrypted.keychain);
 						decrypted.settings.backupLocation = '';
@@ -87,6 +90,7 @@
 							}
 							decrypted.onboarded = true;
 							await this[Actions.SET_SCATTER](Scatter.fromJson(decrypted));
+							await window.wallet.lock();
 							window.wallet.utility.reload();
 						}))
 					} else {
@@ -103,6 +107,7 @@
 						return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.ErrorParsingBackup)));
 					}
 
+					await window.wallet.lock();
 					await window.wallet.unlock(password, true, salt);
 					const decrypted = window.wallet.decrypt(obj);
 					if(typeof decrypted === 'object' && decrypted.hasOwnProperty('keychain')){
@@ -135,6 +140,7 @@
 							await Promise.all(keypairs.map(keypair => {
 								return AccountService.importAllAccounts(keypair);
 							}));
+							await window.wallet.lock();
 							window.wallet.utility.reload()
 						}))
 					} else {
