@@ -144,7 +144,15 @@
 		},
 		methods: {
 			exchange(token){
-				const account = token.accounts()[0];
+				const accounts = token.accounts().filter(x => {
+					return (bal => bal ? bal.amount : 0)(x.balanceFor(token)) > 0;
+                }).sort((a,b) => {
+					const bbal = (bal => bal ? bal.amount : 0)(b.balanceFor(token));
+					const abal = (bal => bal ? bal.amount : 0)(a.balanceFor(token));
+					return bbal - abal
+				});
+				if(!accounts.length) return;
+				const account = accounts[0];
 				if(!account) return;
 				this.$router.push({name:this.RouteNames.EXCHANGE, query:{account:account.identifiable(), token:token.uniqueWithChain()}})
             },

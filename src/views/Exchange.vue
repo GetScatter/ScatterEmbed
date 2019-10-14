@@ -205,7 +205,8 @@
 				this.account = this.accounts.find(x => x.identifiable() === this.$route.query.account);
 
 				if(this.$route.query.token){
-					this.setToken(this.account.tokens().find(x => x.uniqueWithChain() === this.$route.query.token));
+					const token = this.account.tokens().find(x => x.uniqueWithChain() === this.$route.query.token);
+					this.setToken(token);
 					this.recipient = this.account.sendable();
 					return;
 				}
