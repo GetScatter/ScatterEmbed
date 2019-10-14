@@ -55,7 +55,6 @@ export const actions = {
 	    if(!isPopOut && !migrationChecked){
 		    migrationChecked = true;
 
-		    // TODO: HAS PROBLEMS DECRYPTING BACKUPS
 		    await require('@walletpack/core/migrations/migrator').default(scatter, require('../migrations/version'));
 
 		    // Fixing dangling accounts
