@@ -114,10 +114,7 @@
                                         <label :for="'checkbox-'+key" class="value object" v-if="typeof value === 'object'">
                                             <div :ref="hash(JSON.stringify(message)) + key + hash(value)" :v-html="formatJson(value, hash(JSON.stringify(message))+key)"></div>
                                         </label>
-                                        <label @click="whitelisted && !isPreviouslyWhitelisted(message)?null:copy2cb(value,key)" :for="'checkbox-'+key" class="value" v-else>{{value}}</label>
-                                        <transition name="fade">
-                                            <span class="copiedMessage" v-show="showCopiedMessage == key" v-text="copiedMessage"></span>
-                                        </transition>
+                                        <label @click="whitelisted && !isPreviouslyWhitelisted(message)?null:copyText(value)" :for="'checkbox-'+key" class="value" v-else>{{value}}</label>
                                     </section>
                                 </section>
                                 <section class="properties" v-if="viewType === VIEW_TYPES.JSON">
@@ -180,8 +177,8 @@
 	import RequiredFields from "../../components/popouts/RequiredFields";
 	import KeyPairService from "@walletpack/core/services/secure/KeyPairService";
 	import RIDLService, {RIDL_API} from "../../services/utility/RIDLService";
-	import PopOutApp from "../../components/popouts/PopOutApp";
-
+    import PopOutApp from "../../components/popouts/PopOutApp";
+    
 	const VIEW_TYPES = {
 	    HUMAN:'human',
         JSON:'json',
@@ -214,9 +211,6 @@
             showingRidlWarning:false,
 
             participantsAsSelector:false,
-
-            showCopiedMessage: false,
-            copiedMessage: "Copied to clipboard",
 		}},
 		created(){
 			this.selectedIdentity = this.identity.clone();
@@ -303,19 +297,6 @@
             }
 		},
 		methods: {
-            copy2cb(text,key){
-                const hiddenElement = document.createElement('textarea');
-                hiddenElement.value = text;
-                hiddenElement.setAttribute('readonly', '');
-                hiddenElement.style.position = 'absolute';
-                hiddenElement.style.left = '-9999px';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.select();
-                document.execCommand('copy');
-                document.body.removeChild(hiddenElement);
-                this.showCopiedMessage = key;
-			    setTimeout(()=>{this.showCopiedMessage = ''; },1500)
-            },
 			returnResult(result){
 				this.$emit('returned', result);
 			},
@@ -659,20 +640,4 @@
             }
         }
     }
-
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s;
-    }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-    }
-
-    .copiedMessage{
-        margin-left: 15px;
-        margin-bottom: 20px;
-        font-style: italic;
-        color: grey;
-        font-size: 12px;
-    }
-
 </style>
