@@ -108,13 +108,16 @@
                             <section v-if="!isCollapsed(message)">
                                 <br>
                                 <section class="properties" v-for="(value,key) in message.data" v-if="viewType === VIEW_TYPES.HUMAN">
-                                    <label>{{key}}</label>
+                                    <label :for="'checkbox-'+key">{{key}}</label>
                                     <section class="split-inputs">
-                                        <input v-if="whitelisted && !isPreviouslyWhitelisted(message)" type="checkbox" @change="toggleWhitelistProp(getWhitelist(message), key)" />
-                                        <figure class="value object" v-if="typeof value === 'object'">
+                                        <input :id="'checkbox-'+key" v-if="whitelisted && !isPreviouslyWhitelisted(message)" type="checkbox" @change="toggleWhitelistProp(getWhitelist(message), key)" />
+                                        <label :for="'checkbox-'+key" class="value object" v-if="typeof value === 'object'">
                                             <div :ref="hash(JSON.stringify(message)) + key + hash(value)" :v-html="formatJson(value, hash(JSON.stringify(message))+key)"></div>
-                                        </figure>
-                                        <figure class="value" v-else>{{value}}</figure>
+                                        </label>
+                                        <label @click="whitelisted && !isPreviouslyWhitelisted(message)?null:copy2cb(value,key)" :for="'checkbox-'+key" class="value" v-else>{{value}}</label>
+                                        <transition name="fade">
+                                            <span class="copiedMessage" v-show="showCopiedMessage == key" v-text="copiedMessage"></span>
+                                        </transition>
                                     </section>
                                 </section>
                                 <section class="properties" v-if="viewType === VIEW_TYPES.JSON">
@@ -211,6 +214,9 @@
             showingRidlWarning:false,
 
             participantsAsSelector:false,
+
+            showCopiedMessage: false,
+            copiedMessage: "Copied to clipboard",
 		}},
 		created(){
 			this.selectedIdentity = this.identity.clone();
@@ -297,6 +303,19 @@
             }
 		},
 		methods: {
+            copy2cb(text,key){
+                const hiddenElement = document.createElement('textarea');
+                hiddenElement.value = text;
+                hiddenElement.setAttribute('readonly', '');
+                hiddenElement.style.position = 'absolute';
+                hiddenElement.style.left = '-9999px';
+                document.body.appendChild(hiddenElement);
+                hiddenElement.select();
+                document.execCommand('copy');
+                document.body.removeChild(hiddenElement);
+                this.showCopiedMessage = key;
+			    setTimeout(()=>{this.showCopiedMessage = ''; },1500)
+            },
 			returnResult(result){
 				this.$emit('returned', result);
 			},
@@ -641,5 +660,19 @@
         }
     }
 
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
+    .copiedMessage{
+        margin-left: 15px;
+        margin-bottom: 20px;
+        font-style: italic;
+        color: grey;
+        font-size: 12px;
+    }
 
 </style>

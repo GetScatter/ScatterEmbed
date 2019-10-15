@@ -174,10 +174,12 @@ input {
 .split-inputs {
   display:flex;
   align-items: center;
-
+  
   @media (max-width: $breakpoint-mobile) {
     flex-direction: column;
   }
+  
+  label{color:#393d3f;}
 
   > section, > button {
     &:not(:first-child){
