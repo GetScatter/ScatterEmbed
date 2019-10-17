@@ -15,15 +15,16 @@
     "dev": "webpack-dev-server --port 8081 --inline --progress --config build/webpack.config.dev.js",
     "start": "npm run dev",
     "testfile": "mocha --require test/babel --exit --timeout 1000000",
-    "test": "npm run testfile \"test/**/*.spec.js\" --timeout 1000000"
+    "test": "npm run testfile \"test/**/*.spec.js\" --timeout 1000000",
+    "walletpack": "yarn add @walletpack/core @walletpack/eosio @walletpack/bitcoin @walletpack/tron @walletpack/ethereum"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.4",
-    "@walletpack/bitcoin": "latest",
-    "@walletpack/core": "latest",
-    "@walletpack/eosio": "latest",
-    "@walletpack/ethereum": "latest",
-    "@walletpack/tron": "latest",
+    "@walletpack/bitcoin": "^1.0.29",
+    "@walletpack/core": "^1.0.26",
+    "@walletpack/eosio": "^0.0.31",
+    "@walletpack/ethereum": "^0.0.29",
+    "@walletpack/tron": "^0.0.29",
     "aes-oop": "^1.0.4",
     "babel-polyfill": "^6.26.0",
     "chartist": "^0.11.0",
@@ -33,8 +34,6 @@
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {
-    "dotenv-webpack": "^1.7.0",
-    "mini-css-extract-plugin": "^0.8.0",
     "@babel/core": "^7.5.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.5.0",
@@ -52,6 +51,7 @@
     "cross-env": "^5.2.0",
     "cross-spawn": "^5.0.1",
     "css-loader": "^3.0.0",
+    "dotenv-webpack": "^1.7.0",
     "eosjs-ecc": "^4.0.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
@@ -60,6 +60,7 @@
     "inject-loader": "^3.0.0",
     "jsdom": "^13.0.0",
     "jsdom-global": "^3.0.2",
+    "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^6.1.4",
     "mocha-jsdom": "^2.0.0",
     "node-sass": "^4.12.0",

@@ -30,7 +30,7 @@
                         </div>
                         <div class="explainer">
                             <span class="title">{{tokens.lowest.token.name}} has dropped {{tokens.lowest.change.perc.replace('-', '')}}</span>
-                            <span class="suggested-action">This might be a good time to convert to a stable coin.</span>
+                            <!--<span class="suggested-action">This might be a good time to convert to a stable coin.</span>-->
                         </div>
                         <Button class="cta" text="Exchange" @click.native="exchange(tokens.lowest.token)" />
                     </section>
@@ -40,7 +40,7 @@
                         </div>
                         <div class="explainer">
                             <span class="title">{{tokens.highest.token.name}} has risen {{tokens.highest.change.perc.replace('+', '')}}</span>
-                            <span class="suggested-action">This might be a good time to secure some gains.</span>
+                            <!--<span class="suggested-action">This might be a good time to secure some gains.</span>-->
                         </div>
                         <Button class="cta" text="Exchange" @click.native="exchange(tokens.highest.token)" />
                     </section>

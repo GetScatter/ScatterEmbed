@@ -77,8 +77,7 @@
 
 					await window.wallet.lock();
 					await window.wallet.unlock(password, true, salt);
-					const decrypted = window.wallet.decrypt(obj);
-					console.log('decrypted', decrypted);
+					const decrypted = await window.wallet.decrypt(obj);
 					if(typeof decrypted === 'object' && decrypted.hasOwnProperty('keychain')){
 						decrypted.keychain = await window.wallet.decrypt(decrypted.keychain);
 						decrypted.settings.backupLocation = '';
@@ -109,11 +108,11 @@
 
 					await window.wallet.lock();
 					await window.wallet.unlock(password, true, salt);
-					const decrypted = window.wallet.decrypt(obj);
+					const decrypted = await window.wallet.decrypt(obj);
 					if(typeof decrypted === 'object' && decrypted.hasOwnProperty('keychain')){
 						const keypairs = await Promise.all(decrypted.keychain.keypairs
 							.map(async x => {
-								x.privateKey = window.wallet.decrypt(x.privateKey)
+								x.privateKey = await window.wallet.decrypt(x.privateKey)
 								return x;
 							})
 							.map(async x => {

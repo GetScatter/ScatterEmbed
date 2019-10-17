@@ -70,15 +70,13 @@ class Main {
 
 			const components = shared.concat(fragments);
 
-			const middleware = (to, next) => {
+			const middleware = async (to, next) => {
 				if(isPopOut) return next();
-				else if(Routing.isRestricted(to.name)) window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
+				else if(Routing.isRestricted(to.name)) await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
 				else next();
 			}
 
-			new VueInitializer(Routing.routes(), components, middleware, async (router) => {
-
-			});
+			new VueInitializer(Routing.routes(), components, middleware, async (router) => {});
 
 			return true;
 		};
@@ -87,8 +85,12 @@ class Main {
 
 		const setupWallet = async () => {
 			WalletTalk.setup();
-			WalletHelpers.init();
-			//if(!isPopOut) await store.dispatch(Actions.LOAD_SCATTER);
+			await WalletHelpers.init();
+
+			if(WalletHelpers.getWalletType() === 'extension' && await window.wallet.unlocked()){
+				await store.dispatch(Actions.LOAD_SCATTER);
+				SingletonService.init();
+			}
 
 			return setup();
 		}

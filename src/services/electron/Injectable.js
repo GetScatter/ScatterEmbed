@@ -1,3 +1,6 @@
+import PopupService from "../utility/PopupService";
+import {Popup} from "../../models/popups/Popup";
+
 export default class Injectable {
 
 	static async appPath(){
@@ -9,6 +12,7 @@ export default class Injectable {
 	}
 
 	static async copy(text){
+		PopupService.push(Popup.snackbar("Copied Text"));
 		return window.wallet.utility.copy(text);
 	}
 

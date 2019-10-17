@@ -8,9 +8,18 @@ import WalletTalk from "./WalletTalk";
 import AppsService from '@walletpack/core/services/apps/AppsService'
 import PopupService from "../services/utility/PopupService";
 
+let walletType;
 export default class WalletHelpers {
 
-	static init(){
+
+	static getWalletType(){ return walletType; }
+
+	static async init(){
+
+		const version = await window.wallet.getVersion();
+		const [wtype, wver] = version.split('_');
+		walletType = wtype;
+
 		const eventListener = async (type, data) => {
 			if(type === 'popout') {
 				const popup =  new Popup(PopupDisplayTypes.POP_OUT, new PopupData(data.type, data));

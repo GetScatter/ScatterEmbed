@@ -10,11 +10,30 @@
 	<link rel="stylesheet" href="static/fonts/sidebar-icons/style.css">
 	<link rel="stylesheet" href="static/fonts/google-fonts/google-fonts.css">
 	<title>Scatter</title>
+
+	<style>
+		#base_loader {
+			position:fixed;
+			top:0;
+			bottom:0;
+			left:0;
+			right:0;
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 48px;
+			color:rgba(0,0,0,0.2);
+		}
+	</style>
 </head>
 <body>
 	<div id="scatter">
 		<view-base></view-base>
 	</div>
+
+	<section id="base_loader">
+		<i class="far fa-spinner-third animate-spin"></i>
+	</section>
 	<!-- built files will be auto injected -->
 </body>
 </html>

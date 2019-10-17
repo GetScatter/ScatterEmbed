@@ -175,6 +175,8 @@ export default class VueInitializer {
 		const app = new Vue({router, store});
 		app.$mount('#scatter');
 
+		document.getElementById('base_loader').remove();
+
 		// This removes the browser console's ability to
 		// gain access to vuex store. ( for instance `scatter.__vue__.$store.state` )
 		if(document.getElementById('scatter')) {

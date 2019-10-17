@@ -51,7 +51,6 @@ export const actions = {
 	    if (!scatter) return null;
 
 	    scatter = Scatter.fromJson(scatter);
-	    console.log('loaded scatter', scatter);
 
 	    if(!isPopOut && !migrationChecked){
 		    migrationChecked = true;

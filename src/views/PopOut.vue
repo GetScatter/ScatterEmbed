@@ -52,6 +52,7 @@
 		data () {return {
 			apiActions:ApiActions,
 			pinning:false,
+            isExtension:false,
 		}},
 		components:{
 			PopOutHead,
@@ -62,7 +63,18 @@
 			LinkApp:() => import('./popouts/LinkApp'),
 			UpdateIdentity:() => import('./popouts/UpdateIdentity'),
 		},
-		created(){
+		async created(){
+			if(this.$route.query.extension){
+				this.isExtension = true;
+				const {popout, scatter} = await window.wallet.utility.getPopOut(this.$route.query.extension);
+				this[UIActions.SET_POPOUT](popout);
+				this[Actions.HOLD_SCATTER](Scatter.fromJson(scatter));
+				window.onbeforeunload = () => {
+					this.returnResult();
+					return undefined;
+                }
+            }
+
 			this.setup();
 		},
 		computed:{
@@ -78,7 +90,12 @@
 		methods: {
 			async returnResult(result = null){
 				await window.wallet.utility.popoutResponse({original:this.popOut, result});
-				await window.wallet.utility.closeWindow(window.wallet.windowId);
+				if(this.isExtension){
+					window.close();
+                } else {
+					await window.wallet.utility.closeWindow(window.wallet.windowId);
+                }
+
 			},
 			async checkAppReputation(){
 				// this[UIActions.SET_APP_REP](await RIDLService.checkApp(this.appData.applink));
@@ -86,13 +103,15 @@
 			async setup(){
 				if(!this.popOut) return;
 
-				// This window opens before-hand and hangs around in memory waiting to be
-				// displayed. This means that the scatter reference on its store is from the past
-				// We need to re-generate the Scatter data for it to be up-to-date.
-				let scatter = await window.wallet.storage.getWalletData();
-				if(!scatter) this.returnResult(null);
-				scatter = Scatter.fromJson(scatter);
-				this[Actions.HOLD_SCATTER](scatter);
+				if(!this.scatter) {
+					// This window opens before-hand and hangs around in memory waiting to be
+					// displayed. This means that the scatter reference on its store is from the past
+					// We need to re-generate the Scatter data for it to be up-to-date.
+					let scatter = await window.wallet.storage.getWalletData();
+					if (!scatter) this.returnResult(null);
+					scatter = Scatter.fromJson(scatter);
+					this[Actions.HOLD_SCATTER](scatter);
+				}
 
 
 
@@ -117,6 +136,7 @@
 			...mapActions([
 				Actions.HOLD_SCATTER,
 				UIActions.SET_APP_REP,
+				UIActions.SET_POPOUT,
 			])
 		},
 		watch:{

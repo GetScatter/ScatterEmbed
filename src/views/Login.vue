@@ -5,7 +5,7 @@
 
 		<section class="entry" v-if="state === STATES.NEW_OR_LOGIN">
 			<figure class="login-bg">
-				<img src="static/assets/login_bg.png" />
+				<img src="static/assets/login_bg.jpg" />
 			</figure>
 			<section class="meteors">
 				<section class="rotator">

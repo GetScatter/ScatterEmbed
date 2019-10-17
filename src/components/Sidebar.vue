@@ -3,12 +3,24 @@
 		<section class="placeholder"></section>
 		<section class="sidebar">
 			<figure class="bar-bg"></figure>
-			<figure class="category" v-for="category in items">
-				<router-link :key="item.name" :to="{name:item.route}" @click.native="checkMobileClick" class="item" :class="{'active':$route.name === item.route}" v-for="(item, i) in category.items">
+			<figure v-for="item in items">
+				<router-link v-if="item.hasOwnProperty('route')" :key="item.name" :to="{name:item.route}" @click.native="checkMobileClick" class="item" :class="{'active':$route.name === item.route}">
 					<i :class="itemIcon(item)"></i>
 					<span>{{item.name}}</span>
 				</router-link>
+
+				<figure v-else :key="item.name" @click="item.click" class="item">
+					<i :class="itemIcon(item)"></i>
+					<span>{{item.name}}</span>
+				</figure>
 			</figure>
+
+			<!--<figure class="category" v-for="category in items">-->
+				<!--<router-link :key="item.name" :to="{name:item.route}" @click.native="checkMobileClick" class="item" :class="{'active':$route.name === item.route}" v-for="(item, i) in category.items">-->
+					<!--<i :class="itemIcon(item)"></i>-->
+					<!--<span>{{item.name}}</span>-->
+				<!--</router-link>-->
+			<!--</figure>-->
 
 			<figure class="lock-sidebar" @click="toggleSidebar">
 				<span class="nav"></span>
@@ -21,6 +33,7 @@
 	import {mapGetters, mapState, mapActions} from 'vuex';
 	import {RouteNames} from "../vue/Routing";
 	import * as UIActions from "../store/ui_actions";
+	import WalletHelpers from "../util/WalletHelpers";
 
 	export default {
 		data(){return {
@@ -37,29 +50,26 @@
 
 			items(){
 				return [
-					{
-						name:null,
-						items:[
-							{name:'Dashboard', route:RouteNames.HOME},
-							this.accounts.length ? {name:'Apps', route:RouteNames.APPS} : null,
-							{name:'Wallet', route:RouteNames.WALLET},
-							this.accounts.length ? {name:'Assets', route:RouteNames.ASSETS} : null,
-							// this.accounts.length ? {name:'Marketplace', route:RouteNames.ITEMS} : null,
-							{name:'Identities', route:RouteNames.IDENTITIES},
-							{name:'Locations', route:RouteNames.LOCATIONS},
-							// this.accounts.length ? {name:'Reputation', route:RouteNames.RIDL} : null,
-							this.features.creditCards ? {name:'Purchase', route:RouteNames.PURCHASE} : null,
-							{name:'Contacts', route:RouteNames.CONTACTS},
-							this.history.length ? {name:'History', route:RouteNames.HISTORIES} : null,
-							{name:'Networks', route:RouteNames.NETWORKS},
-							{name:'Settings', route:RouteNames.SETTINGS},
-						].filter(x => !!x)
-					}
-				]
+					{name:'Dashboard', route:RouteNames.HOME},
+					this.accounts.length ? {name:'Apps', route:RouteNames.APPS} : null,
+					{name:'Wallet', route:RouteNames.WALLET},
+					this.accounts.length ? {name:'Assets', route:RouteNames.ASSETS} : null,
+					// this.accounts.length ? {name:'Marketplace', route:RouteNames.ITEMS} : null,
+					{name:'Identities', route:RouteNames.IDENTITIES},
+					{name:'Locations', route:RouteNames.LOCATIONS},
+					// this.accounts.length ? {name:'Reputation', route:RouteNames.RIDL} : null,
+					this.features.creditCards ? {name:'Purchase', route:RouteNames.PURCHASE} : null,
+					{name:'Contacts', route:RouteNames.CONTACTS},
+					this.history.length ? {name:'History', route:RouteNames.HISTORIES} : null,
+					{name:'Networks', route:RouteNames.NETWORKS},
+					{name:'Settings', route:RouteNames.SETTINGS},
+					WalletHelpers.getWalletType() === 'extension' ? {name:'Lock Wallet', click:this.lockWallet} : null,
+				].filter(x => !!x)
 			}
 		},
 		mounted(){
 			this[UIActions.SET_SIDEBAR](window.localStorage.getItem('sidebar') === 'true');
+
 		},
 		methods:{
 			itemIcon(item){
@@ -76,9 +86,14 @@
 					case 'Networks': return 'fal fa-server';
 					case 'Settings': return 'fal fa-cog';
 					case 'Marketplace': return 'fal fa-shopping-cart';
+					case 'Lock Wallet': return 'fal fa-lock-alt';
 					default: return 'fal fa-star';
 
 				}
+			},
+			async lockWallet(){
+				await window.wallet.lock();
+				location.reload();
 			},
 			toggleSidebar(){
 				this[UIActions.SET_SIDEBAR](!this.sidebarLocked);

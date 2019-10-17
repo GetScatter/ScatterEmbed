@@ -39,7 +39,7 @@
 				<section class="scroller identity">
 					<section class="id-card">
 						<figure class="bg">
-							<img src="static/assets/login_bg.png" />
+							<img src="static/assets/login_bg.jpg" />
 						</figure>
 						<section class="card">
 							<section class="avatar" :class="{'has-image':scatter.keychain.avatars[identity.id]}">
