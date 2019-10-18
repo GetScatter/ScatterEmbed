@@ -31,6 +31,7 @@
     "json-formatter-js": "^2.2.1",
     "murmurhash": "^0.0.2",
     "ridl": "^2.0.47",
+    "vconsole": "^3.3.4",
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {

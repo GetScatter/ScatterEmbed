@@ -80,7 +80,8 @@ export const actions = {
 
 		    await window.wallet.unlock(password, true);
 		    dispatch(Actions.SET_SCATTER, scatter).then(async _scatter => {
-			    await BackupService.setDefaultBackupLocation();
+		    	// TODO: Mobile unfriendly
+			    // await BackupService.setDefaultBackupLocation();
 			    SingletonService.init();
 			    resolve();
 		    })
@@ -92,7 +93,8 @@ export const actions = {
         return new Promise(async resolve => {
 	        let updated = await StorageService.setScatter(scatter);
 	        if(!updated) return resolve(false);
-	        BackupService.createAutoBackup();
+	        // TODO: Mobile unfriendly
+	        // BackupService.createAutoBackup();
 
 	        updated = Scatter.fromJson(updated);
             commit(Actions.SET_SCATTER, updated);

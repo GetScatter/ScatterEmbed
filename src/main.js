@@ -1,3 +1,7 @@
+const VConsole = require('vconsole');
+const vConsole = new VConsole({});
+
+
 import './styles/styles.scss'
 import './styles/animations.scss'
 import './styles/popins.scss'
@@ -29,6 +33,7 @@ import {store} from "./store/store";
 
 import '@fortawesome/fontawesome-pro/css/all.css'
 import SingletonService from "./services/utility/SingletonService";
+import IdGenerator from '@walletpack/core/util/IdGenerator';
 
 // f12 to open console from anywhere.
 document.addEventListener("keydown", e => {
@@ -84,7 +89,7 @@ class Main {
 
 
 		const setupWallet = async () => {
-			WalletTalk.setup();
+			await WalletTalk.setup();
 			await WalletHelpers.init();
 
 			if(WalletHelpers.getWalletType() === 'extension' && await window.wallet.unlocked()){
@@ -106,11 +111,11 @@ class Main {
 
 			let interval;
 			interval = setInterval(() => {
-				if(window.wallet){
+				if(window.wallet || window.ReactNativeWebView){
 					clearInterval(interval);
 					setupWallet();
 				}
-			}, 1);
+			}, 10);
 
 
 		}
