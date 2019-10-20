@@ -186,22 +186,14 @@
 
 
 			validAccounts(){
-				let neededNetworks = this.accountRequirements.map(x => Network.fromJson(x).unique());
+				if(!this.accountRequirements.length) return [];
 
-				this.selectedAccounts.map(acc => {
-					neededNetworks.splice(neededNetworks.indexOf(acc.network().unique()), 1);
-				});
-
-				return this.accounts
-					.filter(x => neededNetworks.includes(x.networkUnique))
+				console.log('this.accountRequirements', this.accountRequirements);
+				const network = this.accountRequirements.map(x => Network.fromJson(x))[0];
+				return network.accounts()
 					.sort((a,b) => b.authority === 'active' ? 1 : 0)
-					.reduce((acc, account) => {
-						if(!acc.find(x => account.network().unique() === x.network().unique()
-							&& account.sendable() === x.sendable())) acc.push(account);
-
-						return acc;
-					}, [])
 					.sort((a,b) => b.logins - a.logins)
+
 			},
 			requestedNetworks(){
 				return this.accountRequirements.map(raw => {

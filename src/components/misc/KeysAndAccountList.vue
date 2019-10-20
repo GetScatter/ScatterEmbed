@@ -46,7 +46,7 @@
 				</section>
 
 				<section v-if="!keypairsOnly">
-					<section v-if="keypair.accounts().length">
+					<section v-if="filteredAccounts(keypair).length">
 						<figure class="accounts-label">Linked accounts</figure>
 						<section class="accounts-list">
 							<section class="account" v-for="account in filteredAccounts(keypair)" @click="$emit('account', account)">
@@ -193,7 +193,7 @@
 			},
 			filteredAccounts(keypair){
 				return keypair.accounts(true)
-					.filter(x => this.accounts ? this.accounts.find(y => y.unique() === x.unique()) : true)
+					.filter(x => this.accounts ? this.accounts.find(y => y.identifiable() === x.identifiable()) : true)
 					.filter(x => x.sendable().indexOf(this.terms) > -1)
 					.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())
 			},
