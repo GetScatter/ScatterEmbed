@@ -14,11 +14,13 @@ export default class WalletHelpers {
 
 	static getWalletType(){ return walletType; }
 
-	static async init(){
+	static async init(isPopOut){
 
-		const version = await window.wallet.getVersion();
-		const [wtype, wver] = version.split('_');
-		walletType = wtype;
+		if(!isPopOut) {
+			const version = await window.wallet.getVersion();
+			const [wtype, wver] = version.split('_');
+			walletType = wtype;
+		}
 
 		const eventListener = async (type, data) => {
 			if(type === 'popout') {

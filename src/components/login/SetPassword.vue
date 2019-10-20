@@ -51,22 +51,19 @@
 		methods:{
 			async checkPassword(){
 
+				// TODO: Revert!
 				// const err = PasswordService.hasError(this.password);
 				// if(err) return PopupService.push(Popup.snackbar(err));
 				// if(this.password !== this.confirmation) return PopupService.push(Popup.snackbar("Password confirmation does not match password"));
 
-				// this.setWorkingScreen(true);
-				// await this[UIActions.CREATE_SCATTER](this.password);
-				// this.setWorkingScreen(false);
+				await new Promise(r => setTimeout(() => r(true), 1000));
+				this.setWorkingScreen(true);
+				// TODO: Can this fail?
+				await this[UIActions.CREATE_SCATTER](this.password);
+				this.setWorkingScreen(false);
 
-				// this.$emit('next');
 
-				setTimeout(async () => {
-					this.setWorkingScreen(true);
-					await this[UIActions.CREATE_SCATTER](this.password);
-					this.setWorkingScreen(false);
-					this.$emit('next');
-				}, 1500);
+				this.$emit('next');
 			},
 
 			...mapActions([

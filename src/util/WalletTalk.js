@@ -15,6 +15,8 @@ export default class WalletTalk {
 		WalletTalk.checkMobileWallet();
 
 		window.wallet.socketResponse = data => {
+			if(typeof data === 'string') data = JSON.parse(data);
+			console.log('got socket response', data.type, data);
 			switch(data.type){
 				case 'ext_api': return ApiService.handler(data.request);
 				case 'api': return CoreSocketService.handleApiResponse(data.request, data.id);
@@ -27,17 +29,30 @@ export default class WalletTalk {
 		window.wallet.popout = popOut => {
 			store.dispatch(UIActions.SET_POPOUT, popOut);
 		}
+
+		console.log('done setting up wallet', window.wallet);
 	}
 
 	// Mobile doesn't allow injection of window objects the same way.
 	// So we're building a communication system for mobile instead which
 	// proxies all requests over the connection.
 	static checkMobileWallet(){
-		if(typeof window.ReactNativeWebView !== 'undefined'){
+		if(typeof window.ReactNativeWebView !== 'undefined' || typeof window.PopOutWebView !== 'undefined'){
+			const parseIfNeeded = x => {
+				if(x && typeof x === 'string' && x.indexOf(`{`) > -1) x = JSON.parse(x);
+			}
+
+			// For mobile popouts only.
+			if(typeof window.ReactNativeWebView === 'undefined'){
+				window.ReactNativeWebView = {
+					postMessage:() => {}
+				};
+			}
+
 			let resolvers = {};
 
 			window.ReactNativeWebView.response = ({id, result}) => {
-				console.log('got response!', id, result);
+				parseIfNeeded(result);
 				resolvers[id](result);
 				delete resolvers[id];
 			}
@@ -47,19 +62,19 @@ export default class WalletTalk {
 					return (prop ? target[prop] : target).then.bind(target);
 				}
 
-				// if(key === 'socketResponse'){
-				// 	return (prop ? target[prop] : target)[key];
-				// }
+				if(key === 'socketResponse'){
+					return (prop ? target[prop] : target)[key];
+				}
 
 				return (...params) => new Promise(async resolve => {
 					const id = IdGenerator.text(24);
 					resolvers[id] = resolve;
-					console.log('mobile wallet proxy get', id, key);
 					window.ReactNativeWebView.postMessage(JSON.stringify({id, prop, key, params}));
 				});
 			};
 
 			const proxied = (prop) => new Proxy({}, { get(target, key){ return proxyGet(prop, target, key); } });
+
 
 			window.wallet = new Proxy({
 				storage:proxied('storage'),
@@ -77,11 +92,13 @@ export default class WalletTalk {
 			// These methods are being used temporarily in the mobile version
 			// since there is no viable port of sjcl or aes-gcm
 			window.ReactNativeWebView.mobileEncrypt = ({id, data, key}) => {
+				parseIfNeeded(data);
 				window.ReactNativeWebView.postMessage(JSON.stringify({type:'mobile_response', id, result:AES.encrypt(data, key)}));
 				return true;
 			};
 
 			window.ReactNativeWebView.mobileDecrypt = ({id, data, key}) => {
+				parseIfNeeded(data);
 				window.ReactNativeWebView.postMessage(JSON.stringify({type:'mobile_response', id, result:AES.decrypt(data, key)}));
 				return true;
 			};
@@ -93,6 +110,23 @@ export default class WalletTalk {
 				return true;
 			};
 			// --------------------------------------------------------------------------------------------------------------------
+			// TODO: FOR TESTING ONLY
+			// --------------------------------------------------------------------------------------------------------------------
+			const log = console.log;
+			const error = console.error;
+
+			console.log = (...params) => {
+				window.ReactNativeWebView.postMessage(JSON.stringify({type:'console', params}));
+				return log(...params);
+			};
+
+			console.error = (...params) => {
+				window.ReactNativeWebView.postMessage(JSON.stringify({type:'console', params}));
+				return error(...params);
+			};
+
+
+			console.log('set react native wallet', window.wallet);
 		}
 	}
 
@@ -142,6 +176,8 @@ export default class WalletTalk {
 				fakeScatter.keychain.keypairs.push(keypair);
 				fakeScatter.keychain.accounts.push(account);
 				fakeScatter.keychain.accounts.push(account2);
+
+				console.log('fakeScatter', JSON.stringify(fakeScatter));
 
 				window.wallet = {
 					/************************************/

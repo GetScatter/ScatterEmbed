@@ -48,7 +48,7 @@ document.onmousedown= e => {
 class Main {
 
 	constructor(){
-		const isPopOut = location.hash.replace("#/", '') === 'popout';
+		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout';
 
 		const setup = () => {
 
@@ -81,7 +81,9 @@ class Main {
 				else next();
 			}
 
-			new VueInitializer(Routing.routes(), components, middleware, async (router) => {});
+			new VueInitializer(Routing.routes(), components, middleware, async (router) => {
+				console.log('loaded vuejs');
+			});
 
 			return true;
 		};
@@ -90,7 +92,7 @@ class Main {
 
 		const setupWallet = async () => {
 			await WalletTalk.setup();
-			await WalletHelpers.init();
+			await WalletHelpers.init(isPopOut);
 
 			if(WalletHelpers.getWalletType() === 'extension' && await window.wallet.unlocked()){
 				await store.dispatch(Actions.LOAD_SCATTER);
@@ -109,9 +111,11 @@ class Main {
 
 		} else {
 
+			console.log('isPopOut', isPopOut);
+
 			let interval;
 			interval = setInterval(() => {
-				if(window.wallet || window.ReactNativeWebView){
+				if(window.wallet || window.ReactNativeWebView || window.PopOutWebView){
 					clearInterval(interval);
 					setupWallet();
 				}
