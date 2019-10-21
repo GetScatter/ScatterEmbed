@@ -214,8 +214,42 @@
 				if(this.opening) return;
 				this.opening = true;
 
+
+				const tryBiometrics = await (async () => {
+					let biometrics;
+					try {
+						biometrics = await window.wallet.biometrics.available();
+					} catch(e){
+						// Happens when biometrics isn't available.
+						return false;
+					}
+
+					if(biometrics && biometrics.toString().indexOf('error') > -1){
+						this.opening = false;
+						return PopupService.push(Popup.snackbar(JSON.parse(biometrics).error));
+					} else {
+						PopupService.push(Popup.snackbar(`Scan your ${biometrics}`))
+						const authorized = await window.wallet.biometrics.authorize();
+						if(authorized && typeof authorized === 'object' && authorized.hasOwnProperty('error')){
+							this.opening = false;
+							PopupService.push(Popup.snackbar(authorized.error));
+							return false;
+						}
+						else if (authorized === true) return true;
+						else {
+							this.opening = false;
+							PopupService.push(Popup.snackbar("Biometric error!"));
+							return false;
+						}
+					}
+				})();
+
+				if(!tryBiometrics) return;
+
+
 				const unlocked = await window.wallet.unlock(this.password);
 				if(unlocked) {
+
 					await this[Actions.LOAD_SCATTER]();
 					this.$router.push({name:RouteNames.HOME});
 					SingletonService.init();

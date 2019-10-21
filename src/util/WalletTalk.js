@@ -16,7 +16,6 @@ export default class WalletTalk {
 
 		window.wallet.socketResponse = data => {
 			if(typeof data === 'string') data = JSON.parse(data);
-			console.log('got socket response', data.type, data);
 			switch(data.type){
 				case 'ext_api': return ApiService.handler(data.request);
 				case 'api': return CoreSocketService.handleApiResponse(data.request, data.id);
@@ -29,8 +28,6 @@ export default class WalletTalk {
 		window.wallet.popout = popOut => {
 			store.dispatch(UIActions.SET_POPOUT, popOut);
 		}
-
-		console.log('done setting up wallet', window.wallet);
 	}
 
 	// Mobile doesn't allow injection of window objects the same way.
@@ -79,13 +76,15 @@ export default class WalletTalk {
 			window.wallet = new Proxy({
 				storage:proxied('storage'),
 				utility:proxied('utility'),
-				sockets:proxied('sockets')
+				sockets:proxied('sockets'),
+				biometrics:proxied('biometrics'),
 			}, {
 				get(target, key) {
-					if(['storage', 'utility', 'sockets'].includes(key)) return target[key];
+					if(['storage', 'utility', 'sockets', 'biometrics'].includes(key)) return target[key];
 					return proxyGet(null, target, key);
 				},
 			});
+
 
 
 			// --------------------------------------------------------------------------------------------------------------------
@@ -125,8 +124,6 @@ export default class WalletTalk {
 				return error(...params);
 			};
 
-
-			console.log('set react native wallet', window.wallet);
 		}
 	}
 
@@ -176,8 +173,6 @@ export default class WalletTalk {
 				fakeScatter.keychain.keypairs.push(keypair);
 				fakeScatter.keychain.accounts.push(account);
 				fakeScatter.keychain.accounts.push(account2);
-
-				console.log('fakeScatter', JSON.stringify(fakeScatter));
 
 				window.wallet = {
 					/************************************/
@@ -232,7 +227,7 @@ export default class WalletTalk {
 					utility:{
 						openTools:() => true,
 						closeWindow:() => true,
-						flashWindow:() => console.error('flashing not implemented'),
+						flashWindow:() => true,
 						openLink:() => true,
 						reload:() => window.reload(),
 						copy:() => true,
