@@ -70,10 +70,6 @@
 
 			if(!!this.isExtension || !!this.isNativeMobile){
 
-				if(!this.isExtension){
-					console.log('get popout', window.PopOutWebView, await window.PopOutWebView.getPopOut());
-                }
-
 				const {popout, scatter} = this.isExtension
                     ? await window.wallet.utility.getPopOut(this.$route.query.extension)
                     : JSON.parse(await window.PopOutWebView.getPopOut());
@@ -105,7 +101,7 @@
 
 				const formattedResult = {original:this.popOut, result};
 				this.isNativeMobile
-                    ? await window.PopOutWebView.popoutResponse(JSON.stringify(formattedResult))        // Only needed for native mobile wallets
+                    ? await window.PopOutWebView.popoutResponse(formattedResult)        // Only needed for native mobile wallets
 				    : await window.wallet.utility.popoutResponse(formattedResult);      // Only needed for native mobile wallets
 
 
