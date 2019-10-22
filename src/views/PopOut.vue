@@ -99,8 +99,8 @@
 
 				const formattedResult = {original:this.popOut, result};
 				this.isNativeMobile
-                    ? await window.PopOutWebView.popoutResponse(JSON.stringify(formattedResult))        // Only needed for native mobile wallets
-				    : await window.wallet.utility.popoutResponse(formattedResult);      // Only needed for native mobile wallets
+                    ? await window.PopOutWebView.popoutResponse(JSON.stringify(formattedResult))    // Only needed for native mobile wallets
+				    : await window.wallet.utility.popoutResponse(formattedResult);                  // Only needed for native mobile wallets
 
 
 				if(this.isExtension)        window.close();

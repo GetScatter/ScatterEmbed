@@ -175,6 +175,7 @@ export default class VueInitializer {
 		const app = new Vue({router, store});
 		app.$mount('#scatter');
 
+
 		document.getElementById('base_loader').remove();
 
 		// This removes the browser console's ability to
