@@ -66,15 +66,13 @@
 		},
 		async created(){
 			this.isExtension = this.$route.query.extension;
-			this.isNativeMobile = this.$route.query.mobile;
+			this.isNativeMobile = !!window.PopOutWebView;
 
 			if(!!this.isExtension || !!this.isNativeMobile){
 
 				const {popout, scatter} = this.isExtension
                     ? await window.wallet.utility.getPopOut(this.$route.query.extension)
                     : JSON.parse(await window.PopOutWebView.getPopOut());
-
-				console.log('got popout data', popout, scatter);
 
 				this[UIActions.SET_POPOUT](popout);
 				this[Actions.HOLD_SCATTER](Scatter.fromJson(scatter));
@@ -101,7 +99,7 @@
 
 				const formattedResult = {original:this.popOut, result};
 				this.isNativeMobile
-                    ? await window.PopOutWebView.popoutResponse(formattedResult)        // Only needed for native mobile wallets
+                    ? await window.PopOutWebView.popoutResponse(JSON.stringify(formattedResult))        // Only needed for native mobile wallets
 				    : await window.wallet.utility.popoutResponse(formattedResult);      // Only needed for native mobile wallets
 
 

@@ -11,7 +11,7 @@ import HistoricExchange from '@walletpack/core/models/histories/HistoricTransfer
 import HistoricAction from '@walletpack/core/models/histories/HistoricTransfer';
 import {HISTORY_TYPES} from '@walletpack/core/models/histories/History';
 
-const isPopOut = location.hash.replace("#/", '') === 'popout';
+const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
 let migrationChecked = false;
 
 export const actions = {

@@ -12,7 +12,7 @@ import WalletHelpers from './util/WalletHelpers';
 
 import VueInitializer from './vue/VueInitializer';
 import {RouteNames, Routing} from './vue/Routing';
-import { QrcodeReader } from 'vue-qrcode-reader'
+import { QrcodeStream } from 'vue-qrcode-reader'
 
 
 import ViewBase from './components/ViewBase.vue'
@@ -48,7 +48,8 @@ document.onmousedown= e => {
 class Main {
 
 	constructor(){
-		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout';
+		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
+		console.log('main isPopOut', isPopOut);
 
 		const setup = () => {
 
@@ -70,13 +71,16 @@ class Main {
 			if(isPopOut) fragments = [
 				{tag:'PopOutHead', vue:PopOutHead},
 			]; else fragments = [
-				{tag:'qr-reader', vue:QrcodeReader},
+
 			]
 
 			const components = shared.concat(fragments);
 
 			const middleware = async (to, next) => {
-				if(isPopOut) return next();
+				if(isPopOut) {
+					if(to.name !== RouteNames.POP_OUT) return next({name:RouteNames.POP_OUT});
+					return next();
+				}
 				else if(Routing.isRestricted(to.name)) await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
 				else next();
 			}
@@ -111,10 +115,9 @@ class Main {
 
 		} else {
 
-			console.log('isPopOut', isPopOut);
-
 			let interval;
 			interval = setInterval(() => {
+				console.log('main isPopOut2', window.PopOutWebView);
 				if(window.wallet || window.ReactNativeWebView || window.PopOutWebView){
 					clearInterval(interval);
 					setupWallet();

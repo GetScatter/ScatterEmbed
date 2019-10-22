@@ -2,7 +2,6 @@
 	<section class="login">
 
 
-
 		<section class="entry" v-if="state === STATES.NEW_OR_LOGIN">
 			<figure class="login-bg">
 				<img src="static/assets/login_bg.jpg" />
@@ -111,6 +110,7 @@
 <script>
 	import { mapActions, mapGetters, mapState } from 'vuex'
 	import * as Actions from '@walletpack/core/store/constants';
+	import { QrcodeStream } from 'vue-qrcode-reader'
 
 	import ProgressBubbles from "../components/reusable/ProgressBubbles";
 	import ActionBar from "../components/reusable/ActionBar";
@@ -151,6 +151,7 @@
 			Reset,
 			Restore,
 			Support,
+			QrcodeStream,
 		},
 		data(){return {
 			state:STATES.NEW_OR_LOGIN,
@@ -221,7 +222,7 @@
 						biometrics = await window.wallet.biometrics.available();
 					} catch(e){
 						// Happens when biometrics isn't available.
-						return false;
+						return true;
 					}
 
 					if(biometrics && biometrics.toString().indexOf('error') > -1){

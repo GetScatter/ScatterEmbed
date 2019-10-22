@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import {mapState, mapActions} from 'vuex';
 import VTooltip from 'v-tooltip'
-import VueQrcodeReader from 'vue-qrcode-reader'
+// import VueQrcodeReader from 'vue-qrcode-reader'
 
 
 import VueRouter from 'vue-router'
@@ -153,7 +153,7 @@ export default class VueInitializer {
 		Vue.use(VTooltip, {
 			defaultOffset:5
 		});
-		Vue.use(VueQrcodeReader);
+		// Vue.use(VueQrcodeReader);
 	}
 
 	registerComponents(components){
