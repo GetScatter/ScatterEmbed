@@ -40,7 +40,6 @@ export default class WalletTalk {
 			}
 
 			// For mobile popouts only.
-			console.log('typeof window.ReactNativeWebView', typeof window.ReactNativeWebView);
 			if(typeof window.ReactNativeWebView === 'undefined'){
 				window.ReactNativeWebView = {
 					postMessage:() => {}
@@ -98,9 +97,8 @@ export default class WalletTalk {
 			};
 
 			window.ReactNativeWebView.mobileDecrypt = ({id, data, key}) => {
-				// parseIfNeeded(data);
-				console.log('mobile decrypt?');
-				// window.ReactNativeWebView.postMessage(JSON.stringify({type:'mobile_response', id, result:AES.decrypt(data, key)}));
+				parseIfNeeded(data);
+				window.ReactNativeWebView.postMessage(JSON.stringify({type:'mobile_response', id, result:AES.decrypt(data, key)}));
 				return true;
 			};
 
@@ -108,6 +106,14 @@ export default class WalletTalk {
 			window.ReactNativeWebView.seedPassword = async ({id, password, salt}) => {
 				const [_, seed] = await Mnemonic.generateMnemonic(password, salt);
 				window.ReactNativeWebView.postMessage(JSON.stringify({type:'mobile_response', id, result:seed}));
+				return true;
+			};
+
+			// Just because doing sha256 on a buffer in react is dumb.
+			const ecc = require('eosjs-ecc');
+			window.ReactNativeWebView.sha256 = ({id, data}) => {
+				parseIfNeeded(data);
+				window.ReactNativeWebView.postMessage(JSON.stringify({type:'mobile_response', id, result:ecc.sha256(Buffer.from(data))}));
 				return true;
 			};
 			// --------------------------------------------------------------------------------------------------------------------

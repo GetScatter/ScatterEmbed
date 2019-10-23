@@ -17,7 +17,6 @@ export default class SocketService {
 	}
 
 	static async emit(origin, id, path, data){
-		console.log('emitting from embed', origin, id, path, data);
 		return window.wallet.sockets.emit(origin, id, path, data);
 	}
 

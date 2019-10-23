@@ -1,5 +1,5 @@
-const VConsole = require('vconsole');
-const vConsole = new VConsole({});
+// const VConsole = require('vconsole');
+// const vConsole = new VConsole({});
 
 
 import './styles/styles.scss'
@@ -45,13 +45,67 @@ document.onmousedown= e => {
 	// TODO: Add CMD click logic prevention
 }
 
+let cssLoaded = false;
+const loadStyles = async HOST => {
+	if(cssLoaded) return;
+	cssLoaded = true;
+
+	const head = document.getElementsByTagName('head')[0];
+
+	const applyStyles = styles => {
+		const linkElement = document.createElement('style');
+		linkElement.setAttribute('type', 'text/css');
+		linkElement.innerHTML = styles;
+		head.appendChild(linkElement);
+	}
+
+	const fontawesome = await Promise.race([
+		// TODO: Cache on embed servers
+		fetch(HOST+"static/fonts/fontawesome.css").then(x => x.text()).catch(() => null),
+		new Promise(r => setTimeout(() => r(null), 2000))
+	]);
+
+	console.log(fontawesome.replace(/INSERT_HOST/g, HOST+"static/fonts"));
+
+	if(!fontawesome) console.log("There was an error setting up fontawesome.");
+	applyStyles(fontawesome.replace(/INSERT_HOST/g, HOST+"static/fonts"));
+
+
+	const stylesheets = [
+		"static/fonts/scatter-icons",
+		"static/fonts/token-icons",
+		"static/fonts/scatter-logo",
+		"static/fonts/sidebar-icons",
+		"static/fonts/google-fonts",
+	];
+
+	stylesheets.map(async stylesheet => {
+
+		const PATH = HOST+stylesheet;
+
+		let styles = await Promise.race([
+			fetch(PATH+"/style.css").then(x => x.text()).catch(() => null),
+			new Promise(r => setTimeout(() => r(null), 2000))
+		]);
+		if(!styles) return console.log("There was a problem fetching the CSS for '"+stylesheet+"'.");
+
+		// Remodeling the paths
+		styles = styles.replace(/fonts\//g, PATH+"/fonts/");
+
+		applyStyles(styles);
+	});
+}
+
 class Main {
 
 	constructor(){
+		// TODO: Should actually be loaded by the calling wallet, so it can specify paths (useful for dev).
+		loadStyles('http://10.0.0.1:8081/');
+
 		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
-		console.log('main isPopOut', isPopOut);
 
 		const setup = () => {
+			console.log('setting up vuejs');
 
 			const shared = [
 				{tag:'Button', vue:Button},
@@ -115,14 +169,20 @@ class Main {
 
 		} else {
 
+			let foundWallet = false;
 			let interval;
-			interval = setInterval(() => {
-				console.log('main isPopOut2', window.PopOutWebView);
+			const checkWallet = () => {
 				if(window.wallet || window.ReactNativeWebView || window.PopOutWebView){
+					if(foundWallet) return;
+					foundWallet = true;
+					console.log('setting up wallet');
 					clearInterval(interval);
 					setupWallet();
 				}
-			}, 10);
+			};
+
+			checkWallet();
+			interval = setInterval(() => checkWallet(), 100);
 
 
 		}
