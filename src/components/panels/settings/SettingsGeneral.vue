@@ -67,9 +67,9 @@
     import * as UIActions from "../../../store/ui_actions";
 
     import UpdateService from '../../../services/utility/UpdateService';
-    import WindowService from '../../../services/electron/WindowService';
+    import WindowService from '../../../services/wallets/WindowService';
     import LanguageService from "../../../services/utility/LanguageService";
-    import Injectable from "../../../services/electron/Injectable";
+    import Injectable from "../../../services/wallets/Injectable";
 
     export default {
         data () {return {

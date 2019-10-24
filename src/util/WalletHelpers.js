@@ -1,9 +1,9 @@
 import {Popup, PopupData, PopupDisplayTypes} from "../models/popups/Popup";
-import WindowService from "../services/electron/WindowService";
+import WindowService from "../services/wallets/WindowService";
 import WalletPack from "@walletpack/core";
 import {store} from "../store/store";
 import ExternalWallet, {ExternalWalletInterface} from "@walletpack/core/models/hardware/ExternalWallet";
-import SocketService from "../services/electron/SocketService";
+import SocketService from "../services/wallets/SocketService";
 import WalletTalk from "./WalletTalk";
 import AppsService from '@walletpack/core/services/apps/AppsService'
 import PopupService from "../services/utility/PopupService";

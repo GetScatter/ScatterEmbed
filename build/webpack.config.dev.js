@@ -9,13 +9,13 @@ rm.sync('./dist')
 
 module.exports = merge(baseConfig, {
 	mode: 'production',
-	devtool: false,
+	devtool: 'eval',
 	optimization: {
 		minimize:false,
 		minimizer:[],
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.SourceMapDevToolPlugin({}),
+		// new webpack.SourceMapDevToolPlugin({}),
 	]
 })

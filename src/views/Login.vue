@@ -454,7 +454,9 @@
 
 
 		.welcome-password {
-			width:450px;
+			max-width: 450px;
+			width: calc(100% - 40px);
+			margin: 0 20px;
 		}
 	}
 

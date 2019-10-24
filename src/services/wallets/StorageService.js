@@ -1,5 +1,3 @@
-const isPopup = location.hash.indexOf('popout') > -1;
-
 export default class StorageService {
 
 	constructor(){}
@@ -13,7 +11,6 @@ export default class StorageService {
 	};
 
 	static async setScatter(scatter){
-		if(isPopup) return;
 		return window.wallet.storage.setWalletData(scatter);
 	};
 

@@ -156,7 +156,7 @@ export default class WalletTalk {
 
 				const keypair = require('@walletpack/core/models/Keypair').default.fromJson({
 					name:'testkey',
-					privateKey:'........................................................................................................................',
+					privateKey:'{test:"key"}',
 					publicKeys:[{key:'EOS7w5aJCv5B7y3a6f4WCwPSvs6TpCAoRGnGpiLMsSWbmxaZdKigd', blockchain:'eos'}],
 					blockchains:['eos']
 				});
@@ -183,9 +183,16 @@ export default class WalletTalk {
 				fakeScatter.keychain.accounts.push(account2);
 
 				window.wallet = {
+					getVersion:() => `testing_0.0.0`,
 					/************************************/
 					/**       SIGNING & WALLET         **/
 					/************************************/
+					availableBlockchains:() => ({
+						EOSIO:'eos',
+						ETH:'eth',
+						TRX:'trx',
+						BTC:'btc',
+					}),
 					exists:() => true,
 					unlocked:() => true,
 					unlock:() => fakeScatter,

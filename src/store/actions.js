@@ -1,5 +1,5 @@
 import * as Actions from '@walletpack/core/store/constants'
-import StorageService from '../services/electron/StorageService';
+import StorageService from '../services/wallets/StorageService';
 import BackupService from '../services/utility/BackupService';
 import Scatter from '@walletpack/core/models/Scatter';
 import * as UIActions from "./ui_actions";

@@ -1,6 +1,5 @@
-// const VConsole = require('vconsole');
-// const vConsole = new VConsole({});
-
+const VConsole = require('vconsole');
+const vConsole = new VConsole({});
 
 import './styles/styles.scss'
 import './styles/animations.scss'
@@ -65,8 +64,6 @@ const loadStyles = async HOST => {
 		new Promise(r => setTimeout(() => r(null), 2000))
 	]);
 
-	console.log(fontawesome.replace(/INSERT_HOST/g, HOST+"static/fonts"));
-
 	if(!fontawesome) console.log("There was an error setting up fontawesome.");
 	applyStyles(fontawesome.replace(/INSERT_HOST/g, HOST+"static/fonts"));
 
@@ -99,8 +96,13 @@ const loadStyles = async HOST => {
 class Main {
 
 	constructor(){
+
+		if(process.env.NO_WALLET){
+			loadStyles('http://localhost:8081/');
+		}
+
 		// TODO: Should actually be loaded by the calling wallet, so it can specify paths (useful for dev).
-		loadStyles('http://10.0.0.1:8081/');
+		else loadStyles('http://10.0.0.1:8081/');
 
 		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
 
@@ -131,6 +133,7 @@ class Main {
 			const components = shared.concat(fragments);
 
 			const middleware = async (to, next) => {
+				// return next();
 				if(isPopOut) {
 					if(to.name !== RouteNames.POP_OUT) return next({name:RouteNames.POP_OUT});
 					return next();
@@ -163,6 +166,9 @@ class Main {
 		if(process.env.NO_WALLET){
 
 			WalletTalk.setFakeWallet().then(async () => {
+				console.log('set fake wallet?', await window.wallet.storage.getWalletData())
+				await store.dispatch(Actions.LOAD_SCATTER);
+				console.log('SCATTA!', store.state.scatter);
 				await setupWallet();
 				SingletonService.init();
 			})

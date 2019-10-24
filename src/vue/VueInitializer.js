@@ -15,7 +15,7 @@ import AppsService from "@walletpack/core/services/apps/AppsService";
 import {dateId} from "@walletpack/core/util/DateHelpers";
 import PriceService from "@walletpack/core/services/apis/PriceService";
 import * as UIActions from "../store/ui_actions";
-import Injectable from "../services/electron/Injectable";
+import Injectable from "../services/wallets/Injectable";
 import {localized} from '../localization/locales'
 import LANG_KEYS from '../localization/keys'
 import {store} from "../store/store";

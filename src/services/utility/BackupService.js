@@ -1,8 +1,8 @@
 import * as Actions from '@walletpack/core/store/constants';
 import {BACKUP_STRATEGIES} from '@walletpack/core/models/Settings';
-import StorageService from '../../services/electron/StorageService';
+import StorageService from '../../services/wallets/StorageService';
 import StoreService from "@walletpack/core/services/utility/StoreService";
-import * as FileService from "../electron/FileService";
+import * as FileService from "../wallets/FileService";
 
 const saveBackup = async (filepath) => {
 	const scatter = await StorageService.getScatter();
