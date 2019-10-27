@@ -241,7 +241,6 @@
 			max-width:400px;
 			background:#fff;
 			border:1px solid #e8e8e8;
-			border-radius:10px;
 			padding:36px;
 			position: relative;
 			padding-top:65px;

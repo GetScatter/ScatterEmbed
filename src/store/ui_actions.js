@@ -2,6 +2,8 @@ export const SET_POPOUT = 'setPopout';
 export const PUSH_POPUP = 'pushPopup';
 export const RELEASE_POPUP = 'releasePopup';
 export const SET_WORKING_SCREEN = 'setWorkingScreen';
+export const SET_FEATURED_APPS = 'setFeaturedApps';
+export const SET_TOKEN_METAS = 'setTokenMetas';
 
 export const CREATE_SCATTER = 'createScatter';
 

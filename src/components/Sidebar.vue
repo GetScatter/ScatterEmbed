@@ -208,7 +208,6 @@
 			.item {
 				cursor: pointer;
 				padding:10px;
-				border-radius:22px;
 				margin:4px;
 				display:flex;
 				align-items: center;

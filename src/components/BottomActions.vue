@@ -55,9 +55,6 @@
 
                 }));
             },
-            displayTokenClass(){
-                return this.scatter.networkTokens().find(x => x.uniqueWithChain() === this.displayToken).symbolClass()
-            }
         }
 
     }

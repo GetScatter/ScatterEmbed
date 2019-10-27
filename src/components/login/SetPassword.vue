@@ -81,9 +81,6 @@
 		height:14px;
 		line-height: 14px;
 		margin-top:-4px;
-		border-radius:4px;
-		border-top-left-radius:0;
-		border-top-right-radius:0;
 		overflow: hidden;
 		background:#ffffff;
 		position: relative;
@@ -92,7 +89,6 @@
 		.bar {
 			background:$blue;
 			height:4px;
-			border-radius:20px;
 			transition: all 0.5s ease;
 			transition-property: width, background;
 			&.red {

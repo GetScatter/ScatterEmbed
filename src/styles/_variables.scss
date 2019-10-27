@@ -8,8 +8,8 @@ $quickactionsbuffer:45px;
 $fullheight:calc(100vh - #{$menuheight});
 $quickheight:calc(100vh - #{$menuheight} - #{$quickactionsheight - #{$quickactionsbuffer}});
 $quickheightnobuffer:calc(100vh - #{$menuheight} - #{$quickactionsheight});
-$radius:10px;
-$radius-big:30px;
+$radius:0;
+$radius-big:0;
 
 // Font-sizes
 $larger:16px;

@@ -1,5 +1,5 @@
 'use strict'
-
+const path = require('path');
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -29,12 +29,25 @@ module.exports = {
 		rules: [
 			{
 				test: /\.vue$/,
+				exclude: /node_modules/,
 				use: 'vue-loader'
 			}, {
 				test: /\.js$/,
 				exclude: /node_modules/,
+				include: path.resolve(__dirname, 'src'),
 				use: {
 					loader: 'babel-loader',
+				}
+			}, {
+				test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+				exclude: /node_modules/,
+				include: path.resolve(__dirname, 'src'),
+				use: {
+					loader: 'url-loader',
+					options: {
+						limit: 10000,
+						name: utils.assetsPath('media/[name].[ext]')
+					}
 				}
 			}, {
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -43,15 +56,6 @@ module.exports = {
 					options: {
 						limit: 10000,
 						name: utils.assetsPath('img/[name].[ext]')
-					}
-				}
-			}, {
-				test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-				use: {
-					loader: 'url-loader',
-					options: {
-						limit: 10000,
-						name: utils.assetsPath('media/[name].[ext]')
 					}
 				}
 			}, {
@@ -66,6 +70,7 @@ module.exports = {
 			},
 			{
 				test: /\.scss$/,
+				exclude: /node_modules/,
 				use: [
 					'vue-style-loader',
 					'css-loader',

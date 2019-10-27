@@ -1,5 +1,5 @@
-const VConsole = require('vconsole');
-const vConsole = new VConsole({});
+// const VConsole = require('vconsole');
+// const vConsole = new VConsole({});
 
 import './styles/styles.scss'
 import './styles/animations.scss'
@@ -132,13 +132,20 @@ class Main {
 
 			const components = shared.concat(fragments);
 
+			// TODO: Manage better so that it's not calling wallet each time
+			let unlocked = null;
+			const getUnlocked = async () => {
+				if(unlocked === null) unlocked = await window.wallet.unlocked();
+				return unlocked;
+			}
+
 			const middleware = async (to, next) => {
 				// return next();
 				if(isPopOut) {
 					if(to.name !== RouteNames.POP_OUT) return next({name:RouteNames.POP_OUT});
 					return next();
 				}
-				else if(Routing.isRestricted(to.name)) await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
+				else if(Routing.isRestricted(to.name)) await await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
 				else next();
 			}
 

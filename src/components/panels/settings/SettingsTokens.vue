@@ -123,9 +123,11 @@
 
                 <section class="tokens" v-if="visibleTokens.length">
                     <section class="badge-item hoverable" v-for="token in visibleTokens">
-                        <figure class="badge" :class="[{'iconed':token.symbolClass(), 'small':token && token.symbol.length >= 4, 'unusable':!!token.unusable}, token.symbolClass()]">
-                            <span v-if="!token.symbolClass()">{{token.truncatedSymbol()}}</span>
-                        </figure>
+                        <!--<figure class="badge" :class="[{'iconed':token.symbolClass(), 'small':token && token.symbol.length >= 4, 'unusable':!!token.unusable}, token.symbolClass()]">-->
+                            <!--<span v-if="!token.symbolClass()">{{token.truncatedSymbol()}}</span>-->
+                        <!--</figure>-->
+                        <!-- TODO: CHECK THIS! -->
+                        <TokenSymbol :token="token" />
                         <section class="details">
                             <figure class="title"><span v-if="token.amount">{{formatNumber(token.amount, true)}}</span> {{token.symbol}}</figure>
                             <figure class="row long">
@@ -158,6 +160,7 @@
 	import SearchBar from '../../reusable/SearchBar';
 	import Token from "@walletpack/core/models/Token";
 	import TokenService from "@walletpack/core/services/utility/TokenService";
+	import TokenSymbol from "../../reusable/TokenSymbol";
 
 	const STATES = {
 		ADD_TOKEN:'addToken',
@@ -170,6 +173,7 @@
 
 	export default {
 		components:{
+			TokenSymbol,
 			SearchBar
 		},
 		data () {return {

@@ -21,7 +21,7 @@
 		padding: 10px 14px;
 		background-color: lighten($blue, 40%);
 		border: 1px solid lighten($blue, 40%);
-		border-radius: 3px;
+		border-radius: $radius;
 		text-transform: uppercase;
 		color: $blue;
 		text-decoration: none;

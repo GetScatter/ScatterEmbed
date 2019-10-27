@@ -6,11 +6,11 @@
 			<figure class="login-bg">
 				<img src="static/assets/login_bg.jpg" />
 			</figure>
-			<section class="meteors">
-				<section class="rotator">
-					<figure class="shooting_star" v-for="i in new Array(20).keys()"></figure>
-				</section>
-			</section>
+			<!--<section class="meteors">-->
+				<!--<section class="rotator">-->
+					<!--<figure class="shooting_star" v-for="i in new Array(20).keys()"></figure>-->
+				<!--</section>-->
+			<!--</section>-->
 
 			<section class="head">
 				<section class="details">

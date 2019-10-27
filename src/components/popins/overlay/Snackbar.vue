@@ -47,7 +47,6 @@
 
         color:white;
         padding:10px 0;
-        border-radius:40px;
         border:1px solid $blue;
         text-align:left;
 

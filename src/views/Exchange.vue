@@ -87,9 +87,10 @@
 								<section class="symbol icon-attention-circled" v-if="!pair"></section>
 								<section class="symbol" v-else-if="loadingRate"><i class="icon-spin4 animate-spin"></i></section>
 								<section class="symbol" v-else>
-									<figure class="icon" :class="[{'small':pair && pair.symbol.length >= 4}, pair.symbolClass()]">
-										<span v-if="!pair.symbolClass()">{{pair.truncatedSymbol()}}</span>
-									</figure>
+									<TokenSymbol :token="pair" />
+									<!--<figure class="icon" :class="[{'small':pair && pair.symbol.length >= 4}, pair.symbolClass()]">-->
+										<!--<span v-if="!pair.symbolClass()">{{pair.truncatedSymbol()}}</span>-->
+									<!--</figure>-->
 								</section>
 
 
@@ -131,9 +132,11 @@
 	import * as Actions from "@walletpack/core/store/constants";
 	import TransferService from "@walletpack/core/services/blockchain/TransferService";
 	import HistoricExchange from "@walletpack/core/models/histories/HistoricExchange";
+	import TokenSymbol from "../components/reusable/TokenSymbol";
 	require('../styles/transfers.scss');
 
 	export default {
+		components: {TokenSymbol},
 		data(){return {
 			account:null,
 			recipient:null,

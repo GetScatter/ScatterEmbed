@@ -82,7 +82,6 @@
 				border:1px solid $blue;
 				position:absolute;
 				z-index:1;
-				border-radius:100px;
 				transition:all 0.2s ease-out;
 				transition-property: width, background, border;
 				text-align:center;

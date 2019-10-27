@@ -442,7 +442,6 @@
 
         .box {
             background:#fff;
-            border-radius:4px;
             padding:30px;
             text-align:center;
             min-width:250px;
@@ -482,7 +481,6 @@
         font-size:$small;
         font-weight: bold;
         color:$silver;
-        border-radius:4px;
         border:1px solid $grey;
         display:table;
         padding:5px 8px;
@@ -522,7 +520,6 @@
                 background:#fff;
                 text-align:center;
                 //border:1px solid $primary;
-                border-radius:4px;
                 box-shadow:0 2px 4px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.03);
                 font-size: 13px;
                 font-weight: bold;
@@ -565,7 +562,6 @@
             .ricardian {
                 background:rgba(0,0,0,0.05);
                 border:1px solid rgba(0,0,0,0.15);
-                border-radius:4px;
                 padding:10px;
             }
 
@@ -601,7 +597,6 @@
                 background:rgba(0,0,0,0.1);
                 box-shadow:inset 0 5px 10px rgba(0,0,0,0.1);
                 text-shadow:0 2px 0 rgba(0,0,0,0.1);
-                border-radius:4px;
                 margin-top:7px;
                 margin-right:10px;
 

@@ -54,7 +54,6 @@
 		    }
 
 			input {
-				border-radius:50px;
 				height:36px;
 				text-align:center;
 				font-size:$font-size-standard;

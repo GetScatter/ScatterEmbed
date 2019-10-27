@@ -330,12 +330,10 @@
 					.info {
 						.name {
 							padding:5px 50px;
-							border-radius:2px;
 							margin-bottom: 2px;
 						}
 						.description {
 							padding:10px 150px;
-							border-radius:2px;
 						}
 					}
 				}
