@@ -158,7 +158,7 @@
 				if(!account) return;
 				this.$router.push({name:this.RouteNames.EXCHANGE, query:{account:account.identifiable(), token:token.uniqueWithChain()}})
 			},
-			voteForScatter(){
+			async voteForScatter(){
 				if(this.proxying) return;
 				this.proxying = true;
 
@@ -172,40 +172,35 @@
 
 				const accounts = this.votableAccounts;
 
-				return new Promise(async (resolve, reject) => {
+				const eos = plugin.getSignableEosjs(accounts, () => {
+					reset();
+				});
 
-					const eos = plugin.getSignableEosjs(accounts, () => {
-						reset();
-					});
+				const actions = accounts.map(account => {
+					return {
+						account: 'eosio',
+						name:'voteproducer',
+						authorization: [{
+							actor: account.sendable(),
+							permission: account.authority,
+						}],
+						data:{
+							voter: account.name,
+							proxy: 'scatterproxy',
+							producers:[],
+						},
+					}
+				});
 
-					const actions = accounts.map(account => {
-						return {
-							account: 'eosio',
-							name:'voteproducer',
-							authorization: [{
-								actor: account.sendable(),
-								permission: account.authority,
-							}],
-							data:{
-								voter: account.name,
-								proxy: 'scatterproxy',
-								producers:[],
-							},
-						}
-					});
-
-					await eos.transact({ actions }, { blocksBehind: 3, expireSeconds: 30 })
-						.then(trx => {
-							PopupService.push(Popup.transactionSuccess(Blockchains.EOSIO, trx.transaction_id));
-							reset()
-						})
-						.catch(res => {
-							PopupService.push(Popup.snackbar(res));
-							reset()
-						})
-
-
-				})
+				await eos.transact({ actions }, { blocksBehind: 3, expireSeconds: 30 })
+					.then(trx => {
+						PopupService.push(Popup.transactionSuccess(Blockchains.EOSIO, trx.transaction_id));
+						reset()
+					})
+					.catch(res => {
+						PopupService.push(Popup.snackbar(res));
+						reset()
+					})
 			}
 		},
 		created() {

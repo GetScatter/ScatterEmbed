@@ -18,19 +18,23 @@ export default class SingletonService {
 		if (initialized) return true;
 		initialized = true;
 
-		PluginRepository.plugin(Blockchains.TRX).init();
-		SocketService.initialize();
+		// Gives priority to UI rendering first.
+		setTimeout(async () => {
+			PluginRepository.plugin(Blockchains.TRX).init();
+			SocketService.initialize();
 
-		store.dispatch(Actions.LOAD_HISTORY);
-		store.dispatch(UIActions.SET_TOKEN_METAS, await GET('tokenmeta'));
-		// store.dispatch(Actions.LOAD_LANGUAGE);
+			store.dispatch(Actions.LOAD_HISTORY);
+			store.dispatch(UIActions.SET_TOKEN_METAS, await GET('tokenmeta'));
+			// store.dispatch(Actions.LOAD_LANGUAGE);
 
-		AppsService.getApps();
-		PriceService.watchPrices();
-		PriceService.loadPriceTimelineData();
-		PermissionService.removeDanglingPermissions();
-		AccountService.fixOrphanedAccounts();
-		RecurringService.checkProxies();
+			AppsService.getApps();
+			PriceService.watchPrices();
+			PriceService.loadPriceTimelineData();
+			PermissionService.removeDanglingPermissions();
+			AccountService.fixOrphanedAccounts();
+			RecurringService.checkProxies();
+		});
+
 		return true;
 	}
 

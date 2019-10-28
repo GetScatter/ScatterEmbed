@@ -45,7 +45,7 @@
                     </section>
 
                     <Input style="flex:1; margin-bottom:4px;"
-                           v-if="newToken.needsContract()"
+                           v-if="needsContract(newToken)"
                            :placeholder="contractPlaceholder"
                            :label="locale(langKeys.GENERIC.Contract)"
                            :text="newToken.contract"
@@ -123,10 +123,6 @@
 
                 <section class="tokens" v-if="visibleTokens.length">
                     <section class="badge-item hoverable" v-for="token in visibleTokens">
-                        <!--<figure class="badge" :class="[{'iconed':token.symbolClass(), 'small':token && token.symbol.length >= 4, 'unusable':!!token.unusable}, token.symbolClass()]">-->
-                            <!--<span v-if="!token.symbolClass()">{{token.truncatedSymbol()}}</span>-->
-                        <!--</figure>-->
-                        <!-- TODO: CHECK THIS! -->
                         <TokenSymbol :token="token" />
                         <section class="details">
                             <figure class="title"><span v-if="token.amount">{{formatNumber(token.amount, true)}}</span> {{token.symbol}}</figure>
@@ -190,6 +186,7 @@
 			balanceFilters:{},
 		}},
 		mounted(){
+			this.newToken.blockchain = Blockchains.EOSIO;
 			this.newToken.chainId = PluginRepository.plugin(Blockchains.EOSIO).getEndorsedNetwork().chainId;
 			// PriceService.getCurrencies().then(x => this.currencies = x);
 			this.balanceFilters = this.scatter.settings.balanceFilters;
@@ -213,6 +210,7 @@
 
 
 			contractPlaceholder(){
+				console.log('this.newToken.blockchain', this.newToken.blockchain);
 				return PluginRepository.plugin(this.newToken.blockchain).contractPlaceholder();
 			},
 			terms(){
@@ -223,6 +221,12 @@
             },
 		},
 		methods:{
+			needsContract(token){
+				switch(token.blockchain){
+					case Blockchains.TRX: return false;
+					default: return true;
+				}
+			},
 			filterTokensByTerms(tokensList){
 				return tokensList
 					.filter(x => {
@@ -313,6 +317,10 @@
 
     .badge-item {
         align-items: center;
+
+        .token-symbol {
+            margin-right:10px;
+        }
     }
 
     .fiat-currencies {
