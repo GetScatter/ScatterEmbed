@@ -83,6 +83,7 @@
 
 	import PluginRepository from '@walletpack/core/plugins/PluginRepository';
 	import {Blockchains} from '@walletpack/core/models/Blockchains';
+	import SharedFunctions from "../util/SharedFunctions";
 
 	let saveTimeout;
 	export default {
@@ -100,7 +101,7 @@
 				'totalBalances',
 			]),
 			tokens(){
-				// TODO
+				// TODO: This looks better without the tokens panels
 				return;
 				if(!this.totalBalances) return;
 				if(!this.totalBalances.totals) return;
@@ -145,6 +146,7 @@
 
 		},
 		methods: {
+			change:SharedFunctions.change,
 			exchange(token){
 				const accounts = token.accounts().filter(x => {
 					return (bal => bal ? bal.amount : 0)(x.balanceFor(token)) > 0;

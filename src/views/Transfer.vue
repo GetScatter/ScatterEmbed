@@ -10,7 +10,7 @@
 					<section class="boxes">
 						<section class="box-container">
 							<label>Sending from</label>
-							<section class="box nested account-selector" @click="selectTokenAndAccount">
+							<section class="box nested account-selector flex" @click="selectTokenAndAccount">
 								<section>
 									<figure class="name">{{account.sendable()}}</figure>
 									<figure class="network">{{account.network().name}}</figure>

@@ -87,6 +87,10 @@
         align-items: center;
         position: relative;
         cursor: pointer;
+
+        &.flex {
+          flex:1;
+        }
       }
 
       .recipient-selector {
@@ -203,6 +207,8 @@
 
     .box-container {
       width:calc(50% - 10px);
+      display: flex;
+      flex-direction: column;
     }
 
     .box, .box-container {

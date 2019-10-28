@@ -190,10 +190,12 @@
     .snackbar-holder {
         position:fixed;
         bottom:0;
-        left:0;
         right:0;
+        left:0;
         text-align:center;
-        z-index:10001;
+        z-index:21001;
+        pointer-events:none;
+        margin:20px;
 
         &.has-snackbar {
             padding-bottom:40px;

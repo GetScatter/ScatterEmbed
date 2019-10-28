@@ -65,7 +65,7 @@
 
     .bottom-actions {
         height:70px;
-        background:black;
+        background:$black;
         color:$white;
         z-index:99;
         flex:0 0 auto;

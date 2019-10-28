@@ -39,6 +39,7 @@
 	import Token from "@walletpack/core/models/Token";
 	import Hasher from '@walletpack/core/util/Hasher'
 	import TokenSymbol from "../reusable/TokenSymbol";
+	import SharedFunctions from "../../util/SharedFunctions";
 
 	export default {
 		components: {TokenSymbol, SearchAndFilter},
@@ -70,6 +71,7 @@
 			}
 		},
 		methods:{
+			change:SharedFunctions.change,
 			colorHex(token){
 				if(!token) return null;
 				return '#'+Hasher.unsaltedQuickHash(token.unique()).slice(0,6);

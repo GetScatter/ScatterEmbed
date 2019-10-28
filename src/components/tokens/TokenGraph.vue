@@ -19,6 +19,7 @@
 	import Chartist from 'chartist';
 	import PriceService from "@walletpack/core/services/apis/PriceService";
 	import {dateId, utcToLocal} from "@walletpack/core/util/DateHelpers";
+	import SharedFunctions from "../../util/SharedFunctions";
 	require("../../styles/charts.scss");
 
 	export default {
@@ -52,7 +53,7 @@
 				this.hasValues = true;
 				try {
 					const values = [];
-					let totaled = this.getTokensTotaled();
+					let totaled = SharedFunctions.getTokensTotaled();
 					const onlyShowingSystemAndUntouchable = (() => {
 						if(this.balances.length !== 2) return false;
 						const tokenUnique = this.balances[0].uniqueWithChain();

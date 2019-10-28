@@ -74,13 +74,10 @@
 			showQuickActions(){
 				if(!this.onboarded) return false;
 				return ![
-					RouteNames.ITEMS,
 					// RouteNames.NETWORKS,
 					// RouteNames.CONTACTS,
 					// RouteNames.HISTORIES,
-					RouteNames.RIDL,
 					// RouteNames.SETTINGS,
-					RouteNames.PURCHASE,
 					// RouteNames.IDENTITIES,
 					// RouteNames.LOCATIONS,
 				].includes(this.$route.name);

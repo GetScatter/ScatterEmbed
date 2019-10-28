@@ -93,6 +93,8 @@ const loadStyles = async HOST => {
 	});
 }
 
+window.loadStyles = loadStyles;
+
 class Main {
 
 	constructor(){
@@ -102,7 +104,7 @@ class Main {
 		}
 
 		// TODO: Should actually be loaded by the calling wallet, so it can specify paths (useful for dev).
-		else loadStyles('http://10.0.0.1:8081/');
+		// else loadStyles('http://10.0.0.1:8081/');
 
 		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
 
@@ -145,7 +147,7 @@ class Main {
 					if(to.name !== RouteNames.POP_OUT) return next({name:RouteNames.POP_OUT});
 					return next();
 				}
-				else if(Routing.isRestricted(to.name)) await await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
+				else if(Routing.isRestricted(to.name)) await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
 				else next();
 			}
 
