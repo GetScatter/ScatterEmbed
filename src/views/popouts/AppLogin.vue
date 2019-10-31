@@ -154,7 +154,6 @@
 
 			loginAll:false,
 
-			loadingReputation:false,
 			reputation:null,
 		}},
 		created(){

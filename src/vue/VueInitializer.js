@@ -6,10 +6,8 @@ import VTooltip from 'v-tooltip'
 
 import VueRouter from 'vue-router'
 import {RouteNames, Routing} from './Routing';
-import features from '../features';
 
 import {blockchainName, Blockchains} from '@walletpack/core/models/Blockchains'
-import {SETTINGS_OPTIONS} from '@walletpack/core/models/Settings'
 import StoreService from "@walletpack/core/services/utility/StoreService";
 import AppsService from "@walletpack/core/services/apps/AppsService";
 import {dateId} from "@walletpack/core/util/DateHelpers";
@@ -43,19 +41,11 @@ export default class VueInitializer {
 		Vue.mixin({
 			data(){ return {
 				RouteNames,
-				SETTINGS_OPTIONS,
 				langKeys:LANG_KEYS,
-				loadingReputation:false,
-				features,
-				// now:0,
 			}},
 			computed:{
 				...mapState([
-					'working',
-					'priceData',
-					'theme',
 					'isMobile',
-					'isMobileDevice'
 				])
 			},
 			methods: {

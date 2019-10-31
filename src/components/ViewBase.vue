@@ -57,6 +57,7 @@
 				'scatter',
 				'workingScreen',
 				'processes',
+                'isMobileDevice',
 			]),
 			...mapGetters([
 				'unlocked',

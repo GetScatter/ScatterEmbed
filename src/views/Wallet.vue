@@ -1,7 +1,6 @@
 <template>
     <section>
-        <PanelTabs v-if="features.creditCards" :tabs="tabs" :state="state" v-on:selected="x => state = x" />
-        <section class="wallet" :class="{'no-panels':!features.creditCards, 'no-accounts':!accounts.length}">
+        <section class="wallet no-panels" :class="{'no-accounts':!accounts.length}">
 
             <section class="scroller">
                 <KeysAndAccountList v-on:account="goToAccount" v-if="state === STATES.KEYS && keypairs.length" />
@@ -14,9 +13,6 @@
                         </section>
                     </section>
                 </section>
-
-
-                <CreditCardsList v-if="features.creditCards && state === STATES.CARDS" />
             </section>
 
 

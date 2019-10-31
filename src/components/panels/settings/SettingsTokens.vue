@@ -45,7 +45,6 @@
                     </section>
 
                     <Input style="flex:1; margin-bottom:4px;"
-                           v-if="needsContract(newToken)"
                            :placeholder="contractPlaceholder"
                            :label="locale(langKeys.GENERIC.Contract)"
                            :text="newToken.contract"
@@ -221,12 +220,6 @@
             },
 		},
 		methods:{
-			needsContract(token){
-				switch(token.blockchain){
-					case Blockchains.TRX: return false;
-					default: return true;
-				}
-			},
 			filterTokensByTerms(tokensList){
 				return tokensList
 					.filter(x => {

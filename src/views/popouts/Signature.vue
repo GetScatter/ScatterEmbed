@@ -211,6 +211,7 @@
             showingRidlWarning:false,
 
             participantsAsSelector:false,
+			loadingReputation:false,
 		}},
 		created(){
 			this.selectedIdentity = this.identity.clone();

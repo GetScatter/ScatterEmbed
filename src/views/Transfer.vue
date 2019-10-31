@@ -1,11 +1,11 @@
 <template>
 	<section class="transfer">
 
-		<section class="scroller">
+		<section class="scroller" v-if="account && token && toSend">
 			<!----------------------->
 			<!--------- FROM -------->
 			<!----------------------->
-			<section class="greyback" v-if="account && token && toSend">
+			<section class="greyback">
 				<section class="limit-width">
 					<section class="boxes">
 						<section class="box-container">
@@ -43,7 +43,7 @@
 			<!----------------------->
 			<!---------- TO --------->
 			<!----------------------->
-			<section class="whiteback" v-if="account && token && toSend">
+			<section class="whiteback">
 				<section class="limit-width">
 					<label>Amount & Details</label>
 					<section class="boxes">
@@ -66,6 +66,13 @@
 						</section>
 					</section>
 				</section>
+			</section>
+		</section>
+
+		<section class="scroller loading-tokens" v-else>
+			<section>
+				<h1>Please Wait</h1>
+				<p>Your balances aren't finished loading yet.</p>
 			</section>
 		</section>
 
@@ -118,54 +125,61 @@
 			},
 		},
 		mounted(){
-			const history = this.$route.query.history ? this.history.find(x => x.id === this.$route.query.history) : null;
-			const accountAndToken = this.$route.query.account ? (() => {
-				const account = this.accounts.find(x => x.identifiable() === this.$route.query.account);
-				if(!account) return null;
-				return {
-					account,
-					token:this.$route.query.token ? account.tokens().find(x => x.uniqueWithChain() === this.$route.query.token) : null
-				}
-			})() : null;
-
-			const recipient = this.$route.query.recipient;
-
-
-			if(history){
-				this.account = history.from;
-				this.recipient = history.to;
-				this.memo = history.memo;
-				this.token = this.account.tokens().find(x => x.uniqueWithChain() === history.token.uniqueWithChain());
-				this.toSend = history.token.clone();
-				this.toSend.amount = history.amount;
-				this.changedAmount();
-			}
-			else if(accountAndToken){
-				this.account = accountAndToken.account;
-				if(accountAndToken.token) this.setToken(accountAndToken.token);
-				else this.setToken(this.sendableTokens[0]);
-			}
-			else if (recipient){
-				const contact = this.contacts.find(x => x.id === recipient);
-				this.recipient = contact.recipient;
-				this.account = this.accounts.filter(x => contact.blockchain ? x.blockchain() === contact.blockchain : true)
-					.filter(x => x.tokens().length)
-					.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0];
-				this.setToken(this.sendableTokens[0]);
-			}
-			else {
-				this.account = this.accounts.filter(x => x.tokens().length)
-					.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0];
-				this.setToken(this.sendableTokens[0]);
-			}
-
-			// this.recipient = 'safetransfer';
-			// this.account = this.accounts.find(x => x.name === 'scatterhwtst');
-			// this.memo = 'scatterhwtst';
-			// this.toSend.quantity = '1.0000';
-			// this.setToken(this.sendableTokens[0]);
+			this.init();
 		},
 		methods:{
+			init(){
+				const history = this.$route.query.history ? this.history.find(x => x.id === this.$route.query.history) : null;
+				const accountAndToken = this.$route.query.account ? (() => {
+					const account = this.accounts.find(x => x.identifiable() === this.$route.query.account);
+					if(!account) return null;
+					return {
+						account,
+						token:this.$route.query.token ? account.tokens().find(x => x.uniqueWithChain() === this.$route.query.token) : null
+					}
+				})() : null;
+
+				const recipient = this.$route.query.recipient;
+
+
+				if(history){
+					this.account = history.from;
+					this.recipient = history.to;
+					this.memo = history.memo;
+					this.token = this.account.tokens().find(x => x.uniqueWithChain() === history.token.uniqueWithChain());
+					this.toSend = history.token.clone();
+					this.toSend.amount = history.amount;
+					this.changedAmount();
+				}
+				else if(accountAndToken){
+					this.account = accountAndToken.account;
+					if(accountAndToken.token) this.setToken(accountAndToken.token);
+					else this.setToken(this.sendableTokens[0]);
+				}
+				else if (recipient){
+					const contact = this.contacts.find(x => x.id === recipient);
+					this.recipient = contact.recipient;
+					this.account = this.accounts.filter(x => contact.blockchain ? x.blockchain() === contact.blockchain : true)
+						.filter(x => x.tokens().length)
+						.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0];
+					this.setToken(this.sendableTokens[0]);
+				}
+				else {
+					this.account = this.accounts.filter(x => x.tokens().length)
+						.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0];
+					this.setToken(this.sendableTokens[0]);
+				}
+
+				if(!this.account || !this.token || !this.toSend) setTimeout(() => {
+					this.init();
+				}, 1000);
+
+				// this.recipient = 'safetransfer';
+				// this.account = this.accounts.find(x => x.name === 'scatterhwtst');
+				// this.memo = 'scatterhwtst';
+				// this.toSend.quantity = '1.0000';
+				// this.setToken(this.sendableTokens[0]);
+			},
 			selectTokenAndAccount(){
 				PopupService.push(Popup.selectTokenAndAccount(result => {
 					if(!result) return;
@@ -203,9 +217,9 @@
 			async send(){
 				const reset = () => this.sending = false;
 				if(!this.canSend) return;
-				// this.sending = true;
-				// if(!await PasswordHelpers.verifyPIN()) return reset();
-				// this.setWorkingScreen(true);
+				this.sending = true;
+				if(!await PasswordHelpers.verifyPIN()) return reset();
+				this.setWorkingScreen(true);
 				const blockchain = this.account.blockchain();
 				const sent = await TransferService[blockchain]({
 					account:this.account,
@@ -242,6 +256,13 @@
 <style scoped lang="scss">
 	@import "../styles/variables";
 
+	.loading-tokens {
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		text-align:center;
+
+	}
 
 
 </style>

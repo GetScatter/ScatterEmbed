@@ -2,7 +2,7 @@
 	<section class="quick-actions" :class="{'sidebarLocked':!sidebarLocked}">
 
 		<section class="left" :class="{'quickBack':quickBack}">
-			<section v-if="quickBack" class="quick-back" @click="back">
+			<section v-if="quickBack" class="quick-back" @click="$router.back()">
 				<i class="fal fa-arrow-left"></i>
 			</section>
 			<svg v-else width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -67,14 +67,6 @@
 			},
 			totalTokenBalance(){
 				return PriceService.getTotal(BalanceService.totalBalances(false).totals, null, false, this.displayToken);
-			},
-			isShort(){
-				return [
-					RouteNames.ASSETS,
-					RouteNames.ACCOUNT,
-					RouteNames.HOME,
-					this.features.creditCards ? null : RouteNames.WALLET,
-				].filter(x => !!x).includes(this.$route.name);
 			},
 			quickBack(){
 				return [

@@ -33,6 +33,7 @@
 		computed:{
 			...mapState([
 				'prices',
+				'priceData',
 			]),
 			...mapGetters([
 				'displayCurrency',
