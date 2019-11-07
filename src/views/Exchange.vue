@@ -11,6 +11,9 @@
 							<section class="box-container">
 								<label>From & Token</label>
 								<section class="box nested account-selector flex" @click="selectTokenAndAccount">
+									<section class="symbol">
+										<TokenSymbol :token="token" />
+									</section>
 									<section>
 										<figure class="name">{{account.sendable()}}</figure>
 										<figure class="network">{{account.network().name}}</figure>
@@ -60,6 +63,10 @@
 								<section class="input-container">
 									<figure class="label">{{token.truncatedSymbol()}}</figure>
 									<input :disabled="!rate" placeholder="0.00" v-on:input="changedAmount" v-model="toSend.amount" class="input" />
+									<section class="amount-helpers">
+										<Button @click.native="() => {toSend.amount = token.amount / 2; changedAmount(); }" small="1" text="50%" />
+										<Button @click.native="() => {toSend.amount = token.amount; changedAmount(); }" small="1" text="100%" />
+									</section>
 								</section>
 								<figure class="line"></figure>
 								<section class="input-container">
@@ -99,7 +106,7 @@
 									<figure class="name" v-else>No pairs found</figure>
 								</section>
 								<section v-if="pair">
-									<figure class="name" v-if="!loadingRate">{{estimatedAmount}}</figure>
+									<figure class="name value" v-if="!loadingRate">{{estimatedAmount}}</figure>
 									<figure class="name" v-if="loadingRate">Loading Rate</figure>
 									<figure class="network" v-if="pair">{{pair.symbol}}</figure>
 								</section>
@@ -331,6 +338,7 @@
 			async exchange(){
 				if(!this.canExchange) return;
 				this.sending = true;
+				this.setWorkingScreen(true);
 				const from = { account:this.account.sendable() };
 				const to = { account:this.recipient };
 				const amount = this.toSend.amount;
@@ -359,24 +367,32 @@
 					token:this.token,
 					promptForSignature:false,
 					bypassHistory:true,
-				}).catch(() => false);
+				}).catch(err => {
+					console.error('Exchange error: ', err);
+					return false;
+				});
 				if(sent){
+					if(typeof sent === 'object' && sent.hasOwnProperty('error')){
+						PopupService.push(Popup.snackbar(sent.error));
+					} else {
+						PopupService.push(Popup.transactionSuccess(this.token.blockchain, TransferService.getTransferId(sent, this.token.blockchain)));
 
-					PopupService.push(Popup.transactionSuccess(this.token.blockchain, TransferService.getTransferId(sent, this.token.blockchain)));
 
-
-					if(!TokenService.hasToken(this.rawPair.token)){
-						if(!!this.rawPair.token.contract && !!this.rawPair.token.contract.length) {
-							await TokenService.addToken(this.rawPair.token, false, false);
+						if(!TokenService.hasToken(this.rawPair.token)){
+							if(!!this.rawPair.token.contract && !!this.rawPair.token.contract.length) {
+								await TokenService.addToken(this.rawPair.token, false, false);
+							}
 						}
+						const history = new HistoricExchange(this.account, this.recipient, this.toSend, this.pair, order, TransferService.getTransferId(sent, this.token.blockchain));
+						this[Actions.DELTA_HISTORY](history);
+						setTimeout(() => {
+							ExchangeService.watch(history);
+							BalanceService.loadBalancesFor(this.account);
+						}, 1000);
 					}
-					const history = new HistoricExchange(this.account, this.recipient, this.toSend, this.pair, order, TransferService.getTransferId(sent, this.token.blockchain));
-					this[Actions.DELTA_HISTORY](history);
-					setTimeout(() => {
-						ExchangeService.watch(history);
-						BalanceService.loadBalancesFor(this.account);
-					}, 1000);
 				}
+
+				this.setWorkingScreen(false);
 				this.sending = false;
 			},
 

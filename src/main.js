@@ -103,13 +103,9 @@ class Main {
 			loadStyles('http://localhost:8081/');
 		}
 
-		// TODO: Should actually be loaded by the calling wallet, so it can specify paths (useful for dev).
-		// else loadStyles('http://10.0.0.1:8081/');
-
 		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
 
 		const setup = () => {
-			console.log('setting up vuejs');
 
 			const shared = [
 				{tag:'Button', vue:Button},
@@ -134,25 +130,25 @@ class Main {
 
 			const components = shared.concat(fragments);
 
-			// TODO: Manage better so that it's not calling wallet each time
+			// Once unlocked, simply returns true instead
+			// of hitting the wallet each time.
 			let unlocked = null;
-			const getUnlocked = async () => {
-				if(unlocked === null) unlocked = await window.wallet.unlocked();
+			const isUnlocked = async () => {
+				if(!unlocked) unlocked = await window.wallet.unlocked();
 				return unlocked;
 			}
 
 			const middleware = async (to, next) => {
-				// return next();
 				if(isPopOut) {
 					if(to.name !== RouteNames.POP_OUT) return next({name:RouteNames.POP_OUT});
 					return next();
 				}
-				else if(Routing.isRestricted(to.name)) await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
+				else if(Routing.isRestricted(to.name)) await isUnlocked() ? next() : next({name:RouteNames.LOGIN});
 				else next();
 			}
 
 			new VueInitializer(Routing.routes(), components, middleware, async (router) => {
-				console.log('loaded vuejs');
+
 			});
 
 			return true;
@@ -175,9 +171,7 @@ class Main {
 		if(process.env.NO_WALLET){
 
 			WalletTalk.setFakeWallet().then(async () => {
-				console.log('set fake wallet?', await window.wallet.storage.getWalletData())
 				await store.dispatch(Actions.LOAD_SCATTER);
-				console.log('SCATTA!', store.state.scatter);
 				await setupWallet();
 				SingletonService.init();
 			})
@@ -190,7 +184,6 @@ class Main {
 				if(window.wallet || window.ReactNativeWebView || window.PopOutWebView){
 					if(foundWallet) return;
 					foundWallet = true;
-					console.log('setting up wallet');
 					clearInterval(interval);
 					setupWallet();
 				}

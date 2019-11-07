@@ -209,7 +209,6 @@
 
 
 			contractPlaceholder(){
-				console.log('this.newToken.blockchain', this.newToken.blockchain);
 				return PluginRepository.plugin(this.newToken.blockchain).contractPlaceholder();
 			},
 			terms(){

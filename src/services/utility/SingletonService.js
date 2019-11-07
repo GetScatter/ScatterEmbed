@@ -20,8 +20,8 @@ export default class SingletonService {
 
 		// Gives priority to UI rendering first.
 		setTimeout(async () => {
-			PluginRepository.plugin(Blockchains.TRX).init();
 			SocketService.initialize();
+			PluginRepository.plugin(Blockchains.TRX).init();
 
 			store.dispatch(Actions.LOAD_HISTORY);
 			store.dispatch(UIActions.SET_TOKEN_METAS, await GET('tokenmeta'));

@@ -35,19 +35,20 @@
 	@import "../../styles/variables";
 
 	.token-symbol {
-		line-height: 44px;
 		font-size: 16px;
 		width: 44px;
 		height: 44px;
 		margin: 0 auto;
 		position: relative;
+		display:flex;
+		align-items: center;
+		justify-content: center;
 
 		@media (max-width: $breakpoint-mobile) {
 			width: 24px;
 			height: 24px;
 			text-align: center;
 			font-size: 18px;
-			line-height: 24px;
 		}
 
 		.symbol-holder {
@@ -55,7 +56,9 @@
 			height: 44px;
 			text-align: center;
 			font-size: 32px;
-			line-height: 44px;
+			display:flex;
+			align-items: center;
+			justify-content: center;
 			color:white;
 
 			@media (max-width: $breakpoint-mobile) {

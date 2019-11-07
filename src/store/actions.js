@@ -7,8 +7,8 @@ import PasswordHelpers from "../services/utility/PasswordHelpers";
 import SingletonService from "../services/utility/SingletonService";
 
 import HistoricTransfer from '@walletpack/core/models/histories/HistoricTransfer';
-import HistoricExchange from '@walletpack/core/models/histories/HistoricTransfer';
-import HistoricAction from '@walletpack/core/models/histories/HistoricTransfer';
+import HistoricExchange from '@walletpack/core/models/histories/HistoricExchange';
+import HistoricAction from '@walletpack/core/models/histories/HistoricAction';
 import {HISTORY_TYPES} from '@walletpack/core/models/histories/History';
 
 const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
@@ -83,7 +83,7 @@ export const actions = {
 		    await window.wallet.unlock(password, true);
 		    dispatch(Actions.SET_SCATTER, scatter).then(async _scatter => {
 		    	// TODO: Mobile unfriendly
-			    // await BackupService.setDefaultBackupLocation();
+			    await BackupService.setDefaultBackupLocation();
 			    SingletonService.init();
 			    resolve();
 		    })
@@ -96,7 +96,7 @@ export const actions = {
 	        let updated = await StorageService.setScatter(scatter);
 	        if(!updated) return resolve(false);
 	        // TODO: Mobile unfriendly
-	        // BackupService.createAutoBackup();
+	        BackupService.createAutoBackup();
 
 	        updated = Scatter.fromJson(updated);
             commit(Actions.SET_SCATTER, updated);
@@ -122,6 +122,7 @@ export const actions = {
     [Actions.LOAD_HISTORY]:async ({commit}) => {
     	let history = await StorageService.getHistory();
     	if(!history) return;
+	    history = history.filter(x => x.txid && x.txid.length)
 
 	    history = history.map(x => {
 		    if(x.type === HISTORY_TYPES.Transfer) return HistoricTransfer.fromJson(x);

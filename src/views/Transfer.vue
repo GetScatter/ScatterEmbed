@@ -11,6 +11,9 @@
 						<section class="box-container">
 							<label>Sending from</label>
 							<section class="box nested account-selector flex" @click="selectTokenAndAccount">
+								<section class="symbol">
+									<TokenSymbol :token="token" />
+								</section>
 								<section>
 									<figure class="name">{{account.sendable()}}</figure>
 									<figure class="network">{{account.network().name}}</figure>
@@ -51,6 +54,11 @@
 							<section class="input-container">
 								<figure class="label">{{token.truncatedSymbol()}}</figure>
 								<input placeholder="0.00" v-on:input="changedAmount" v-model="toSend.amount" class="input" />
+
+								<section class="amount-helpers">
+									<Button @click.native="() => {toSend.amount = token.amount / 2; changedAmount(); }" small="1" text="50%" />
+									<Button @click.native="() => {toSend.amount = token.amount; changedAmount(); }" small="1" text="100%" />
+								</section>
 							</section>
 							<figure class="line"></figure>
 							<section class="input-container">
@@ -92,9 +100,11 @@
 	import TransferService from "@walletpack/core/services/blockchain/TransferService";
 	import PriceService from "@walletpack/core/services/apis/PriceService";
 	import PasswordHelpers from "../services/utility/PasswordHelpers";
+	import TokenSymbol from "../components/reusable/TokenSymbol";
 	require('../styles/transfers.scss');
 
 	export default {
+		components: {TokenSymbol},
 		data(){return {
 			account:null,
 			token:null,

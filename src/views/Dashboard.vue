@@ -5,11 +5,17 @@
 			<section class="attraction" :class="{'full-mobile':!tokens && (!votableAccounts || !votableAccounts.length)}">
 				<div class="promoted-pill">Promoted</div>
 				<section class="premium-attraction" :class="{'no-tokens':!tokens}">
+					<!-- Top left logo -->
 					<img class="logo" src="https://cryptolegends.io/assets/use-images/logo_crypto.png">
-					<!--<img class="promo" src="https://prospectors.io/assets/landing/main_back-8c9f9ebc866cfda98aa32ee12eb975e0a5307ab4fadc296ce05ec93cad876beb.jpg">-->
+
+					<!-- Fallback image for when video isn't loaded -->
+					<img class="promo" src="https://cryptolegends.io/assets/use-images/bg_special.png">
+
+					<!-- Video promotion -->
 					<video class="promo" data-v-1b6b9b64="" data-v-3b6b0f2a="" loop="loop" muted="muted" autoplay="autoplay">
 						<source data-v-1b6b9b64="" data-v-3b6b0f2a="" src="https://cryptolegends.io/assets/video/crypto-03.mp4" type="video/mp4">
 					</video>
+
 					<div class="description">
 						<div class="premium-content">
 							<span class="premium-name">Crypto Legends</span>
