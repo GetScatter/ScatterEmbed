@@ -8,6 +8,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const rm = require('rimraf');
 const TerserPlugin = require('terser-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 rm.sync('./dist')
 
@@ -56,7 +57,7 @@ module.exports = merge(baseConfig, {
 					test: /[\\/]node_modules[\\/]/,
 					name: 'vendor',
 					chunks: 'all',
-					// maxSize: 500000,
+					maxSize: 250000,
 				}
 			}
 		}
@@ -88,5 +89,11 @@ module.exports = merge(baseConfig, {
 		// 	threshold: 10240,
 		// 	minRatio: 0.8
 		// })
+
+
+		new WebpackShellPlugin({
+			// onBuildStart:['node scripts/pre-pack'],
+			onBuildEnd:['node scripts/post-pack']
+		})
 	]
 })

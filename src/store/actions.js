@@ -1,5 +1,5 @@
 import * as Actions from '@walletpack/core/store/constants'
-import StorageService from '../services/electron/StorageService';
+import StorageService from '../services/wallets/StorageService';
 import BackupService from '../services/utility/BackupService';
 import Scatter from '@walletpack/core/models/Scatter';
 import * as UIActions from "./ui_actions";
@@ -7,14 +7,16 @@ import PasswordHelpers from "../services/utility/PasswordHelpers";
 import SingletonService from "../services/utility/SingletonService";
 
 import HistoricTransfer from '@walletpack/core/models/histories/HistoricTransfer';
-import HistoricExchange from '@walletpack/core/models/histories/HistoricTransfer';
-import HistoricAction from '@walletpack/core/models/histories/HistoricTransfer';
+import HistoricExchange from '@walletpack/core/models/histories/HistoricExchange';
+import HistoricAction from '@walletpack/core/models/histories/HistoricAction';
 import {HISTORY_TYPES} from '@walletpack/core/models/histories/History';
 
-const isPopOut = location.hash.replace("#/", '') === 'popout';
+const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
 let migrationChecked = false;
 
 export const actions = {
+    [UIActions.SET_TOKEN_METAS]:({commit}, x) => commit(UIActions.SET_TOKEN_METAS, x),
+    [UIActions.SET_FEATURED_APPS]:({commit}, x) => commit(UIActions.SET_FEATURED_APPS, x),
     [UIActions.SET_POPOUT]:({commit}, x) => commit(UIActions.SET_POPOUT, x),
     [UIActions.SET_PORTS]:({commit}, x) => commit(UIActions.SET_PORTS, x),
     [UIActions.SET_SIDEBAR]:({commit}, x) => commit(UIActions.SET_SIDEBAR, x),
@@ -81,7 +83,7 @@ export const actions = {
 		    await window.wallet.unlock(password, true);
 		    dispatch(Actions.SET_SCATTER, scatter).then(async _scatter => {
 		    	// TODO: Mobile unfriendly
-			    // await BackupService.setDefaultBackupLocation();
+			    await BackupService.setDefaultBackupLocation();
 			    SingletonService.init();
 			    resolve();
 		    })
@@ -94,7 +96,7 @@ export const actions = {
 	        let updated = await StorageService.setScatter(scatter);
 	        if(!updated) return resolve(false);
 	        // TODO: Mobile unfriendly
-	        // BackupService.createAutoBackup();
+	        BackupService.createAutoBackup();
 
 	        updated = Scatter.fromJson(updated);
             commit(Actions.SET_SCATTER, updated);
@@ -120,6 +122,7 @@ export const actions = {
     [Actions.LOAD_HISTORY]:async ({commit}) => {
     	let history = await StorageService.getHistory();
     	if(!history) return;
+	    history = history.filter(x => x.txid && x.txid.length)
 
 	    history = history.map(x => {
 		    if(x.type === HISTORY_TYPES.Transfer) return HistoricTransfer.fromJson(x);

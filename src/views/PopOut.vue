@@ -53,6 +53,7 @@
 			apiActions:ApiActions,
 			pinning:false,
             isExtension:false,
+			isNativeMobile:false,
 		}},
 		components:{
 			PopOutHead,
@@ -64,9 +65,15 @@
 			UpdateIdentity:() => import('./popouts/UpdateIdentity'),
 		},
 		async created(){
-			if(this.$route.query.extension){
-				this.isExtension = true;
-				const {popout, scatter} = await window.wallet.utility.getPopOut(this.$route.query.extension);
+			this.isExtension = this.$route.query.extension;
+			this.isNativeMobile = !!window.PopOutWebView;
+
+			if(!!this.isExtension || !!this.isNativeMobile){
+
+				const {popout, scatter} = this.isExtension
+                    ? await window.wallet.utility.getPopOut(this.$route.query.extension)
+                    : JSON.parse(await window.PopOutWebView.getPopOut());
+
 				this[UIActions.SET_POPOUT](popout);
 				this[Actions.HOLD_SCATTER](Scatter.fromJson(scatter));
 				window.onbeforeunload = () => {
@@ -89,12 +96,16 @@
 		},
 		methods: {
 			async returnResult(result = null){
-				await window.wallet.utility.popoutResponse({original:this.popOut, result});
-				if(this.isExtension){
-					window.close();
-                } else {
-					await window.wallet.utility.closeWindow(window.wallet.windowId);
-                }
+
+				const formattedResult = {original:this.popOut, result};
+				this.isNativeMobile
+                    ? await window.PopOutWebView.popoutResponse(JSON.stringify(formattedResult))    // Only needed for native mobile wallets
+				    : await window.wallet.utility.popoutResponse(formattedResult);                  // Only needed for native mobile wallets
+
+
+				if(this.isExtension)        window.close();
+                if(this.isNativeMobile)     window.PopOutWebView.close();
+                else                        window.wallet.utility.closeWindow(window.wallet.windowId);
 
 			},
 			async checkAppReputation(){
@@ -103,6 +114,8 @@
 			async setup(){
 				if(!this.popOut) return;
 
+				// Should never happen on mobile or extension,
+                // no need for handling.
 				if(!this.scatter) {
 					// This window opens before-hand and hangs around in memory waiting to be
 					// displayed. This means that the scatter reference on its store is from the past

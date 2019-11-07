@@ -92,6 +92,10 @@
 <style scoped lang="scss">
 	@import "../../../styles/variables";
 
+	.pop-over {
+		overflow: visible;
+	}
+
 	.prompt {
 		max-width:600px;
 		padding:30px;

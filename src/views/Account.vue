@@ -244,7 +244,6 @@
             .account-actions {
                 width:44px;
                 height:44px;
-                border-radius:22px;
                 background:rgba(255,255,255,0.12);
                 display:block;
                 position:absolute;
@@ -302,7 +301,6 @@
                         .permission {
                             cursor: pointer;
                             padding:6px 12px;
-                            border-radius:50px;
                             background:black;
                             color:$white;
                             font-size:$font-size-small;
@@ -363,13 +361,12 @@
                             color:$blue;
                             font-size: 22px;
                             background:white;
-                            border-radius:22px;
+                            border-radius:50%;
 
                             @media (max-width: $breakpoint-mobile) {
                                 width:28px;
                                 height:28px;
                                 font-size: 18px;
-                                border-radius:22px;
                             }
 
                             &.red {

@@ -62,18 +62,18 @@
 	}
 </script>
 
-<style scoped lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss">
 	@import "../../../styles/variables";
 
 	.select-token {
-		width:80vw;
+		width:100%;
 
 		@media (max-width: $breakpoint-tablet) {
 			width: 100%;
 		}
 
 		.scroller {
-			width:80vw;
+			width:100%;
 			height:calc(100vh - 40px - 100px);
 			overflow-y: hidden;
 			display:flex;
@@ -99,16 +99,11 @@
 				padding:0rem;
 				border-radius:0;
 				border-right:1px solid $lightgrey;
-				    background: white;
+			    background: white;
 
-				.search-and-filter.full {
-					border-radius:0;
-					background:blue !important;
-				}
-
-				.search-and-filter {
-					border-radius:0;
-					background:blue;
+				.tokens {
+					max-height: calc(100vh - 220px);
+					overflow:auto;
 				}
 			}
 		}

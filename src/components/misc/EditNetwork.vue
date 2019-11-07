@@ -129,6 +129,7 @@
 				return !this.networks.find(x => x.id === this.network.id);
 			},
 			contractPlaceholder(){
+				if(!this.network.token || !this.network.token.blockchain) return;
 				return PluginRepository.plugin(this.network.token.blockchain).contractPlaceholder();
 			},
 			canEditOrShowToken(){

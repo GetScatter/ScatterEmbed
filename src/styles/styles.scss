@@ -1,5 +1,17 @@
 @import "./variables";
 
+// DO NOT REMOVE ME!
+// This is a speed hack for mobile webviews which forces hardware rendering.
+body {
+  will-change: transform;
+}
+
+.mobile {
+  * {
+    transition: none !important;
+  }
+}
+
 #loader-bg {
   position:fixed;
   top:0;
@@ -20,12 +32,10 @@
 
 ::-webkit-scrollbar-track {
   background:rgba(0,0,0,0.06);
-  border-radius: 10px;
   padding:2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 10px;
   background:rgba(0,0,0,0.24);
 }
 
@@ -153,7 +163,6 @@ input {
   z-index: 10000;
   padding:5px 10px;
   background:$blue;
-  border-radius:4px;
   color:#fff;
 
 
@@ -573,7 +582,6 @@ label {
       color:$blue;
       padding:8px 12px;
       border:1px solid $blue;
-      border-radius:4px;
       margin-top:4px;
       margin-bottom:2px;
       display:table;

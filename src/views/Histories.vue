@@ -9,6 +9,8 @@
 				<!-- TRANSFER OR EXCHANGE -->
 				<section class="event" v-if="item.type === 'transfer' || item.type === 'exchange'">
 
+					<TokenSymbol class="icon" :token="item.type === 'transfer' ? item.token : item.toToken" />
+
 					<section class="details">
 						<figure class="title" v-if="item.type === 'transfer'">
 							Sent {{formatNumber(parseFloat(item.amount).toFixed(decimalsOrDefault(item.token)), true)}} {{item.token.symbol}}
@@ -89,9 +91,11 @@
 	import ExchangeService from "@walletpack/core/services/apis/ExchangeService";
 	import PopupService from "../services/utility/PopupService";
 	import {Popup} from "../models/popups/Popup";
+	import TokenSymbol from "../components/reusable/TokenSymbol";
 
 	export default {
 		components: {
+			TokenSymbol,
 			SearchAndFilter,
 			Exchange,
 			Transfer

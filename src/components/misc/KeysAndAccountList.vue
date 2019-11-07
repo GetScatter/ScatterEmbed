@@ -303,10 +303,9 @@
 					font-weight:bold;
 					right:-1px;
 					top:-1px;
-					padding:6px 10px 5px;
+					padding:4px 6px 4px;
 					color:white;
 					position:absolute;
-					border-radius:0 10px 0 6px;
 				}
 			}
 

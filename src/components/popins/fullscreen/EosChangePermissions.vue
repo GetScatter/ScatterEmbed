@@ -50,6 +50,7 @@
 	import {Popup} from "../../../models/popups/Popup";
 	import {Blockchains} from "@walletpack/core/models/Blockchains";
 	import * as UIActions from "../../../store/ui_actions";
+	import SharedFunctions from "../../../util/SharedFunctions";
 
 	export default {
 		props:['popin'],
@@ -84,6 +85,7 @@
 					active:this.publicKeyForKeypair(this.activeKey),
 				})
 			},
+			publicKeyForKeypair:SharedFunctions.publicKeyForKeypair,
 			hasPermission(type){
 				return !!this.account.authorities().find(x => x.authority === type || x.authority === 'owner');
 			},

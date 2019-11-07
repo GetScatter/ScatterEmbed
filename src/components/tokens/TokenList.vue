@@ -13,9 +13,10 @@
 				</section>
 				<section class="asset-details">
 					<section class="column token-icon">
-						<section class="token-symbol" :class="token.name">
-							<div class="symbol" :style="{'background-color':colorHex(token)}" :class="[{'iconed':token.symbolClass(), 'small':token && token.symbol.length >= 4, 'unusable':!!token.unusable}, token.symbolClass()]"></div>
-						</section>
+						<TokenSymbol :token="token" />
+						<!--<section class="token-symbol" :class="token.name">-->
+							<!--<div class="symbol" :style="{'background-color':colorHex(token)}" :class="[{'iconed':token.symbolClass(), 'small':token && token.symbol.length >= 4, 'unusable':!!token.unusable}, token.symbolClass()]"></div>-->
+						<!--</section>-->
 					</section>
 					<section class="column token-value">
 						<figure class="title">{{token.symbol}}</figure>
@@ -37,9 +38,11 @@
 	import SearchAndFilter from "../reusable/SearchAndFilter";
 	import Token from "@walletpack/core/models/Token";
 	import Hasher from '@walletpack/core/util/Hasher'
+	import TokenSymbol from "../reusable/TokenSymbol";
+	import SharedFunctions from "../../util/SharedFunctions";
 
 	export default {
-		components: {SearchAndFilter},
+		components: {TokenSymbol, SearchAndFilter},
 		props:['balances', 'hoverable', 'selected', 'noSearch', 'blue'],
 		data(){return {
 			terms:'',
@@ -68,6 +71,7 @@
 			}
 		},
 		methods:{
+			change:SharedFunctions.change,
 			colorHex(token){
 				if(!token) return null;
 				return '#'+Hasher.unsaltedQuickHash(token.unique()).slice(0,6);
@@ -75,9 +79,6 @@
 			selectToken(token){
 				if(!this.hoverable) return;
 				this.$emit('token', token);
-				if(token){
-					this.$refs.tokens.scrollTop = document.getElementById(token.uniqueWithChain()).offsetTop - 150;
-				}
 			},
 		},
 		watch:{
@@ -185,42 +186,6 @@
 					}
 
 					.token-symbol {
-						line-height: 44px;
-						font-size: 16px;
-						width: 44px;
-						height: 44px;
-						border-radius: 22px;
-						background: $grey;
-						margin: 0 auto;
-						position: relative;
-
-						@media (max-width: $breakpoint-mobile) {
-				            width: 24px;
-							height: 24px;
-							border-radius: 12px;
-							text-align: center;
-							font-size: 18px;
-							line-height: 24px;
-				        }
-
-						.symbol {
-							width: 44px;
-							height: 44px;
-							border-radius: 22px;
-							text-align: center;
-							font-size: 32px;
-							line-height: 44px;
-							color:white;
-
-							@media (max-width: $breakpoint-mobile) {
-					            width: 24px;
-								height: 24px;
-								border-radius: 12px;
-								text-align: center;
-								font-size: 18px;
-								line-height: 24px;
-					        }
-						}
 
 						.icon-lock {
 							float:left;

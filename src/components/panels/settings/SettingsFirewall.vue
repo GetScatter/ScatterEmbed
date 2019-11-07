@@ -122,7 +122,6 @@
                 margin-right:10px;
                 background:$blue;
                 color:$white;
-                border-radius:30px;
                 display:inline-block;
             }
 

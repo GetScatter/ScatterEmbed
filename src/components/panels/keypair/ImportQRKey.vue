@@ -4,7 +4,8 @@
 		<p></p>
 
 		<br>
-		<qr-reader v-if="!refresh" @decode="qrScanned"></qr-reader>
+		<!-- Note, this won't show up on non https or localhost when inside of a mobile container. -->
+		<qrcode-stream v-if="!refresh" @decode="qrScanned"></qrcode-stream>
 
 		<ActionBar v-if="returnOnly" :buttons-left="[{text:'Back', click:() => $emit('back')}]" :buttons-right="[{text:'Skip', click:() => $emit('next')}]" />
 	</section>

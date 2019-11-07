@@ -25,7 +25,7 @@
 	import PopupService from "../../../services/utility/PopupService";
 	import {Popup} from "../../../models/popups/Popup";
 	import Mnemonic from "@walletpack/core/util/Mnemonic";
-	import StorageService from "../../../services/electron/StorageService";
+	import StorageService from "../../../services/wallets/StorageService";
 	import Scatter from "@walletpack/core/models/Scatter";
 	import Keypair from "@walletpack/core/models/Keypair";
 	import KeyPairService from "@walletpack/core/services/secure/KeyPairService";
@@ -35,7 +35,7 @@
 	import Crypto from "@walletpack/core/util/Crypto";
 	import * as UIActions from "../../../store/ui_actions";
 	import Seeder from "@walletpack/core/services/secure/Seeder";
-	const {getFileLocation} = require('../../../services/electron/FileService');
+	const {getFileLocation} = require('../../../services/wallets/FileService');
 	// const fs = window.require('fs');
 
 	export default {

@@ -15,6 +15,8 @@ export const state = {
 	ports:null,
     dappLogos:{},
     dappData:{},
+	featuredApps:[],
+	tokenMetas:{},
     workingScreen:null,
     processes:[],
     resources:{},

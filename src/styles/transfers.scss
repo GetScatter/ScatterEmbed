@@ -73,6 +73,24 @@
         .small {
           font-size: 28px;
         }
+
+        i {
+          display:block;
+        }
+
+        .token-symbol {
+          width:64px;
+          height:64px;
+
+          .symbol-holder {
+            width:64px;
+            height:64px;
+
+            &.as-class {
+              font-size: 50px;
+            }
+          }
+        }
       }
 
       .line {
@@ -87,6 +105,10 @@
         align-items: center;
         position: relative;
         cursor: pointer;
+
+        &.flex {
+          flex:1;
+        }
       }
 
       .recipient-selector {
@@ -103,6 +125,10 @@
         font-weight: bold;
         color:$blue;
         margin-bottom:2px;
+
+        &.value {
+          font-size: $larger;
+        }
       }
 
       .network {
@@ -137,6 +163,13 @@
         display:flex;
         align-items: center;
         padding:10px 20px;
+        position: relative;
+
+        .amount-helpers {
+          position: absolute;
+          right:10px;
+          top:10px;
+        }
 
         .label {
           flex:0 0 auto;
@@ -203,6 +236,8 @@
 
     .box-container {
       width:calc(50% - 10px);
+      display: flex;
+      flex-direction: column;
     }
 
     .box, .box-container {

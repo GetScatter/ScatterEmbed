@@ -86,7 +86,7 @@
 
 <style scoped lang="scss">
 	@import "../../styles/variables";
-	
+
 	input {
 		-webkit-appearance: none;
 	}
@@ -145,7 +145,6 @@
 			outline:0;
 			width:100%;
 			border:1px solid #dfe0e1;
-			border-radius:2px;
 			padding: 10px 14px;
 			cursor: text;
 			resize: none;
