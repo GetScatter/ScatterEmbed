@@ -9,8 +9,11 @@
 
 		<section class="scroller" ref="scroller" v-if="state === STATES.EXPLORE">
 			<section class="padder">
-				<section class="featured" v-if="!exploreTerms.length && !selectedCategory">
-					<Carousel :slides="featuredApps" /> <!-- featuredApps -->
+				<section class="featured" v-if="!exploreTerms.length && !selectedCategory && featuredApps.length">
+					<section @click="openInBrowser(app.url)" class="featured-app" v-for="app in featuredApps">
+						<img class="featured-background" :src="app.img" />
+						<figure class="tag">Promoted</figure>
+					</section>
 				</section>
 
 				<section v-if="!categories.length">
@@ -109,6 +112,7 @@
 	import Carousel from "../components/reusable/Carousel";
 	import PermissionService from "@walletpack/core/services/apps/PermissionService";
 	import {RouteNames} from "../vue/Routing";
+	import * as UIActions from "../store/ui_actions";
 
 
 	const STATES = {
@@ -131,6 +135,7 @@
 				'scatter',
 				'dappLogos',
 				'dappData',
+				'featuredApps',
 			]),
 			...mapGetters([
 				'permissions',
@@ -151,17 +156,6 @@
 			filteredApps(){
 				return AppsService.appsByTerm(this.exploreTerms);
 			},
-			featuredApps(){
-				if(this.exploreTerms.trim().length){
-					return this.filteredApps.slice(0,3);
-				}
-
-				if(!this.categories || !this.categories.length) return [];
-				if(!this.selectedCategory) return this.categories[0].apps.filter(app => {
-					return this.getAppData(app.applink).hasOwnProperty('img');
-				}).slice(0,3);
-				return this.categories.find(x => x.type === this.selectedCategory).apps.slice(0,3);
-			},
 			filters(){
 				return [
 					{
@@ -181,6 +175,11 @@
 		},
 		methods:{
 			async init(){
+				if(!this.featuredApps || !this.featuredApps.length) {
+					this[UIActions.SET_FEATURED_APPS](await AppsService.getFeaturedApps());
+				}
+
+
 				if(!this.accounts.length){
 					return this.$router.push({name:this.RouteNames.WALLET});
 				}
@@ -223,7 +222,10 @@
 				if(!this.permissions.filter(x => x.isIdentity).length){
 					this.state = STATES.EXPLORE;
 				}
-			}
+			},
+			...mapActions([
+				UIActions.SET_FEATURED_APPS
+			])
 		},
 		created(){
 		},
@@ -252,7 +254,6 @@
 			}
 
 			input {
-				border-radius:24px;
 				font-size: $large;
 				width:100%;
 				-webkit-appearance: none;
@@ -285,7 +286,54 @@
 			}
 
 			.featured {
+				overflow:visible;
+				display:flex;
+				flex-direction:row;
+				flex-wrap:wrap;
+				justify-content:space-between;
 
+
+				.featured-app {
+					overflow:hidden;
+					border-radius: $radius 0 $radius $radius;
+					width:calc(33.3333% - 10px);
+					padding-bottom:15%;
+					position: relative;
+					margin-bottom:20px;
+					cursor: pointer;
+
+					@media (max-width: $breakpoint-tablet) {
+						width:calc(50% - 10px);
+						padding-bottom: 25%;
+					}
+
+					@media (max-width: $breakpoint-mobile) {
+						width:100%;
+						padding-bottom: 50%;
+					}
+
+					img {
+						position:absolute;
+						top:0;
+						bottom:0;
+						left:0;
+						right:0;
+						width:100%;
+						height:100%;
+					}
+
+					.tag {
+						position: absolute;
+						top: 0;
+						right: 0;
+						background: white;
+						padding: 4px;
+						font-size: 9px;
+						text-transform: uppercase;
+						font-weight: bold;
+						color: $black;
+					}
+				}
 			}
 
 			.categories {

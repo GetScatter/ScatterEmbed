@@ -111,6 +111,7 @@
 	import Exchange from '../../svgs/quick-actions/Exchange'
 	import CreditCard from '../../svgs/CreditCard'
 	import * as UIActions from "../../../store/ui_actions";
+	import SharedFunctions from "../../../util/SharedFunctions";
 
 
 	const STATES = {
@@ -220,6 +221,7 @@
 			selectKey(key, item){
 				this.keys[item.ref] = this.publicKeyForKeypair(key);
 			},
+			publicKeyForKeypair:SharedFunctions.publicKeyForKeypair,
 			keypairFor(publicKey){
 				return this.keypairs.find(x => x.publicKeys.find(k => k.key === publicKey));
 			},

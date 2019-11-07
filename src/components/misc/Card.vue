@@ -50,7 +50,6 @@
 		position: relative;
 		cursor: pointer;
 		width:calc(50% - 10px);
-		border-radius:10px;
 		box-shadow:0 1px 3px $blue-shadow;
 		border:1px solid rgba(0,0,0,0.05);
 		padding:15px;

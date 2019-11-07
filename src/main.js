@@ -1,6 +1,5 @@
-const VConsole = require('vconsole');
-const vConsole = new VConsole({});
-
+// const VConsole = require('vconsole');
+// const vConsole = new VConsole({});
 
 import './styles/styles.scss'
 import './styles/animations.scss'
@@ -12,7 +11,7 @@ import WalletHelpers from './util/WalletHelpers';
 
 import VueInitializer from './vue/VueInitializer';
 import {RouteNames, Routing} from './vue/Routing';
-import { QrcodeReader } from 'vue-qrcode-reader'
+import { QrcodeStream } from 'vue-qrcode-reader'
 
 
 import ViewBase from './components/ViewBase.vue'
@@ -45,10 +44,66 @@ document.onmousedown= e => {
 	// TODO: Add CMD click logic prevention
 }
 
+let cssLoaded = false;
+const loadStyles = async HOST => {
+	if(cssLoaded) return;
+	cssLoaded = true;
+
+	const head = document.getElementsByTagName('head')[0];
+
+	const applyStyles = styles => {
+		const linkElement = document.createElement('style');
+		linkElement.setAttribute('type', 'text/css');
+		linkElement.innerHTML = styles;
+		head.appendChild(linkElement);
+	}
+
+	const fontawesome = await Promise.race([
+		// TODO: Cache on embed servers
+		fetch(HOST+"static/fonts/fontawesome.css").then(x => x.text()).catch(() => null),
+		new Promise(r => setTimeout(() => r(null), 2000))
+	]);
+
+	if(!fontawesome) console.log("There was an error setting up fontawesome.");
+	applyStyles(fontawesome.replace(/INSERT_HOST/g, HOST+"static/fonts"));
+
+
+	const stylesheets = [
+		"static/fonts/scatter-icons",
+		"static/fonts/token-icons",
+		"static/fonts/scatter-logo",
+		"static/fonts/sidebar-icons",
+		"static/fonts/google-fonts",
+	];
+
+	stylesheets.map(async stylesheet => {
+
+		const PATH = HOST+stylesheet;
+
+		let styles = await Promise.race([
+			fetch(PATH+"/style.css").then(x => x.text()).catch(() => null),
+			new Promise(r => setTimeout(() => r(null), 2000))
+		]);
+		if(!styles) return console.log("There was a problem fetching the CSS for '"+stylesheet+"'.");
+
+		// Remodeling the paths
+		styles = styles.replace(/fonts\//g, PATH+"/fonts/");
+
+		applyStyles(styles);
+	});
+}
+
+window.loadStyles = loadStyles;
+
 class Main {
 
 	constructor(){
-		const isPopOut = location.hash.replace("#/", '') === 'popout';
+
+		if(process.env.NO_WALLET){
+			loadStyles('http://localhost:8081/');
+		}
+
+		const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !!window.PopOutWebView;
 
 		const setup = () => {
 
@@ -70,18 +125,31 @@ class Main {
 			if(isPopOut) fragments = [
 				{tag:'PopOutHead', vue:PopOutHead},
 			]; else fragments = [
-				{tag:'qr-reader', vue:QrcodeReader},
+
 			]
 
 			const components = shared.concat(fragments);
 
+			// Once unlocked, simply returns true instead
+			// of hitting the wallet each time.
+			let unlocked = null;
+			const isUnlocked = async () => {
+				if(!unlocked) unlocked = await window.wallet.unlocked();
+				return unlocked;
+			}
+
 			const middleware = async (to, next) => {
-				if(isPopOut) return next();
-				else if(Routing.isRestricted(to.name)) await window.wallet.unlocked() ? next() : next({name:RouteNames.LOGIN});
+				if(isPopOut) {
+					if(to.name !== RouteNames.POP_OUT) return next({name:RouteNames.POP_OUT});
+					return next();
+				}
+				else if(Routing.isRestricted(to.name)) await isUnlocked() ? next() : next({name:RouteNames.LOGIN});
 				else next();
 			}
 
-			new VueInitializer(Routing.routes(), components, middleware, async (router) => {});
+			new VueInitializer(Routing.routes(), components, middleware, async (router) => {
+
+			});
 
 			return true;
 		};
@@ -90,7 +158,7 @@ class Main {
 
 		const setupWallet = async () => {
 			await WalletTalk.setup();
-			await WalletHelpers.init();
+			await WalletHelpers.init(isPopOut);
 
 			if(WalletHelpers.getWalletType() === 'extension' && await window.wallet.unlocked()){
 				await store.dispatch(Actions.LOAD_SCATTER);
@@ -103,19 +171,26 @@ class Main {
 		if(process.env.NO_WALLET){
 
 			WalletTalk.setFakeWallet().then(async () => {
+				await store.dispatch(Actions.LOAD_SCATTER);
 				await setupWallet();
 				SingletonService.init();
 			})
 
 		} else {
 
+			let foundWallet = false;
 			let interval;
-			interval = setInterval(() => {
-				if(window.wallet || window.ReactNativeWebView){
+			const checkWallet = () => {
+				if(window.wallet || window.ReactNativeWebView || window.PopOutWebView){
+					if(foundWallet) return;
+					foundWallet = true;
 					clearInterval(interval);
 					setupWallet();
 				}
-			}, 10);
+			};
+
+			checkWallet();
+			interval = setInterval(() => checkWallet(), 100);
 
 
 		}

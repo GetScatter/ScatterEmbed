@@ -116,9 +116,6 @@
 
 		},
 		methods: {
-			back(){
-				this.$router.back();
-			},
 			selectOption(option){
 				if(option && (option.locked || false) && !this.unlocked) {
 					return this.unlock(option);

@@ -129,7 +129,6 @@
 			display:flex;
 			flex-direction:column;
 			width:100%;
-			border-radius:20px;
 
 			.tokens {
 				height:calc(100vh - 220px);
@@ -140,16 +139,11 @@
 		.graph-and-accounts {
 			display:flex;
 			flex-direction:column;
-			width:100%;
 			background:white;
-			position:absolute;
-			top:205px;
 			right: -100%;
-			transition:all 0.12s ease-in-out;
 		    width: 50vw;
 		    top: 0;
 		    position: fixed;
-		    top: 0;
 		    bottom: 0;
 		    height: initial;
 		    z-index: 102;

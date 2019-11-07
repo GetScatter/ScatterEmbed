@@ -1,11 +1,12 @@
 import {Popup, PopupData, PopupDisplayTypes} from "../models/popups/Popup";
-import WindowService from "../services/electron/WindowService";
+import WindowService from "../services/wallets/WindowService";
 import WalletPack from "@walletpack/core";
 import {store} from "../store/store";
 import ExternalWallet, {ExternalWalletInterface} from "@walletpack/core/models/hardware/ExternalWallet";
-import SocketService from "../services/electron/SocketService";
+import SocketService from "../services/wallets/SocketService";
 import WalletTalk from "./WalletTalk";
 import AppsService from '@walletpack/core/services/apps/AppsService'
+import KeyPairService from '@walletpack/core/services/secure/KeyPairService'
 import PopupService from "../services/utility/PopupService";
 
 let walletType;
@@ -14,17 +15,27 @@ export default class WalletHelpers {
 
 	static getWalletType(){ return walletType; }
 
-	static async init(){
+	static async init(isPopOut){
 
-		const version = await window.wallet.getVersion();
-		const [wtype, wver] = version.split('_');
-		walletType = wtype;
+		if(!isPopOut) {
+			const version = await window.wallet.getVersion();
+			const [wtype, wver] = version.split('_');
+			walletType = wtype;
+		}
 
 		const eventListener = async (type, data) => {
 			if(type === 'popout') {
 				const popup =  new Popup(PopupDisplayTypes.POP_OUT, new PopupData(data.type, data));
 				popup.data.props.appData = AppsService.getAppData(popup.data.props.payload.origin);
 				return await WindowService.openPopOut(popup);
+			}
+
+			//'firewalled', {actions:blacklisted, payload}
+			if(type === 'firewalled'){
+				PopupService.push(Popup.prompt(
+					'Whoa nelly!',
+					`An application tried to push a blacklisted action to your Scatter [ ${data.actions.join(',')} ]. Check your Firewall settings if this is a mistake.`
+				))
 			}
 
 		};
@@ -60,7 +71,7 @@ export default class WalletHelpers {
 			{
 				socketService:SocketService,
 				signer:async (network, publicKey, payload, arbitrary = false, isHash = false) => {
-					const keypair = store.state.scatter.keychain.keypairs.find(x => x.publicKeys.find(k => k.key === publicKey));
+					let keypair = KeyPairService.getKeyPairFromPublicKey(publicKey);
 					if(!keypair) return;
 
 					let popup;

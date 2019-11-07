@@ -55,9 +55,6 @@
 
                 }));
             },
-            displayTokenClass(){
-                return this.scatter.networkTokens().find(x => x.uniqueWithChain() === this.displayToken).symbolClass()
-            }
         }
 
     }
@@ -68,7 +65,8 @@
 
     .bottom-actions {
         height:70px;
-        background:black;
+        background:$black;
+        background:linear-gradient(180deg, #464646 0%,$black 100%);
         color:$white;
         z-index:99;
         flex:0 0 auto;

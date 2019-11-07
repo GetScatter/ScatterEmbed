@@ -89,7 +89,6 @@
         max-height:200px;
         overflow: auto;
         padding:20px;
-        border-radius:4px;
         border:1px solid rgba(0,0,0,0.1);
 
         h1 {

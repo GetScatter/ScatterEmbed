@@ -2,16 +2,15 @@
 	<section class="login">
 
 
-
 		<section class="entry" v-if="state === STATES.NEW_OR_LOGIN">
 			<figure class="login-bg">
 				<img src="static/assets/login_bg.jpg" />
 			</figure>
-			<section class="meteors">
-				<section class="rotator">
-					<figure class="shooting_star" v-for="i in new Array(20).keys()"></figure>
-				</section>
-			</section>
+			<!--<section class="meteors">-->
+				<!--<section class="rotator">-->
+					<!--<figure class="shooting_star" v-for="i in new Array(20).keys()"></figure>-->
+				<!--</section>-->
+			<!--</section>-->
 
 			<section class="head">
 				<section class="details">
@@ -111,6 +110,7 @@
 <script>
 	import { mapActions, mapGetters, mapState } from 'vuex'
 	import * as Actions from '@walletpack/core/store/constants';
+	import { QrcodeStream } from 'vue-qrcode-reader'
 
 	import ProgressBubbles from "../components/reusable/ProgressBubbles";
 	import ActionBar from "../components/reusable/ActionBar";
@@ -151,6 +151,7 @@
 			Reset,
 			Restore,
 			Support,
+			QrcodeStream,
 		},
 		data(){return {
 			state:STATES.NEW_OR_LOGIN,
@@ -214,8 +215,42 @@
 				if(this.opening) return;
 				this.opening = true;
 
+
+				const tryBiometrics = await (async () => {
+					let biometrics;
+					try {
+						biometrics = await window.wallet.biometrics.available();
+					} catch(e){
+						// Happens when biometrics isn't available.
+						return true;
+					}
+
+					if(biometrics && biometrics.toString().indexOf('error') > -1){
+						this.opening = false;
+						return PopupService.push(Popup.snackbar(JSON.parse(biometrics).error));
+					} else {
+						PopupService.push(Popup.snackbar(`Scan your ${biometrics}`))
+						const authorized = await window.wallet.biometrics.authorize();
+						if(authorized && typeof authorized === 'object' && authorized.hasOwnProperty('error')){
+							this.opening = false;
+							PopupService.push(Popup.snackbar(authorized.error));
+							return false;
+						}
+						else if (authorized === true) return true;
+						else {
+							this.opening = false;
+							PopupService.push(Popup.snackbar("Biometric error!"));
+							return false;
+						}
+					}
+				})();
+
+				if(!tryBiometrics) return;
+
+
 				const unlocked = await window.wallet.unlock(this.password);
 				if(unlocked) {
+
 					await this[Actions.LOAD_SCATTER]();
 					this.$router.push({name:RouteNames.HOME});
 					SingletonService.init();
@@ -419,7 +454,9 @@
 
 
 		.welcome-password {
-			width:450px;
+			max-width: 450px;
+			width: calc(100% - 40px);
+			margin: 0 20px;
 		}
 	}
 

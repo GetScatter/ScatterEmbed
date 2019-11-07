@@ -54,7 +54,6 @@
         .process {
             background:#fff;
             padding:10px;
-            border-radius:2px;
             border:1px solid $blue;
             margin-top:2px;
             position: relative;

@@ -57,8 +57,6 @@
 					// this.accounts.length ? {name:'Marketplace', route:RouteNames.ITEMS} : null,
 					{name:'Identities', route:RouteNames.IDENTITIES},
 					{name:'Locations', route:RouteNames.LOCATIONS},
-					// this.accounts.length ? {name:'Reputation', route:RouteNames.RIDL} : null,
-					this.features.creditCards ? {name:'Purchase', route:RouteNames.PURCHASE} : null,
 					{name:'Contacts', route:RouteNames.CONTACTS},
 					this.history.length ? {name:'History', route:RouteNames.HISTORIES} : null,
 					{name:'Networks', route:RouteNames.NETWORKS},
@@ -208,7 +206,6 @@
 			.item {
 				cursor: pointer;
 				padding:10px;
-				border-radius:22px;
 				margin:4px;
 				display:flex;
 				align-items: center;

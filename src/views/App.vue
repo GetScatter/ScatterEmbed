@@ -182,12 +182,12 @@
 	        	if(this.perms.length === 1) return this.removeAll();
 
 		        await PermissionService.removePermission(this.selected);
-		        if(!this.perms.length) return this.back();
+		        if(!this.perms.length) return this.$router.back();
 		        this.selected = this.perms[0];
 	        },
 	        async removeAll(){
 		        await PermissionService.removeAllPermissionsFor(this.applink)
-                this.back();
+                this.$router.back();
 	        }
         },
     }

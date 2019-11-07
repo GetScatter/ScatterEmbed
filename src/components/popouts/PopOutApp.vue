@@ -56,7 +56,6 @@
 
 	.reputation {
 		padding:5px 12px;
-		border-radius:40px;
 		font-size: $small;
 		margin-bottom:10px;
 		margin-top:-5px;

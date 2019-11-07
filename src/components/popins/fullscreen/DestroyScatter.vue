@@ -17,7 +17,7 @@
 	import { mapActions, mapGetters, mapState } from 'vuex'
 	import '../../../styles/popins.scss';
 	import SocketService from "@walletpack/core/services/utility/SocketService";
-	import StorageService from "../../../services/electron/StorageService";
+	import StorageService from "../../../services/wallets/StorageService";
 	import * as UIActions from "../../../store/ui_actions";
 
 	export default {
