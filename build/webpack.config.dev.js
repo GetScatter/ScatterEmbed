@@ -19,5 +19,9 @@ module.exports = merge(baseConfig, {
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		// new webpack.SourceMapDevToolPlugin({}),
+		new WebpackShellPlugin({
+			// onBuildStart:['node scripts/pre-pack'],
+			onBuildEnd:['node scripts/post-pack', 'node scripts/post-pack-local']
+		})
 	]
 })
