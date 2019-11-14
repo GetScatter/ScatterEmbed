@@ -82,7 +82,9 @@
                 }
             }
 
-			this.setup();
+			setTimeout(() => {
+				this.setup();
+            }, 200);
 		},
 		computed:{
 			...mapState([

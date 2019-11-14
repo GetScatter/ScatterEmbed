@@ -20,6 +20,16 @@
         </section>
 
         <section class="action-box top-pad">
+            <label>Simple Mode</label>
+
+            <p>
+                Simple Mode is aimed at everyday users, while Advanced Mode (the one you are currently on) is aimed at very technical users, and developers.
+            </p>
+
+            <Switcher :state="true" v-on:switched="enableSimpleMode" />
+        </section>
+
+        <section class="action-box top-pad">
             <label>{{locale(langKeys.SETTINGS.GENERAL.WhitelistNotificationsLabel)}}</label>
             <p>{{locale(langKeys.SETTINGS.GENERAL.WhitelistNotificationsDescription)}}</p>
 
@@ -104,6 +114,13 @@
 	        this.dataPath = await Injectable.appPath();
         },
         methods: {
+	        async enableSimpleMode(){
+	        	// TODO: Need to prompt users to select which keys to use.
+                // As they need to be the first in the keys list
+		        await window.wallet.storage.setSimpleMode(true);
+		        await window.wallet.lock();
+		        window.wallet.utility.reload(null, true)
+            },
         	openFilePathLink(){
         	    this.openInBrowser(this.dataPath, true);
             },
