@@ -26,7 +26,7 @@
                 Simple Mode is aimed at everyday users, while Advanced Mode (the one you are currently on) is aimed at very technical users, and developers.
             </p>
 
-            <Switcher :state="true" v-on:switched="enableSimpleMode" />
+            <Switcher :state="false" v-on:switched="enableSimpleMode" />
         </section>
 
         <section class="action-box top-pad">
