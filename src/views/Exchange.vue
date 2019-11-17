@@ -337,26 +337,44 @@
 
 			async exchange(){
 				if(!this.canExchange) return;
+
+				const reset = () => {
+					this.sending = false;
+					this.setWorkingScreen(false);
+				}
+
 				this.sending = true;
 				this.setWorkingScreen(true);
 				const from = { account:this.account.sendable() };
 				const to = { account:this.recipient };
 				const amount = this.toSend.amount;
+
+				console.log('order details', this.rawPair.service, this.token, this.pair.symbol, amount, from, to);
 				const order = await ExchangeService.order(this.rawPair.service, this.token, this.pair.symbol, amount, from, to);
 
+				console.log('order', order);
+
+				// Unknown error
 				if(!order) {
 					this.cantConnect();
-					this.sending = false;
-					return;
+					return reset();
 				}
+
+				// Error string
+				if(typeof order === 'string'){
+					PopupService.push(Popup.snackbar(order));
+					return reset();
+				}
+
 				const accounts = {
 					from:from.account,
 					to:to.account,
-				}
+				};
+
 				const symbols = {
 					from:this.token.symbol,
 					to:this.pair.symbol
-				}
+				};
 
 				ExchangeService.accepted(order.id);
 				const sent = await TransferService[this.account.blockchain()]({
@@ -371,6 +389,7 @@
 					console.error('Exchange error: ', err);
 					return false;
 				});
+
 				if(sent){
 					if(typeof sent === 'object' && sent.hasOwnProperty('error')){
 						PopupService.push(Popup.snackbar(sent.error));
@@ -392,8 +411,7 @@
 					}
 				}
 
-				this.setWorkingScreen(false);
-				this.sending = false;
+				reset();
 			},
 
 

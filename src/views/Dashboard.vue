@@ -1,8 +1,8 @@
 <template>
-	<section class="dashboard" :class="{'full-mobile':!tokens && (!votableAccounts || !votableAccounts.length)}">
+	<section class="dashboard" :class="{'full-mobile':!tokens && (!canVote)}">
 		<section id="asset-updates">
 
-			<section class="attraction" :class="{'full-mobile':!tokens && (!votableAccounts || !votableAccounts.length)}">
+			<section class="attraction" :class="{'full-mobile':!tokens && (!canVote)}">
 				<div class="promoted-pill">Promoted</div>
 				<section class="premium-attraction" :class="{'no-tokens':!tokens}">
 					<!-- Top left logo -->
@@ -67,7 +67,7 @@
 		<!--</a>-->
 		<!--</section>-->
 
-		<section class="focus-boxes" v-if="votableAccounts && votableAccounts.length">
+		<section class="focus-boxes" v-if="canVote">
 			<a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(static/assets/voting.png);"  target="_blank">
 				<span class="earn-rewards">Vote for Scatter</span>
 				<h3>Show us some love!</h3>
@@ -95,6 +95,10 @@
 	export default {
 		data() {return {
 			proxying:false,
+			votableChains:[
+				'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+				'4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11'
+			]
 		}},
 		computed:{
 			...mapState([
@@ -136,16 +140,20 @@
 					lowest
 				}
 			},
-			eosMainnet(){
-				const plugin = PluginRepository.plugin(Blockchains.EOSIO);
-				return this.networks.find(x => x.blockchain === Blockchains.EOSIO && x.chainId === plugin.getEndorsedNetwork().chainId);
+			votableChains(){
+				return [
+
+				]
 			},
-			votableAccounts(){
-				if(!this.eosMainnet) return false;
-				// There could be hundreds of accounts here, and some of them might not even have CPU to vote with.
-				// So we're gonna filter this list down.
-				return this.eosMainnet.accounts(true).filter(account => account.systemBalance() >= 5)
-			}
+			votableNetworks(){
+				return this.votableChains.map(chainId => {
+					return this.scatter.settings.networks.find(x => x.blockchain === Blockchains.EOSIO && x.chainId === chainId);
+				}).filter(x => !!x);
+			},
+			canVote(){
+				console.log('votableNetworks', this.votableChains, this.votableNetworks);
+				return !!this.votableNetworks.length;
+			},
 
 		},
 		mounted(){
@@ -174,41 +182,52 @@
 					this.proxying = false;
 				}
 
-				// TODO: ERROR MSGS
 				const plugin = PluginRepository.plugin(Blockchains.EOSIO);
 				if(!plugin) return reset();
 
-				const accounts = this.votableAccounts;
+				let trxs = [];
+				for(let i = 0; i < this.votableNetworks.length; i++){
+					const network = this.votableNetworks[i];
+					const accounts = network.accounts(true).filter(account => account.systemBalance() >= 5);
 
-				const eos = plugin.getSignableEosjs(accounts, () => {
-					reset();
-				});
+					if(accounts.length){
+						const eos = plugin.getSignableEosjs(accounts, () => { reset(); });
 
-				const actions = accounts.map(account => {
-					return {
-						account: 'eosio',
-						name:'voteproducer',
-						authorization: [{
-							actor: account.sendable(),
-							permission: account.authority,
-						}],
-						data:{
-							voter: account.name,
-							proxy: 'scatterproxy',
-							producers:[],
-						},
+						const actions = accounts.map(account => {
+							return {
+								account: 'eosio',
+								name:'voteproducer',
+								authorization: [{
+									actor: account.sendable(),
+									permission: account.authority,
+								}],
+								data:{
+									voter: account.name,
+									proxy: 'scatterproxy',
+									producers:[],
+								},
+							}
+						});
+
+						await eos.transact({ actions }, { blocksBehind: 3, expireSeconds: 30 })
+							.then(trx => {
+								trxs.push(trx);
+								// PopupService.push(Popup.transactionSuccess(Blockchains.EOSIO, trx.transaction_id));
+								return true;
+							})
+							.catch(res => {
+								PopupService.push(Popup.snackbar(res));
+								return null;
+							})
 					}
-				});
 
-				await eos.transact({ actions }, { blocksBehind: 3, expireSeconds: 30 })
-					.then(trx => {
-						PopupService.push(Popup.transactionSuccess(Blockchains.EOSIO, trx.transaction_id));
-						reset()
-					})
-					.catch(res => {
-						PopupService.push(Popup.snackbar(res));
-						reset()
-					})
+					if(trxs.length){
+						PopupService.push(Popup.snackbar(`Voted for Scatter on ${trxs.length} chains. Thanks for your help!`))
+					}
+
+					reset();
+				}
+
 			}
 		},
 		created() {

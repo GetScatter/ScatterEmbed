@@ -95,7 +95,7 @@ export const getters = {
     snackbars:state =>      state.popups.filter(x => x.displayType === PopupDisplayTypes.SNACKBAR) || [],
 
     totalBalances:(state, getters) => {
-    	return BalanceService.totalBalances(false);
+    	return BalanceService.totalBalances(true);
     },
 };
 

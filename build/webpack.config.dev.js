@@ -1,10 +1,12 @@
 'use strict'
 
+
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.prod')
 const rm = require('rimraf');
 const nodeExternals = require('webpack-node-externals');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 rm.sync('./dist')
 
