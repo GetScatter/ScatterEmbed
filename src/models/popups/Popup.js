@@ -235,6 +235,10 @@ export class Popup {
 		return new Popup(PopupDisplayTypes.POP_IN, new PopupData(PopupTypes.MOONPAY_CODE, {}, callback))
 	}
 
+	static enableSimpleMode(callback = () => {}){
+		return new Popup(PopupDisplayTypes.POP_IN, new PopupData(PopupTypes.ENABLE_SIMPLE_MODE, {}, callback))
+	}
+
 }
 
 export const PopupTypes = {
@@ -254,6 +258,7 @@ export const PopupTypes = {
 	EOS_LINK_ACCOUNT:'eosLinkAccount',
 	DISPLAY_TOKEN:'displayToken',
 	MOONPAY_CODE:'moonpayCode',
+	ENABLE_SIMPLE_MODE:'enableSimpleMode',
 
 	// FULLSCREEN
 	SHOW_TERMS:'showTerms',
@@ -301,6 +306,7 @@ export const isFullscreen = popup => {
 		PopupTypes.CONFIRM_EXCHANGE,
 		PopupTypes.EOS_LINK_ACCOUNT,
 		PopupTypes.DISPLAY_TOKEN,
+		PopupTypes.ENABLE_SIMPLE_MODE,
 	].includes(popup.data.type);
 
 

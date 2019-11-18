@@ -80,6 +80,8 @@
     import WindowService from '../../../services/wallets/WindowService';
     import LanguageService from "../../../services/utility/LanguageService";
     import Injectable from "../../../services/wallets/Injectable";
+    import {Popup} from "../../../models/popups/Popup";
+    import PopupService from "../../../services/utility/PopupService";
 
     export default {
         data () {return {
@@ -115,11 +117,13 @@
         },
         methods: {
 	        async enableSimpleMode(){
-	        	// TODO: Need to prompt users to select which keys to use.
-                // As they need to be the first in the keys list
-		        await window.wallet.storage.setSimpleMode(true);
-		        await window.wallet.lock();
-		        window.wallet.utility.reload(null, true)
+	        	PopupService.push(Popup.enableSimpleMode(async enabled => {
+	        		if(!enabled) return;
+
+			        // await window.wallet.storage.setSimpleMode(true);
+			        // await window.wallet.lock();
+			        // window.wallet.utility.reload(null, true)
+                }))
             },
         	openFilePathLink(){
         	    this.openInBrowser(this.dataPath, true);
