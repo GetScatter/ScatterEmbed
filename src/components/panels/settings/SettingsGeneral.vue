@@ -9,10 +9,10 @@
         <section class="action-box top-pad">
             <label>{{$t('settings.general.language')}}</label>
 
-            <Select bordered="1" :options="names" :disabled="true"
-                    :selected="selectedLanguage"
-                    :parser="x => x"
-                    v-on:selected="selectLanguage" />
+            <Select bordered="1" :options="locales"
+                    :selected="locales.find(x => x.locale === $i18n.locale)"
+                    :parser="x => x.name"
+                    v-on:selected="x => selectLanguage(x.locale)" />
         </section>
 
         <section class="action-box top-pad">
@@ -70,16 +70,12 @@
     import * as Actions from '@walletpack/core/store/constants';
     import * as UIActions from "../../../store/ui_actions";
 
-    import UpdateService from '../../../services/utility/UpdateService';
-    import WindowService from '../../../services/wallets/WindowService';
     import Injectable from "../../../services/wallets/Injectable";
     import {Popup} from "../../../models/popups/Popup";
     import PopupService from "../../../services/utility/PopupService";
 
     export default {
         data () {return {
-            needsUpdate:null,
-	        names:['English'],
 	        dataPath:null,
         }},
         computed:{
@@ -95,15 +91,14 @@
             showNotifications(){
                 return this.scatter.settings.showNotifications;
             },
-	        selectedLanguage(){
-		        return this.scatter.settings.language
-	        }
+            locales(){
+            	return [
+                    {locale:'en', name:'English'},
+                    {locale:'zh', name:'Mandarin (普通話)'},
+                ]
+            }
         },
         async mounted(){
-        	// TODO: Do we even need this anymore?
-            UpdateService.needsUpdateNoPrompt(false).then(needsUpdate => {
-                this.needsUpdate = !!needsUpdate;
-            })
 	        this.dataPath = await Injectable.appPath();
         },
         methods: {
@@ -119,24 +114,17 @@
         	openFilePathLink(){
         	    this.openInBrowser(this.dataPath, true);
             },
-	        openUpdateLink(){
-		        this.openInBrowser(UpdateService.updateUrl());
-	        },
 	        openConsole(){ window.wallet.utility.openTools(window.wallet.windowId); },
             async toggleNotifications(){
                 const scatter = this.scatter.clone();
                 scatter.settings.showNotifications = !scatter.settings.showNotifications;
                 this[Actions.SET_SCATTER](scatter);
             },
-	        selectLanguage(language){
-	        	// TODO: Redo now that it's all local.
-		        // const scatter = this.scatter.clone();
-		        // scatter.settings.language = language;
-		        // LanguageService.getLanguage(language).then(res => {
-			    //     res.raw = JSON.stringify(res);
-			    //     this[UIActions.SET_LANGUAGE](res);
-			    //     this[Actions.SET_SCATTER](scatter);
-		        // })
+	        selectLanguage(locale){
+                const langFile = require(`../../../localization/languages/${locale}`).default;
+		        this.$i18n.setLocaleMessage(locale, langFile);
+		        this.$i18n.locale = locale;
+		        window.wallet.storage.setLanguage(locale);
 	        },
             ...mapActions([
                 Actions.SET_SCATTER,

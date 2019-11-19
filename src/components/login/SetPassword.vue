@@ -72,7 +72,6 @@
 
 				await new Promise(r => setTimeout(() => r(true), 1000));
 				this.setWorkingScreen(true);
-				// TODO: Can this fail?
 				await this[UIActions.CREATE_SCATTER](this.password);
 				this.setWorkingScreen(false);
 

@@ -1,5 +1,5 @@
 export default {
-	// TODO: Check for $t when it should be $tc (search by pipe)
+
 	generic:{
 		back:`Back`,
 		skip:`Skip`,

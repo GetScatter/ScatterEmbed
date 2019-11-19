@@ -1,5 +1,7 @@
-import english from './english';
+import en from './en';
+import zh from './zh';
 
 export default {
-	en:english
+	en,
+	zh
 }
