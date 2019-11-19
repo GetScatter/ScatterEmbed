@@ -13,11 +13,11 @@
 
 					<section class="details">
 						<figure class="title" v-if="item.type === 'transfer'">
-							Sent {{formatNumber(parseFloat(item.amount).toFixed(decimalsOrDefault(item.token)), true)}} {{item.token.symbol}}
+							{{$t('histories.sent')}} {{formatNumber(parseFloat(item.amount).toFixed(decimalsOrDefault(item.token)), true)}} {{item.token.symbol}}
 						</figure>
 						<figure class="title" v-if="item.type === 'exchange'">
 							<figure class="exchange-from">Exchanged {{formatNumber(parseFloat(item.amount).toFixed(decimalsOrDefault(item.token)), true)}} {{item.token.symbol}}</figure>
-							Received {{formatNumber(parseFloat(item.toAmount).toFixed(decimalsOrDefault(item.toToken)), true)}} {{item.toToken.symbol}}
+							{{$t('histories.received')}} {{formatNumber(parseFloat(item.toAmount).toFixed(decimalsOrDefault(item.toToken)), true)}} {{item.toToken.symbol}}
 						</figure>
 						<section class="row">
 							<figure class="status" @click="refreshStatus(item.id)" v-if="item.type === 'exchange'">
@@ -37,12 +37,12 @@
 							<figure class="account" v-if="item.from.sendable() !== item.to">{{item.to}}</figure>
 						</section>
 						<figure class="network" v-if="item.from.network()">{{item.from.network().name}}</figure>
-						<figure class="network" v-else>Network disabled ({{item.from.networkUnique}})</figure>
+						<figure class="network" v-else>{{$t('histories.networkDisabled')}} ({{item.from.networkUnique}})</figure>
 					</section>
 
 					<section class="actions">
-						<Button text="View" @click.native="view(item)" />
-						<Button text="Redo" blue="1" @click.native="redo(item)" />
+						<Button :text="$t('generic.view')" @click.native="view(item)" />
+						<Button :text="$t('generic.redo')" blue="1" @click.native="redo(item)" />
 					</section>
 				</section>
 
@@ -65,7 +65,7 @@
 					</section>
 
 					<section class="actions">
-						<Button text="View" @click.native="view(item)" />
+						<Button :text="$t('generic.view')" @click.native="view(item)" />
 					</section>
 				</section>
 
@@ -197,7 +197,7 @@
 				this.loadingStatus = false;
 			},
 			clearHistory(){
-				PopupService.push(Popup.prompt('Clearing history', 'You are about to erase your entire local history. This will not erase keys or accounts.', yes => {
+				PopupService.push(Popup.prompt(this.$t('histories.clear.title'), this.$t('histories.clear.description'), yes => {
 					if(yes) {
 						this[Actions.DELTA_HISTORY](null);
 						this.$router.push({name:this.RouteNames.HOME})

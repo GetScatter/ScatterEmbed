@@ -4,15 +4,15 @@
         <section class="flex-wrapper">
             <section class="action" @click="quickAction(RouteNames.TRANSFER)">
                 <i class="fal fa-sign-out"></i>
-                <span>Send</span>
+                <span>{{$t('generic.send')}}</span>
             </section>
             <section class="action" @click="quickAction(RouteNames.RECEIVE)">
                 <i class="fal fa-sign-in"></i>
-                <span>Receive</span>
+                <span>{{$t('generic.receive')}}</span>
             </section>
             <section class="action" @click="quickAction(RouteNames.EXCHANGE)">
                 <i class="fal fa-retweet"></i>
-                <span>Exchange</span>
+                <span>{{$t('generic.exchange')}}</span>
             </section>
         </section>
     </section>

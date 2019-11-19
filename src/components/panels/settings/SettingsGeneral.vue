@@ -2,16 +2,12 @@
     <section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.VersionLabel)}}</label>
+            <label>{{$t('settings.general.version')}}</label>
             <b>Scatter Desktop v{{version}}</b>
         </section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.LANGUAGE.Label)}}</label>
-
-            <p>
-                Sorry, this is temporarily unavailable as we reformat all of the translations.
-            </p>
+            <label>{{$t('settings.general.language')}}</label>
 
             <Select bordered="1" :options="names" :disabled="true"
                     :selected="selectedLanguage"
@@ -20,25 +16,23 @@
         </section>
 
         <section class="action-box top-pad">
-            <label>Simple Mode</label>
+            <label>{{$t('settings.general.simpleMode')}}</label>
 
-            <p>
-                Simple Mode is aimed at everyday users, while Advanced Mode (the one you are currently on) is aimed at very technical users, and developers.
-            </p>
+            <p>{{$t('settings.general.simpleModeDescription')}}</p>
 
             <Switcher :state="false" v-on:switched="enableSimpleMode" />
         </section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.WhitelistNotificationsLabel)}}</label>
-            <p>{{locale(langKeys.SETTINGS.GENERAL.WhitelistNotificationsDescription)}}</p>
+            <label>{{$t('settings.general.notifications')}}</label>
+            <p>{{$t('settings.general.notificationsDescription')}}</p>
 
             <Switcher :state="showNotifications" @click.native="toggleNotifications" />
         </section>
 
         <section class="action-box top-pad">
-            <label>Local socket ports</label>
-            <p>There are the ports open on your local machine that other local applications can use to contact Scatter.</p>
+            <label>{{$t('settings.general.ports')}}</label>
+            <p>{{$t('settings.general.portsDescription')}}</p>
 
             <br>
             <section v-if="ports && Object.keys(ports).length">
@@ -47,12 +41,12 @@
                     <figure class="ssl" v-if="ssl">SSL</figure>
                 </section>
             </section>
-            <section v-else>There are no open ports!</section>
+            <section v-else>{{$t('settings.general.noPorts')}}</section>
         </section>
 
         <section class="action-box top-pad" v-if="dataPath">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.DataPathLabel)}}</label>
-            <p>{{locale(langKeys.SETTINGS.GENERAL.DataPathDescription)}}</p>
+            <label>{{$t('settings.general.dataPath')}}</label>
+            <p>{{$t('settings.general.dataPathDescription')}}</p>
 
             <br>
             <br>
@@ -62,10 +56,10 @@
         </section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.DeveloperConsoleLabel)}}</label>
-            <p>{{locale(langKeys.SETTINGS.GENERAL.DeveloperConsoleDescription)}}</p>
+            <label>{{$t('settings.general.devConsole')}}</label>
+            <p>{{$t('settings.general.devConsoleDescription')}}</p>
             <Button @click.native="openConsole"
-                 :text="locale(langKeys.SETTINGS.GENERAL.DeveloperConsoleButton)"/>
+                 :text="$t('settings.general.devConsoleButton')"/>
         </section>
 
     </section>
@@ -78,7 +72,6 @@
 
     import UpdateService from '../../../services/utility/UpdateService';
     import WindowService from '../../../services/wallets/WindowService';
-    import LanguageService from "../../../services/utility/LanguageService";
     import Injectable from "../../../services/wallets/Injectable";
     import {Popup} from "../../../models/popups/Popup";
     import PopupService from "../../../services/utility/PopupService";
@@ -107,12 +100,10 @@
 	        }
         },
         async mounted(){
+        	// TODO: Do we even need this anymore?
             UpdateService.needsUpdateNoPrompt(false).then(needsUpdate => {
                 this.needsUpdate = !!needsUpdate;
             })
-	        LanguageService.getLanguageNames().then(names => {
-		        if(names) this.names = names;
-	        })
 	        this.dataPath = await Injectable.appPath();
         },
         methods: {
@@ -120,9 +111,9 @@
 	        	PopupService.push(Popup.enableSimpleMode(async enabled => {
 	        		if(!enabled) return;
 
-			        // await window.wallet.storage.setSimpleMode(true);
-			        // await window.wallet.lock();
-			        // window.wallet.utility.reload(null, true)
+			        await window.wallet.storage.setSimpleMode(true);
+			        await window.wallet.lock();
+			        window.wallet.utility.reload(null, true)
                 }))
             },
         	openFilePathLink(){
@@ -138,13 +129,14 @@
                 this[Actions.SET_SCATTER](scatter);
             },
 	        selectLanguage(language){
-		        const scatter = this.scatter.clone();
-		        scatter.settings.language = language;
-		        LanguageService.getLanguage(language).then(res => {
-			        res.raw = JSON.stringify(res);
-			        this[UIActions.SET_LANGUAGE](res);
-			        this[Actions.SET_SCATTER](scatter);
-		        })
+	        	// TODO: Redo now that it's all local.
+		        // const scatter = this.scatter.clone();
+		        // scatter.settings.language = language;
+		        // LanguageService.getLanguage(language).then(res => {
+			    //     res.raw = JSON.stringify(res);
+			    //     this[UIActions.SET_LANGUAGE](res);
+			    //     this[Actions.SET_SCATTER](scatter);
+		        // })
 	        },
             ...mapActions([
                 Actions.SET_SCATTER,

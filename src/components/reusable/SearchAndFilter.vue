@@ -2,7 +2,7 @@
 	<section class="search-and-filter" :class="{'full':fullSearch,'blue':blue}">
 
 		<figure class="search-bar">
-			<input placeholder="Search" v-model="terms" />
+			<input :placeholder="$t('generic.search')" v-model="terms" />
 		</figure>
 
 		<section class="filters" v-if="!fullSearch">

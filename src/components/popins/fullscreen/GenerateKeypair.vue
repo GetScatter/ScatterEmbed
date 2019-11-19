@@ -7,7 +7,7 @@
 				<Key />
 				<br>
 				<br>
-				<figure class="title">Generate Keypair</figure>
+				<figure class="title">{{$t('popins.fullscreen.generateKey.title')}}</figure>
 			</section>
 			<br>
 			<br>
@@ -25,7 +25,7 @@
 		</section>
 
 
-		<ActionBar :buttons-left="[{text:'Cancel', click:() => this.returnResult(false)}]"  />
+		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => this.returnResult(false)}]"  />
 
 
 	</section>

@@ -9,7 +9,7 @@
 					<section class="limit-width">
 						<section class="boxes">
 							<section class="box-container">
-								<label>From & Token</label>
+								<label>{{$t('exchange.fromAndToken')}}</label>
 								<section class="box nested account-selector flex" @click="selectTokenAndAccount">
 									<section class="symbol">
 										<TokenSymbol :token="token" />
@@ -27,12 +27,12 @@
 								<label>Receiver</label>
 								<section class="box nested">
 									<section class="padded recipient-selector" @click="selectRecipient">
-										<figure class="name">Contacts</figure>
+										<figure class="name">{{$t('generic.contacts')}}</figure>
 										<figure class="chevron fas fa-caret-square-down"></figure>
 									</section>
 									<figure class="line"></figure>
 									<section class="input-container">
-										<input placeholder="Address / Account" v-model="recipient" class="input" />
+										<input :placeholder="$t('generic.addressOrAccount')" v-model="recipient" class="input" />
 									</section>
 								</section>
 							</section>
@@ -72,7 +72,7 @@
 								<section class="input-container">
 									<figure class="label">{{displayCurrency}}</figure>
 									<input :disabled="!rate" placeholder="0.00" v-if="toSend.fiatPrice()" v-on:input="changedFiat" v-model="fiat" class="input" />
-									<figure class="input not-available" v-else>Price not available</figure>
+									<figure class="input not-available" v-else>{{$t('exchange.priceNotAvailable')}}</figure>
 								</section>
 							</section>
 
@@ -83,8 +83,8 @@
 							<section class="box account-selector" v-if="loadingPairs">
 								<section class="symbol"><i class="icon-spin4 animate-spin"></i></section>
 								<section>
-									<figure class="name">Loading Pairs</figure>
-									<figure class="network">Please wait</figure>
+									<figure class="name">{{$t('exchange.loadingPairs')}}</figure>
+									<figure class="network">{{$t('generic.pleaseWait')}}</figure>
 								</section>
 							</section>
 
@@ -102,12 +102,12 @@
 
 
 								<section v-if="!pair">
-									<figure class="name" v-if="pairs.length">Select a Token</figure>
-									<figure class="name" v-else>No pairs found</figure>
+									<figure class="name" v-if="pairs.length">{{$t('generic.selectToken')}}</figure>
+									<figure class="name" v-else>{{$t('exchange.noPairs')}}</figure>
 								</section>
 								<section v-if="pair">
 									<figure class="name value" v-if="!loadingRate">{{estimatedAmount}}</figure>
-									<figure class="name" v-if="loadingRate">Loading Rate</figure>
+									<figure class="name" v-if="loadingRate">{{$t('exchange.loadingRate')}}</figure>
 									<figure class="network" v-if="pair">{{pair.symbol}}</figure>
 								</section>
 								<figure class="chevron fas fa-caret-square-down" v-if="pairs.length"></figure>
@@ -279,8 +279,8 @@
 
 			cantConnect(){
 				PopupService.push(Popup.prompt(
-					this.locale(this.langKeys.EXCHANGE.ExchangeError),
-					this.locale(this.langKeys.EXCHANGE.CantConnect)
+					this.$t('exchange.errorTitle'),
+					this.$t('exchange.errorDescription')
 				));
 				this.$router.push({name:this.RouteNames.HOME});
 			},
@@ -349,10 +349,7 @@
 				const to = { account:this.recipient };
 				const amount = this.toSend.amount;
 
-				console.log('order details', this.rawPair.service, this.token, this.pair.symbol, amount, from, to);
 				const order = await ExchangeService.order(this.rawPair.service, this.token, this.pair.symbol, amount, from, to);
-
-				console.log('order', order);
 
 				// Unknown error
 				if(!order) {

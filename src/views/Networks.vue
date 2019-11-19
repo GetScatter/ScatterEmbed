@@ -6,7 +6,7 @@
 		<!-------------------------->
 		<section class="blockchains" v-if="!isMobile || !selectedBlockchain" :class="{'full-width':isMobile}">
 			<section class="head">
-				Select a Blockchain
+				{{$t('generic.selectBlockchain')}}
 			</section>
 			<section class="scroller">
 				<section class="blockchain-list">
@@ -15,7 +15,7 @@
 						<section class="details">
 							<figure class="title">{{blockchainName(blockchain)}}</figure>
 							<figure class="row">
-								<figure class="secondary">{{networksFor(blockchain).length}} network{{networksFor(blockchain).length === 1 ? '' : 's'}}</figure>
+								<figure class="secondary">{{networksFor(blockchain).length}} {{$t('generic.networks', networksFor(blockchain).length)}}</figure>
 							</figure>
 						</section>
 						<i class="fal fa-chevron-right"></i>
@@ -32,7 +32,7 @@
 				<figure v-if="isMobile" class="back-button" @click="selectBlockchain(null)">
 					<i class="fal fa-arrow-left"></i>
 				</figure>
-				Networks
+				{{$t('generic.networks', 2)}}
 			</section>
 			<section class="scroller with-tail">
 				<section class="item-list">
@@ -45,13 +45,13 @@
 								<figure class="name">{{network.name}}</figure>
 								<figure class="text">{{network.host}}</figure>
 								<figure class="connection-error" v-if="cantReach(network)">
-									<i class="icon-attention"></i> Connection error!
+									<i class="icon-attention"></i> {{$t('networks.connectionError')}}
 								</figure>
 							</section>
 							<section class="actions">
 								<figure class="system-token">{{network.systemToken().symbol}}</figure>
 								<Switcher v-if="!isCustom(network)" class="switch" :state="isEnabled(network)" v-on:switched="toggleNetwork(network)" />
-								<Button v-if="isCustom(network)" blue="1" text="Remove" @click.native="toggleNetwork(network)" />
+								<Button v-if="isCustom(network)" blue="1" :text="$t('generic.remove')" @click.native="toggleNetwork(network)" />
 							</section>
 						</section>
 

@@ -3,7 +3,7 @@
 
 		<section class="details">
 			<img src="static/assets/icon_send_big.png" class="icon" />
-			<label>Transferring</label>
+			<label>{{$t('popins.overlay.transferring')}}</label>
 
 			<figure class="amount">{{token.amount}} {{token.symbol}}</figure>
 			<section class="accounts">
@@ -12,13 +12,13 @@
 				<figure class="account">{{to}}</figure>
 			</section>
 			<figure class="memo" v-if="memo">
-				<b>memo</b>
+				<b>{{$t('generic.memo')}}</b>
 				<span>{{memo}}</span>
 			</figure>
 		</section>
 		<section class="tail">
-			<Button :text="locale(langKeys.GENERIC.Cancel)" @click.native="returnResult(false)" />
-			<Button :text="locale(langKeys.GENERIC.Confirm)" blue="1" @click.native="returnResult(true)" />
+			<Button :text="$t('generic.cancel')" @click.native="returnResult(false)" />
+			<Button :text="$t('generic.confirm')" blue="1" @click.native="returnResult(true)" />
 		</section>
 	</section>
 </template>

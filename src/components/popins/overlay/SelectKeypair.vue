@@ -1,6 +1,6 @@
 <template>
 	<section class="select-keypair pop-over">
-		<PopInHead title="Select Public Key" v-on:close="returnResult" />
+		<PopInHead :title="$t('popins.overlay.selectPublicKey')" v-on:close="returnResult" />
 		<KeysAndAccountList :keypairs-only="true" :blockchains="blockchains" v-on:keypair="returnResult" as-selector="1" />
 	</section>
 </template>

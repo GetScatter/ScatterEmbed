@@ -2,7 +2,7 @@
 	<section class="import-hardware">
 		<section class="split-inputs">
 			<section style="flex:1;">
-				<label>Select a hardware wallet</label>
+				<label>{{$t('panels.keypair.selectHardware')}}</label>
 				<Select :selected="hardwareType" bordered="1" style="flex:1;"
 				        :options="externalWallets"
 				        v-on:selected="changeHardwareType" />
@@ -10,7 +10,7 @@
 
 
 			<section v-if="availableBlockchains.length > 1" style="flex:1;">
-				<label>{{locale(langKeys.ADD_KEYS.IMPORT_HW.AvailableBlockchainsLabel)}}</label>
+				<label>{{$t('panels.keypair.availableHardwareChains')}}</label>
 				<Select :selected="blockchain" bordered="1"
 				        :parser="x => blockchainName(x)"
 				        :options="availableBlockchains"
@@ -23,7 +23,7 @@
 		<Input :disabled="gettingAvailableKeys" v-if="external" :text="external.addressIndex"
 		       v-on:changed="x => external.addressIndex = x"
 		       type="number"
-		       :label="locale(langKeys.ADD_KEYS.IMPORT_HW.IndexLabel)" />
+		       :label="$t('panels.keypair.hardwareIndex')" />
 
 		<section class="key-list">
 			<section class="key-row" v-for="item in availableKeys" @click="importKey(item)">
@@ -117,7 +117,7 @@
 
 				if(!keypair.isUnique()) {
 					this.setWorkingScreen(false);
-					return PopupService.push(Popup.snackbar('Keypair already exists'));
+					return PopupService.push(Popup.snackbar(this.$t('errors.keypairExists')));
 				}
 
 				setTimeout(() => {

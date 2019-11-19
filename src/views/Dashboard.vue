@@ -3,8 +3,9 @@
 		<section id="asset-updates">
 
 			<section class="attraction" :class="{'full-mobile':!tokens && (!canVote)}">
-				<div class="promoted-pill">Promoted</div>
+				<div class="promoted-pill">{{$t('generic.promoted')}}</div>
 				<section class="premium-attraction" :class="{'no-tokens':!tokens}">
+
 					<!-- Top left logo -->
 					<img class="logo" src="https://cryptolegends.io/assets/use-images/logo_crypto.png">
 
@@ -29,53 +30,39 @@
 				</section>
 
 				<!-- Exchange CTA -->
-				<section class="suggested-exchanges" v-if="tokens">
-					<section class="exchange-panel" v-if="tokens && tokens.lowest">
-						<div class="token-logo">
-							<i class="fad fa-chart-line-down"></i>
-						</div>
-						<div class="explainer">
-							<span class="title">{{tokens.lowest.token.name}} has dropped {{tokens.lowest.change.perc.replace('-', '')}}</span>
-							<!--<span class="suggested-action">This might be a good time to convert to a stable coin.</span>-->
-						</div>
-						<Button class="cta" text="Exchange" @click.native="exchange(tokens.lowest.token)" />
-					</section>
-					<section class="exchange-panel" v-if="tokens && tokens.highest">
-						<div class="token-logo">
-							<i class="fad fa-coins"></i>
-						</div>
-						<div class="explainer">
-							<span class="title">{{tokens.highest.token.name}} has risen {{tokens.highest.change.perc.replace('+', '')}}</span>
-							<!--<span class="suggested-action">This might be a good time to secure some gains.</span>-->
-						</div>
-						<Button class="cta" text="Exchange" @click.native="exchange(tokens.highest.token)" />
-					</section>
-				</section>
+				<!--<section class="suggested-exchanges" v-if="tokens">-->
+					<!--<section class="exchange-panel" v-if="tokens && tokens.lowest">-->
+						<!--<div class="token-logo">-->
+							<!--<i class="fad fa-chart-line-down"></i>-->
+						<!--</div>-->
+						<!--<div class="explainer">-->
+							<!--<span class="title">{{tokens.lowest.token.name}} has dropped {{tokens.lowest.change.perc.replace('-', '')}}</span>-->
+							<!--&lt;!&ndash;<span class="suggested-action">This might be a good time to convert to a stable coin.</span>&ndash;&gt;-->
+						<!--</div>-->
+						<!--<Button class="cta" text="Exchange" @click.native="exchange(tokens.lowest.token)" />-->
+					<!--</section>-->
+					<!--<section class="exchange-panel" v-if="tokens && tokens.highest">-->
+						<!--<div class="token-logo">-->
+							<!--<i class="fad fa-coins"></i>-->
+						<!--</div>-->
+						<!--<div class="explainer">-->
+							<!--<span class="title">{{tokens.highest.token.name}} has risen {{tokens.highest.change.perc.replace('+', '')}}</span>-->
+							<!--&lt;!&ndash;<span class="suggested-action">This might be a good time to secure some gains.</span>&ndash;&gt;-->
+						<!--</div>-->
+						<!--<Button class="cta" text="Exchange" @click.native="exchange(tokens.highest.token)" />-->
+					<!--</section>-->
+				<!--</section>-->
 
 			</section>
 
 		</section>
-		<!--<section class="focus-boxes">-->
-		<!--<a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(static/assets/voting.png);"  target="_blank">-->
-		<!--<span class="earn-rewards">Earn rewards</span>-->
-		<!--<h3>Proxy your EOSIO votes to get daily rewards!</h3>-->
-		<!--<h5>-->
-		<!--By proxying your votes you can earn daily rewards.-->
-		<!--The third party proxies we select all have our Block Producer in them, so you'll also be voting for Scatter and helping us grow!-->
-		<!--</h5>-->
-		<!--<Button text="Proxy Now!" />-->
-		<!--</a>-->
-		<!--</section>-->
 
 		<section class="focus-boxes" v-if="canVote">
 			<a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(static/assets/voting.png);"  target="_blank">
-				<span class="earn-rewards">Vote for Scatter</span>
-				<h3>Show us some love!</h3>
-				<h5>
-					We've launched an EOS Mainnet Block Producer which you can now vote for. Help us get into a producing position by
-					voting for us.
-				</h5>
-				<Button text="Join our Proxy" @click.native="voteForScatter" :loading="proxying" />
+				<span class="earn-rewards">{{$t('dashboard.vote.title')}}</span>
+				<h3>{{$t('dashboard.vote.subTitle')}}</h3>
+				<h5>{{$t('dashboard.vote.description')}}</h5>
+				<Button :text="$t('dashboard.vote.button')" @click.native="voteForScatter" :loading="proxying" />
 			</a>
 		</section>
 
@@ -151,7 +138,6 @@
 				}).filter(x => !!x);
 			},
 			canVote(){
-				console.log('votableNetworks', this.votableChains, this.votableNetworks);
 				return !!this.votableNetworks.length;
 			},
 
@@ -222,7 +208,8 @@
 					}
 
 					if(trxs.length){
-						PopupService.push(Popup.snackbar(`Voted for Scatter on ${trxs.length} chains. Thanks for your help!`))
+
+						PopupService.push(Popup.snackbar(this.$t('dashboard.vote.voted', { total: trxs.length })));
 					}
 
 					reset();

@@ -1,14 +1,14 @@
 <template>
 	<section class="pop-over">
-		<PopInHead title="Select Display Token" v-on:close="returnResult" />
+		<PopInHead :title="$t('popins.overlay.selectDisplayToken')" v-on:close="returnResult" />
 		<section class="display-token">
-			<label>Select a fiat currency</label>
+			<label>{{$t('popins.overlay.selectFiatCurrency')}}</label>
 			<section class="button-list">
 				<Button :key="currency" v-for="(price, currency) in currencies" :text="currency" :blue="currency === displayCurrency" @click.native="setCurrency(currency)" />
 			</section>
 		</section>
 		<section class="display-token">
-			<label>Select a blockchain token</label>
+			<label>{{$t('popins.overlay.selectBlockchainToken')}}</label>
 			<section class="button-list">
 				<Button :key="token.uniqueWithChain()" v-for="token in networkTokensList" :text="token.symbol" :blue="token.uniqueWithChain() === displayToken" @click.native="setToken(token)" />
 			</section>

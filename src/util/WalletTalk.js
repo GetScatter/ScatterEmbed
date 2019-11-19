@@ -239,6 +239,9 @@ export default class WalletTalk {
 					/**        FILES / STORAGE         **/
 					/************************************/
 					storage:{
+						getLanguage:() => 'en-US',
+						setLanguage:() => true,
+
 						setWalletData:() => fakeScatter,
 						getWalletData:() => fakeScatter,
 						clearWalletData:() => true,

@@ -2,21 +2,21 @@
     <section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.BACKUP.Label)}}</label>
-            <p>{{locale(langKeys.SETTINGS.BACKUP.Description)}}</p>
+            <label>{{$t('settings.backup.title')}}</label>
+            <p>{{$t('settings.backup.description')}}</p>
 
             <br>
 
             <section class="split-inputs">
-                <Button style="flex:1;" :text="locale(langKeys.SETTINGS.BACKUP.AutoBackupLocationLabel)"
+                <Button style="flex:1;" :text="$t('settings.backup.autobackup')"
                      @click.native="setBackupLocation()" />
-                <Button style="flex:0.6;" :text="locale(langKeys.SETTINGS.BACKUP.CreateBackupButton)"
+                <Button style="flex:0.6;" :text="$t('settings.backup.create')"
                      @click.native="createBackup" />
             </section>
         </section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.BACKUP.CurrentBackupFolderLabel)}}</label>
+            <label>{{$t('settings.backup.currentFolder')}}</label>
             <Input style="margin-bottom:0;" dynamic-button="icon-folder-open-empty"
                  disabled="1" :text="scatter.settings.backupLocation"
                  v-on:dynamic="openFilePathLink"/>
@@ -58,7 +58,7 @@
             },
             async createBackup(){
                 if(await BackupService.createBackup()){
-                	PopupService.push(Popup.snackbar("Backup created"))
+                	PopupService.push(Popup.snackbar(this.$t('settings.backup.created')))
                 }
 
             },

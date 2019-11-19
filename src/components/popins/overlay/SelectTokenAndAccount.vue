@@ -1,6 +1,6 @@
 <template>
 	<section class="pop-over">
-		<PopInHead title="Select Token and Account" v-on:close="returnResult" />
+		<PopInHead :title="$t('popins.overlay.selectTokenAndAccount')" v-on:close="returnResult" />
 		<Assets as-selector="1" v-on:selected="returnResult" hide-unusable="1" />
 	</section>
 </template>

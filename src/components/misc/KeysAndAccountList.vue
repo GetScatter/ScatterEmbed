@@ -13,33 +13,33 @@
 						<figure class="key" v-if="keypair.external"><b>{{keypair.external.type}}</b></figure>
 					</section>
 					<section class="actions" v-if="!asSelector">
-						<figure class="action icon-key" v-tooltip="'Export Key'" v-if="!keypair.external" @click="exportPrivateKey(keypair)"></figure>
+						<figure class="action icon-key" v-tooltip="$t('generic.export')" v-if="!keypair.external" @click="exportPrivateKey(keypair)"></figure>
 						<figure class="action hardware icon-microchip" v-if="keypair.external"></figure>
-						<figure class="action fas fa-caret-square-down" v-tooltip="'Actions'" @click="setActionsMenu(keypair)"></figure>
+						<figure class="action fas fa-caret-square-down" v-tooltip="$t('generic.actions')" @click="setActionsMenu(keypair)"></figure>
 
 						<section class="action-menu" :class="{'hidden':actionsMenu !== keypair.id}">
 							<figure class="item" @click="editKeypairName(keypair)">
-								<i class="icon-pencil"></i> Edit Name
+								<i class="icon-pencil"></i> {{$t('keysAndAccountsList.actions.editName')}}
 							</figure>
 
 							<figure class="item" @click="copyPublicKey(keypair)">
-								<i class="icon-docs"></i> Copy Public Key
+								<i class="icon-docs"></i> {{$t('keysAndAccountsList.actions.copyPublicKey')}}
 							</figure>
 
 							<figure class="item" :class="{'disabled':refreshingAccounts}" @click="refreshAccountsFor(keypair)">
-								<i class="icon-arrows-ccw"></i> Refresh Accounts
+								<i class="icon-arrows-ccw"></i> {{$t('keysAndAccountsList.actions.refreshAccounts')}}
 							</figure>
 
 							<figure class="item" v-if="!keypair.external" @click="convertKeypair(keypair)">
-								<i class="icon-flow-tree"></i> Convert Blockchain
+								<i class="icon-flow-tree"></i> {{$t('keysAndAccountsList.actions.convertBlockchain')}}
 							</figure>
 
 							<figure class="item" @click="removeKeypair(keypair)">
-								<i class="icon-trash"></i> Remove Key
+								<i class="icon-trash"></i> {{$t('keysAndAccountsList.actions.removeKey')}}
 							</figure>
 
 							<figure class="item" v-if="holdingCtrl && keypair.enabledKey().blockchain === Blockchains.EOSIO" @click="linkAccount(keypair)">
-								<i class="icon-user"></i> Link Account
+								<i class="icon-user"></i> {{$t('keysAndAccountsList.actions.linkAccount')}}
 							</figure>
 						</section>
 					</section>
@@ -47,7 +47,7 @@
 
 				<section v-if="!keypairsOnly">
 					<section v-if="filteredAccounts(keypair).length">
-						<figure class="accounts-label">Linked accounts</figure>
+						<figure class="accounts-label">{{$t('keysAndAccountsList.linkedAccounts')}}</figure>
 						<section class="accounts-list">
 							<section class="account" v-for="account in filteredAccounts(keypair)" @click="$emit('account', account)">
 								<section class="details">
@@ -56,7 +56,7 @@
 								</section>
 								<section class="tokens" v-if="!noBalances && account.tokens().length">
 									<figure class="balance">{{account.totalFiatBalance()}} {{displayCurrency}}</figure>
-									<figure class="quantity">in {{account.tokens().length}} tokens</figure>
+									<figure class="quantity">{{account.tokens().length}} {{$t('generic.tokens', account.tokens().length)}}</figure>
 								</section>
 								<section class="actions" v-if="!asSelector">
 									<figure class="chevron icon-right-open-big"></figure>
@@ -67,12 +67,12 @@
 
 					<section class="no-accounts" v-else>
 						<section>
-							You don't have any accounts linked to this key.
-							<p v-if="canCreateAccounts(keypair)">{{blockchainName(keypair.enabledKey().blockchain)}} blockchains require that you pay a small fee to create accounts.</p>
-							<p v-else>Make sure that you have a network for the {{blockchainName(keypair.enabledKey().blockchain)}} blockchain enabled.</p>
+							{{$t('keysAndAccountsList.noAccounts.title')}}
+							<p v-if="canCreateAccounts(keypair)">{{$t('keysAndAccountsList.noAccounts.requiresPayment', {blockchain:blockchainName(keypair.enabledKey().blockchain)})}}</p>
+							<p v-else>{{$t('keysAndAccountsList.noAccounts.checkEnabled', {blockchain:blockchainName(keypair.enabledKey().blockchain)})}}</p>
 						</section>
 
-						<Button v-if="canCreateAccounts(keypair)" text="Create one now!" @click.native="createEosAccount(keypair)" />
+						<Button v-if="canCreateAccounts(keypair)" :text="$t('keysAndAccountsList.noAccounts.createAccountButton')" @click.native="createEosAccount(keypair)" />
 					</section>
 				</section>
 
@@ -230,14 +230,14 @@
 			},
 			editKeypairName(keypair){
 				PopupService.push(Popup.prompt(
-					`Change Keypair Name`,
-					`A keypair's name is only for organization.`,
+					this.$t('keysAndAccountsList.changeKeypairNameTitle'),
+					this.$t('keysAndAccountsList.changeKeypairNameDescription'),
 					name => {
 						if(!name || !name.trim().length) return;
 						const clone = keypair.clone();
 						clone.name = name.trim();
 						if(this.keypairs.find(x => x.id !== keypair.id && x.name.toLowerCase() === clone.name.toLowerCase())){
-							return PopupService.push(Popup.snackbar("A keypair with that name already exists"));
+							return PopupService.push(Popup.snackbar(this.$t('errors.keypairExists')));
 						}
 						KeyPairService.updateKeyPair(clone);
 						this.actionsMenu = null;

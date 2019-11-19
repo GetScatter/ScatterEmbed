@@ -1,20 +1,18 @@
 <template>
 	<section class="pop-in import-backup">
 		<section>
-			<!--<h1>{{locale(langKeys.LOGIN.RESTORE.Title)}}</h1>-->
-			<!--<p class="limited-p">{{locale(langKeys.LOGIN.RESTORE.SubTitle)}}</p>-->
-			<h2>{{locale(langKeys.LOGIN.RESTORE.Title)}}</h2>
-			<p>
-				{{locale(langKeys.LOGIN.RESTORE.SubTitle)}}
-			</p>
+			<h2>{{$t('popins.fullscreen.importBackup.title')}}</h2>
+			<p>{{$t('popins.fullscreen.importBackup.description')}}</p>
 
 			<br>
 
 			<section style="display:flex; justify-content: center;">
-				<LoginButton on-white="1" @click.native="importBackup" primary="1" title="Select a backup file" description="These will end with .json or .txt" />
+				<LoginButton on-white="1" @click.native="importBackup" primary="1"
+				             :title="$t('popins.fullscreen.importBackup.buttonTitle')"
+				             :description="$t('popins.fullscreen.importBackup.buttonDescription')" />
 			</section>
 
-			<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" />
+			<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" />
 		</section>
 	</section>
 </template>
@@ -72,7 +70,7 @@
 					const [obj, salt] = data.split('|SLT|');
 					if(!obj || !salt) {
 						unrestore();
-						return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.ErrorParsingBackup)));
+						return PopupService.push(Popup.snackbar(this.$t('popins.fullscreen.importBackup.errorParsing')));
 					}
 
 					await window.wallet.lock();
@@ -94,7 +92,7 @@
 						}))
 					} else {
 						unrestore();
-						return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.ErrorDecryptingBackup)));
+						return PopupService.push(Popup.snackbar(this.$t('popins.fullscreen.importBackup.errorDecrypting')));
 					}
 				};
 
@@ -103,7 +101,7 @@
 
 					if(!obj || !salt) {
 						unrestore();
-						return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.ErrorParsingBackup)));
+						return PopupService.push(Popup.snackbar(this.$t('popins.fullscreen.importBackup.errorParsing')));
 					}
 
 					await window.wallet.lock();
@@ -144,14 +142,14 @@
 						}))
 					} else {
 						unrestore();
-						return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.ErrorDecryptingBackup)));
+						return PopupService.push(Popup.snackbar(this.$t('popins.fullscreen.importBackup.errorDecrypting')));
 					}
 				};
 
 				window.wallet.storage.openFile(file).then(data => {
 					if(!data) {
 						unrestore();
-						return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.CantReadBackup)));
+						return PopupService.push(Popup.snackbar(this.$t('popins.fullscreen.importBackup.errorReading')));
 					}
 
 					const fileExtension = file.split('.')[file.split('.').length-1];
@@ -166,7 +164,7 @@
 						} catch(e){
 							console.error('e',e);
 							unrestore();
-							return PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.AUTH.ErrorDecryptingBackup)));
+							return PopupService.push(Popup.snackbar(this.$t('popins.fullscreen.importBackup.errorDecrypting')));
 						}
 					}, true))
 				})

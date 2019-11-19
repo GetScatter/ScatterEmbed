@@ -50,18 +50,18 @@
 
 			items(){
 				return [
-					{name:'Dashboard', route:RouteNames.HOME},
-					this.accounts.length ? {name:'Apps', route:RouteNames.APPS} : null,
-					{name:'Wallet', route:RouteNames.WALLET},
-					this.accounts.length ? {name:'Assets', route:RouteNames.ASSETS} : null,
+					{name:this.$t('sidebar.dashboard'), route:RouteNames.HOME},
+					this.accounts.length ? {name:this.$t('sidebar.apps'), route:RouteNames.APPS} : null,
+					{name:this.$t('sidebar.wallet'), route:RouteNames.WALLET},
+					this.accounts.length ? {name:this.$t('sidebar.assets'), route:RouteNames.ASSETS} : null,
 					// this.accounts.length ? {name:'Marketplace', route:RouteNames.ITEMS} : null,
-					{name:'Identities', route:RouteNames.IDENTITIES},
-					{name:'Locations', route:RouteNames.LOCATIONS},
-					{name:'Contacts', route:RouteNames.CONTACTS},
-					this.history.length ? {name:'History', route:RouteNames.HISTORIES} : null,
-					{name:'Networks', route:RouteNames.NETWORKS},
-					{name:'Settings', route:RouteNames.SETTINGS},
-					WalletHelpers.getWalletType() === 'extension' ? {name:'Lock Wallet', click:this.lockWallet} : null,
+					{name:this.$t('sidebar.identities'), route:RouteNames.IDENTITIES},
+					{name:this.$t('sidebar.locations'), route:RouteNames.LOCATIONS},
+					{name:this.$t('sidebar.contacts'), route:RouteNames.CONTACTS},
+					this.history.length ? {name:this.$t('sidebar.history'), route:RouteNames.HISTORIES} : null,
+					{name:this.$t('sidebar.networks'), route:RouteNames.NETWORKS},
+					{name:this.$t('sidebar.settings'), route:RouteNames.SETTINGS},
+					WalletHelpers.getWalletType() === 'extension' ? {name:this.$t('sidebar.lock'), click:this.lockWallet} : null,
 				].filter(x => !!x)
 			}
 		},

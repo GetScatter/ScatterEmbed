@@ -92,16 +92,6 @@ export class Popup {
 	}
 
 
-
-	/*****************************************/
-	/*********      SNACKBARS      ***********/
-	/*****************************************/
-
-	static snackbarBadPassword(timeout = 3000){
-		return new Popup(PopupDisplayTypes.SNACKBAR, new PopupData('', { message:'Bad Password', icon:'attention', timeout }))
-	}
-
-
 	/*****************************************/
 	/*********   FULLSCREEN POPINS ***********/
 	/*****************************************/

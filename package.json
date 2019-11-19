@@ -33,6 +33,7 @@
     "murmurhash": "^0.0.2",
     "ridl": "^2.0.47",
     "vconsole": "^3.3.4",
+    "vue-i18n": "^8.15.0",
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {
