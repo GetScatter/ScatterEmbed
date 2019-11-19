@@ -15,7 +15,7 @@
 						<section class="details">
 							<figure class="title">{{blockchainName(blockchain)}}</figure>
 							<figure class="row">
-								<figure class="secondary">{{networksFor(blockchain).length}} {{$t('generic.networks', networksFor(blockchain).length)}}</figure>
+								<figure class="secondary">{{networksFor(blockchain).length}} {{$tc('generic.networks', networksFor(blockchain).length)}}</figure>
 							</figure>
 						</section>
 						<i class="fal fa-chevron-right"></i>
@@ -32,7 +32,7 @@
 				<figure v-if="isMobile" class="back-button" @click="selectBlockchain(null)">
 					<i class="fal fa-arrow-left"></i>
 				</figure>
-				{{$t('generic.networks', 2)}}
+				{{$tc('generic.networks', 2)}}
 			</section>
 			<section class="scroller with-tail">
 				<section class="item-list">

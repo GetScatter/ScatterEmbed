@@ -52,7 +52,7 @@
 							<label>{{$t('popouts.login.allAccountsFor')}}</label>
 							<section class="network-accounts-list">
 								<section class="network-accounts" v-for="(network,i) in requestedNetworks">
-									<span class="name">{{network.name}} ({{network.accounts(true).length}} {{$t('generic.accounts', network.accounts(true).length)}})</span>
+									<span class="name">{{network.name}} ({{network.accounts(true).length}} {{$tc('generic.accounts', network.accounts(true).length)}})</span>
 									<span v-if="i+1 < requestedNetworks.length">,</span>
 								</section>
 							</section>

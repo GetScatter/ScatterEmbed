@@ -56,7 +56,7 @@
 								</section>
 								<section class="tokens" v-if="!noBalances && account.tokens().length">
 									<figure class="balance">{{account.totalFiatBalance()}} {{displayCurrency}}</figure>
-									<figure class="quantity">{{account.tokens().length}} {{$t('generic.tokens', account.tokens().length)}}</figure>
+									<figure class="quantity">{{account.tokens().length}} {{$tc('generic.tokens', account.tokens().length)}}</figure>
 								</section>
 								<section class="actions" v-if="!asSelector">
 									<figure class="chevron icon-right-open-big"></figure>

@@ -95,9 +95,7 @@
 				clearTimeout(saveTimeout);
 				saveTimeout = setTimeout(async () => {
 					await PasswordService.setPIN(this.pin, false);
-					PopupService.push(Popup.snackbar(
-						this.$t('settings.password.pin.changed'), 'check'
-					))
+					PopupService.push(Popup.snackbar(this.$t('settings.password.pin.changed'), 'check'))
 				}, 500);
 			},
 			togglePinForAll(){
