@@ -257,7 +257,6 @@
 		.attraction {
 			height: 100%;
 			text-align: center;
-			background: #066AA7;
 			position: relative;
 			z-index: 0;
 			width:100%;
@@ -294,7 +293,7 @@
 				background-image: linear-gradient(211deg, #0280CE 12%, #0799FF 46%, #066AA7 100%);
 				position:relative;
 				overflow:hidden;
-				border-radius:$radius-big $radius-big 0 0;
+				border-radius:$radius-big;
 
 				@media (max-width: $breakpoint-tablet) {
 					border-radius:0;

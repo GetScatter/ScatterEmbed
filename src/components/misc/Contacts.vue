@@ -15,7 +15,7 @@
 						<section class="details">
 							<figure class="title">{{blockchainName(blockchain)}}</figure>
 							<figure class="row">
-								<figure class="secondary">{{contactsFor(blockchain).length}} contact{{contactsFor(blockchain).length === 1 ? '' : 's'}}</figure>
+								<figure class="secondary">{{contactsFor(blockchain).length}} {{$tc('generic.contacts', contactsFor(blockchain).length)}}</figure>
 							</figure>
 						</section>
 						<i class="fal fa-chevron-right"></i>

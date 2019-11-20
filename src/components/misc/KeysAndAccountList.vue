@@ -126,7 +126,7 @@
 					{
 						selected:this.blockchainFilter,
 						options:[null].concat(BlockchainsArray.map(x => x.value)),
-						parser:x => x === null ? 'All Blockchains' : blockchainName(x),
+						parser:x => x === null ? this.$t('popins.overlay.allBlockchains') : blockchainName(x),
 						onSelect:x => this.blockchainFilter = x,
 					},
 				]

@@ -72,19 +72,19 @@
 		methods:{
 			itemIcon(item){
 				switch(item.name) {
-					case 'Dashboard': return 'fal fa-rocket';
-					case 'Apps': return 'fal fa-star';
-					case 'Wallet': return 'fal fa-wallet';
-					case 'Assets': return 'fal fa-coins';
-					case 'Identities': return 'fal fa-passport';
-					case 'Locations': return 'fal fa-map-marker-alt';
+					case this.$t('sidebar.dashboard'): return 'fal fa-rocket';
+					case this.$t('sidebar.apps'): return 'fal fa-star';
+					case this.$t('sidebar.wallet'): return 'fal fa-wallet';
+					case this.$t('sidebar.assets'): return 'fal fa-coins';
+					case this.$t('sidebar.identities'): return 'fal fa-passport';
+					case this.$t('sidebar.locations'): return 'fal fa-map-marker-alt';
 					// case 'Reputation': return 'fal fa-shield';
-					case 'Contacts': return 'fal fa-address-book';
-					case 'History': return 'fal fa-history';
-					case 'Networks': return 'fal fa-server';
-					case 'Settings': return 'fal fa-cog';
-					case 'Marketplace': return 'fal fa-shopping-cart';
-					case 'Lock Wallet': return 'fal fa-lock-alt';
+					case this.$t('sidebar.contacts'): return 'fal fa-address-book';
+					case this.$t('sidebar.history'): return 'fal fa-history';
+					case this.$t('sidebar.networks'): return 'fal fa-server';
+					case this.$t('sidebar.settings'): return 'fal fa-cog';
+					// case this.$t('sidebar.marketplace'): return 'fal fa-shopping-cart';
+					case this.$t('sidebar.lock'): return 'fal fa-lock-alt';
 					default: return 'fal fa-star';
 
 				}

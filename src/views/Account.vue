@@ -47,7 +47,7 @@
                             ></i>
                             <figure class="percentage">{{resource.text ? resource.text : parseFloat(resource.percentage).toFixed(2) + '%'}}</figure>
                             <figure class="action"> <!--  v-if="resource.actionable" -->
-                                <Button white=1 :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="resource.actionText" />
+                                <Button white=1 :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="$t('generic.manage')" />
                             </figure>
                         </section>
                     </section>
@@ -115,6 +115,7 @@
 			},
 			accountResources(){
 				const resource = this.resources[this.account.identifiable()];
+				console.log('resource', resource);
 				return resource ? resource : null;
 			},
 			accountActions(){

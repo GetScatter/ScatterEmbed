@@ -105,6 +105,7 @@
 				return !!this.account.keypair().external
 			},
 			hasRecurring(){
+				if(!this.scatter.recurring) return;
 				return this.scatter.recurring.proxies.find(x => x.account === this.account.identifiable())
 			}
 		},

@@ -56,8 +56,8 @@
                 </section>
 
                 <section class="split-inputs">
-                    <Button style="max-width:100%;" :text="$t('settings.token.whitelistButton')" @click.native="addToken(false)" />
-                    <Button style="max-width:100%;" red="1" :text="$t('settings.token.blacklistButton')" @click.native="addToken(true)" />
+                    <Button style="max-width:100%;" :text="$t('settings.tokens.whitelistButton')" @click.native="addToken(false)" />
+                    <Button style="max-width:100%;" red="1" :text="$t('settings.tokens.blacklistButton')" @click.native="addToken(true)" />
                 </section>
             </section>
 

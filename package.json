@@ -13,7 +13,7 @@
     "watch": "webpack -p --mode=production --progress --config build/webpack.config.dev.js --watch",
     "server": "http-server ./dist -p 8081 -d -i -g -P --cors='*' -c-1",
     "prod": "concurrently \"npm run watch\" \"npm run server\"",
-    "dev": "webpack-dev-server --port 8081 --inline --progress --mode=production --config build/webpack.config.dev.js",
+    "dev": "webpack-dev-server --port 8081 --inline --progress --mode=development --config build/webpack.config.dev.js",
     "start": "npm run dev",
     "testfile": "mocha --require test/babel --exit --timeout 1000000",
     "test": "npm run testfile \"test/**/*.spec.js\" --timeout 1000000",

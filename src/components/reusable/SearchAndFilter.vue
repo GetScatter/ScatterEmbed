@@ -19,9 +19,7 @@
 			terms:'',
 		}},
 		computed:{
-			options(){
-				return ['All Blockchains', 'EOS'];
-			}
+
 		},
 		watch:{
 			['terms'](){
