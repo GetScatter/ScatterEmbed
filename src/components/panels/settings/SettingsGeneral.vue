@@ -95,6 +95,7 @@
             	return [
                     {locale:'en', name:'English'},
                     {locale:'zh', name:'Mandarin (普通話)'},
+                    {locale:'es', name:'Spanish (Español)'},
                 ]
             }
         },
