@@ -15,13 +15,13 @@
                     v-on:selected="x => selectLanguage(x.locale)" />
         </section>
 
-        <section class="action-box top-pad">
-            <label>{{$t('settings.general.simpleMode')}}</label>
+        <!--<section class="action-box top-pad">-->
+            <!--<label>{{$t('settings.general.simpleMode')}}</label>-->
 
-            <p>{{$t('settings.general.simpleModeDescription')}}</p>
+            <!--<p>{{$t('settings.general.simpleModeDescription')}}</p>-->
 
-            <Switcher :state="false" v-on:switched="enableSimpleMode" />
-        </section>
+            <!--<Switcher :state="false" v-on:switched="enableSimpleMode" />-->
+        <!--</section>-->
 
         <section class="action-box top-pad">
             <label>{{$t('settings.general.notifications')}}</label>
@@ -96,6 +96,8 @@
                     {locale:'en', name:'English'},
                     {locale:'zh', name:'Mandarin (普通話)'},
                     {locale:'es', name:'Spanish (Español)'},
+                    {locale:'ko', name:'Korean (한국어)'},
+                    {locale:'ru', name:'Russian (русский)'},
                 ]
             }
         },

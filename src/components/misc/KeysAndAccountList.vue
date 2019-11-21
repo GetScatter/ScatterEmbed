@@ -455,6 +455,8 @@
 					}
 
 					.tokens {
+						text-align:right;
+
 						.balance {
 							font-size: $medium;
 							font-weight: bold;
