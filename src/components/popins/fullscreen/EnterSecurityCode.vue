@@ -3,7 +3,7 @@
 		<section>
 			<section class="head">
 				<figure class="icon font icon-lock"></figure>
-				<figure class="title">Enter Security Code</figure>
+				<figure class="title">{{$t('popins.fullscreen.securityCode')}}</figure>
 				<figure class="subtitle">{{subtitle}}</figure>
 
 				<br>
@@ -13,7 +13,7 @@
 
 		</section>
 
-		<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:locale(langKeys.GENERIC.Confirm), red:true, click:() => returnResult(code)}]" />
+		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.confirm'), red:true, click:() => returnResult(code)}]" />
 	</section>
 </template>
 

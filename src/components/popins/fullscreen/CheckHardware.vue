@@ -5,11 +5,12 @@
 				<figure class="icon font">
 					<i class="icon-spin4 animate-spin"></i>
 				</figure>
-				<figure class="title">{{locale(langKeys.POPINS.FULLSCREEN.CHECK_HARDWARE.Title)}}</figure>
-				<p>{{locale(langKeys.POPINS.FULLSCREEN.CHECK_HARDWARE.Desc)}}</p>
+				<figure class="title">{{$t('popins.fullscreen.checkHardwareTitle')}}</figure>
+				<p>{{$t('popins.fullscreen.checkHardwareDescription')}}</p>
 			</section>
 		</section>
-		<!--<ActionBar :buttons-left="[{text:locale(langKeys.GENERIC.Cancel), click:() => returnResult(false)}]" />-->
+
+		<ActionBar v-if="canCancel" :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" />
 	</section>
 </template>
 
@@ -21,7 +22,7 @@
 	export default {
 		props:['popin'],
 		data () {return {
-			password:'',
+			canCancel:false,
 			hadWorkingScreen:false,
 		}},
 		computed:{
@@ -33,6 +34,9 @@
 			]),
 		},
 		mounted(){
+			setTimeout(() => {
+				this.canCancel = true;
+			}, 1500);
 			if(this.workingScreen){
 				this.hadWorkingScreen = true;
 				this.setWorkingScreen(false);

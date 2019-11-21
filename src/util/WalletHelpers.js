@@ -26,7 +26,12 @@ export default class WalletHelpers {
 		const eventListener = async (type, data) => {
 			if(type === 'popout') {
 				const popup =  new Popup(PopupDisplayTypes.POP_OUT, new PopupData(data.type, data));
+
+				if(!AppsService.appIsInLocalData(popup.data.props.payload.origin)) {
+					await AppsService.getApps([popup.data.props.payload.origin]);
+				}
 				popup.data.props.appData = AppsService.getAppData(popup.data.props.payload.origin);
+
 				return await WindowService.openPopOut(popup);
 			}
 

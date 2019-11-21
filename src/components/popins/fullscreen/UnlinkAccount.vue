@@ -5,17 +5,17 @@
 				<section class="head">
 					<figure class="icon font icon-trash"></figure>
 					<figure class="subtitle">{{account.sendable()}}</figure>
-					<figure class="title">Unlinking Account</figure>
+					<figure class="title">{{$t('popins.fullscreen.unlinkAccount.title')}}</figure>
 
 					<section class="disclaimer" style="margin-top:20px;">
-						<figure class="title">{{locale(langKeys.POPINS.FULLSCREEN.UNLINK_ACCOUNT.Desc)}}</figure>
-						<figure class="description">This will NOT remove the account from the blockchain, only Scatter.</figure>
+						<figure class="title">{{$t('popins.fullscreen.unlinkAccount.description')}}</figure>
+						<figure class="description">{{$t('popins.fullscreen.unlinkAccount.disclaimer')}}</figure>
 					</section>
 				</section>
 
 			</section>
 
-			<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:locale(langKeys.GENERIC.Confirm), red:true, click:() => unlinkAccount()}]" />
+			<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.confirm'), red:true, click:() => unlinkAccount()}]" />
 		</section>
 
 

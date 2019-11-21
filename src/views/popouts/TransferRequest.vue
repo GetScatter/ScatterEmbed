@@ -1,6 +1,6 @@
 <template>
     <section class="popout-window transfer">
-        <PopOutApp :app="popup.data.props.appData" suffix="is requesting a transfer" />
+        <PopOutApp :app="popup.data.props.appData" :suffix="$t('popouts.transferRequest.suffix')" />
 
         <section v-if="!account">
 
@@ -17,7 +17,7 @@
                 <section class="boxes">
                     <section class="box nested account-selector" @click="selectTokenAndAccount">
                         <section>
-                            <figure class="name">Select Account</figure>
+                            <figure class="name">{{$t('popouts.transferRequest.selectAccount')}}</figure>
                             <figure class="network">{{network.name}}</figure>
                         </section>
                         <figure class="chevron fas fa-caret-square-down"></figure>
@@ -39,7 +39,7 @@
             </section>
             <section class="memo" v-if="memo && memo.length">
                 <section class="info-line">
-                    <span>{{locale(langKeys.GENERIC.Memo)}}</span>
+                    <span>{{$t('generic.memo')}}</span>
                 </section>
                 <span>{{memo}}</span>
             </section>
@@ -47,7 +47,7 @@
 
 
             <section class="info-line">
-                <span>From</span>
+                <span>{{$t('transfer.sender')}}</span>
             </section>
 
             <section class="boxes">
@@ -61,8 +61,8 @@
             </section>
 
             <section class="fixed-actions" v-if="!pinning">
-                <Button blue="1" :text="locale(langKeys.GENERIC.Confirm)" @click.native="returnResult(true)" />
-                <Button :text="locale(langKeys.GENERIC.Deny)" @click.native="returnResult(null)" />
+                <Button blue="1" :text="$t('generic.confirm')" @click.native="returnResult(true)" />
+                <Button :text="$t('generic.deny')" @click.native="returnResult(null)" />
             </section>
         </section>
 
@@ -183,8 +183,8 @@
 		            description:``,
 		            actions:[{
 			            name:select
-							? this.locale(this.langKeys.GENERIC.Select)
-							: this.locale(this.langKeys.GENERIC.Unselect),
+							? this.$t('generic.select')
+							: this.$t('generic.unselect'),
 			            handler:() => this.selectAccount(select ? account : null),
 			            blue:select,
                         red:!select,

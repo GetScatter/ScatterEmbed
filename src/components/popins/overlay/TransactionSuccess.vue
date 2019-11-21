@@ -1,16 +1,16 @@
 <template>
     <section class="pop-over">
-        <PopInHead title="Transaction Success" v-on:close="returnResult" />
+        <PopInHead :title="$t('popins.overlay.transactionSuccess')" v-on:close="returnResult" />
         <section class="success">
             <section>
                 <img src="static/assets/piggy_bank.png" />
-                <figure class="info">{{locale(langKeys.POPINS.OVERLAY.TRX_SUCCESS.Desc, explorer.name)}}</figure>
+                <figure class="info">{{$t('popins.overlay.viewTransactionOn', {explorer:explorer.name})}}</figure>
                 <figure class="link" style="cursor:pointer;" @click="open"><u>{{tx}}</u></figure>
 
                 <br>
                 <br>
 
-                <Button :text="locale(langKeys.GENERIC.Okay)"
+                <Button :text="$t('generic.okay')"
                         @click.native="returnResult(true)" blue="1" />
             </section>
         </section>

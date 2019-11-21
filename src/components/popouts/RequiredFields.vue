@@ -2,11 +2,11 @@
 	<section class="required-fields">
 
 		<section class="fields-title">
-			Required Identity Fields
+			{{$t('popouts.requiredFields.title')}}
 		</section>
 
 		<section>
-			<label>Personal information:</label>
+			<label>{{$t('popouts.requiredFields.personalInformation')}}</label>
 			<figure class="text">
 				{{identityRequirements}}
 			</figure>

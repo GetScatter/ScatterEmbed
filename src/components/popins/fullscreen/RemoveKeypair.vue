@@ -19,19 +19,16 @@
 
 
 
-			<figure class="title">Removing Key</figure>
-			<figure class="subtitle">{{keypair.name}} ({{keypair.accounts().length}} linked accounts)</figure>
+			<figure class="title">{{$t('popins.fullscreen.removeKeypair.title')}}</figure>
+			<figure class="subtitle">{{keypair.name}} ({{keypair.accounts().length}} {{$tc('generic.accounts', keypair.accounts().length)}})</figure>
 
 			<section class="disclaimer">
-				<figure class="title">This action is permanent</figure>
-				<figure class="description">
-					Removing keys also removes all of its linked accounts and their respective permissions.
-					Once you remove a key it can not be regenerated.
-				</figure>
+				<figure class="title">{{$t('popins.fullscreen.removeKeypair.permanent')}}</figure>
+				<figure class="description">{{$t('popins.fullscreen.removeKeypair.removesAll')}}</figure>
 			</section>
 		</section>
 
-		<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:'Remove', red:true, click:() => returnResult(true)}]" />
+		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.remove'), red:true, click:() => returnResult(true)}]" />
 
 	</section>
 </template>

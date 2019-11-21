@@ -3,14 +3,12 @@
 		<ScatterOutline />
 		<br>
 		<br>
-		<h2>Welcome to the future</h2>
-		<p>
-			Your Scatter is set up and ready to use.
-		</p>
+		<h2>{{$t('welcome.title')}}</h2>
+		<p>{{$t('welcome.description')}}</p>
 
 		<br>
 
-		<Button big="1" blue="1" text="Start using Scatter" @click.native="go" />
+		<Button big="1" blue="1" :text="$t('welcome.button')" @click.native="go" />
 	</section>
 </template>
 

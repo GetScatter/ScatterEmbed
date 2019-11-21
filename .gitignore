@@ -4,3 +4,5 @@
 node_modules
 build
 .DS_Store
+dist/hashes
+dist/files.json

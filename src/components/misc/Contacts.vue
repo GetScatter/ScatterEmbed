@@ -6,7 +6,7 @@
 		<!-------------------------->
 		<section class="blockchains" v-if="!isMobile || !selectedBlockchain" :class="{'full-width':isMobile}">
 			<section class="head">
-				Select a Blockchain
+				{{$t('generic.selectBlockchain')}}
 			</section>
 			<section class="scroller">
 				<section class="blockchain-list">
@@ -15,7 +15,7 @@
 						<section class="details">
 							<figure class="title">{{blockchainName(blockchain)}}</figure>
 							<figure class="row">
-								<figure class="secondary">{{contactsFor(blockchain).length}} contact{{contactsFor(blockchain).length === 1 ? '' : 's'}}</figure>
+								<figure class="secondary">{{contactsFor(blockchain).length}} {{$tc('generic.contacts', contactsFor(blockchain).length)}}</figure>
 							</figure>
 						</section>
 						<i class="fal fa-chevron-right"></i>
@@ -32,7 +32,7 @@
 				<figure v-if="isMobile" class="back-button" @click="selectBlockchain(null)">
 					<i class="fal fa-arrow-left"></i>
 				</figure>
-				{{blockchainName(selectedBlockchain)}} Contacts
+				{{blockchainName(selectedBlockchain)}} {{$tc('generic.contacts', 2)}}
 			</section>
 			<SearchAndFilter :key="selectedBlockchain" full-search="1" v-on:terms="x => terms = x" />
 			<section class="scroller with-tail with-search">
@@ -47,11 +47,11 @@
 								<figure class="text">{{contact.recipient}}</figure>
 							</section>
 							<section class="actions" v-if="!asSelector">
-								<Button text="Remove" @click.native="removeContact(contact)" />
-								<Button text="Send" blue="1" @click.native="sendContact(contact)" />
+								<Button :text="$t('generic.remove')" @click.native="removeContact(contact)" />
+								<Button :text="$t('generic.send')" blue="1" @click.native="sendContact(contact)" />
 							</section>
 							<section class="actions" v-if="asSelector">
-								<Button text="Select" blue="1" />
+								<Button :text="$t('generic.select')" blue="1" />
 							</section>
 						</section>
 
@@ -62,7 +62,7 @@
 				</section>
 			</section>
 			<section class="tail">
-				<Button @click.native="addNewContact" text="Add new contact" blue="1" />
+				<Button @click.native="addNewContact" :text="$t('generic.add')" blue="1" />
 			</section>
 		</section>
 

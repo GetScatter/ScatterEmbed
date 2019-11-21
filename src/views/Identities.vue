@@ -9,8 +9,8 @@
 			<!-------------------------->
 			<section class="blockchains" v-if="!isMobile || !identity" :class="{'full-width':isMobile}">
 				<section class="head with-button">
-					<figure>Identities</figure>
-					<Button text="Add" @click.native="addIdentity" />
+					<figure>{{$t('identities.identities')}}</figure>
+					<Button :text="$t('generic.add')" @click.native="addIdentity" />
 				</section>
 				<section class="scroller">
 					<section class="blockchain-list">
@@ -34,7 +34,7 @@
 							<i class="fal fa-arrow-left"></i>
 						</figure>
 					</figure>
-					<Button text="Remove" @click.native="removeIdentity" v-if="identities.length > 1" />
+					<Button :text="$t('generic.remove')" @click.native="removeIdentity" v-if="identities.length > 1" />
 				</section>
 				<section class="scroller identity">
 					<section class="id-card">
@@ -55,16 +55,19 @@
 									<img src="static/assets/id_card_bg.png" />
 								</figure>
 								<section class="inputs">
-									<Input :label-styles="labelStyles" :label="locale(langKeys.IDENTITY.PERSONAL.NameLabel)"
-									       :placeholder="locale(langKeys.IDENTITY.PERSONAL.NamePlaceholder)"
+									<Input :label-styles="labelStyles" :label="$t('identities.personal.nameLabel')"
+									       :placeholder="$t('identities.personal.namePlaceholder')"
 									       :text="fullname" v-on:changed="x => fullname = x" />
 
-									<Input :label-styles="labelStyles" small="1" :label="locale(langKeys.IDENTITY.PERSONAL.EmailLabel)" placeholder="support@get-scatter.com"
+									<Input :label-styles="labelStyles" small="1"
+									       :label="$t('identities.personal.emailLabel')"
+									       placeholder="support@get-scatter.com"
 									       style="flex:1"
 									       :text="identity.personal.email"
 									       v-on:changed="x => identity.personal.email = x" />
 
-									<Input :label-styles="labelStyles" small="1" :label="locale(langKeys.IDENTITY.PERSONAL.DateOfBirthLabel)"
+									<Input :label-styles="labelStyles" small="1"
+									       :label="$t('identities.personal.dobLabel')"
 									       type="date" placeholder="MM/DD/YYYY" style="flex:0.4; margin-top:15px;"
 									       :text="identity.personal.birthdate"
 									       v-on:changed="x => identity.personal.birthdate = x" />
@@ -74,9 +77,9 @@
 					</section>
 
 					<section class="id-details limit-800">
-						<figure class="section-title">{{locale(langKeys.IDENTITY.NameLabel)}}</figure>
+						<figure class="section-title">{{$t('identities.id.nameLabel')}}</figure>
 						<Input :error="nameError" big="1"
-						       :placeholder="locale(langKeys.IDENTITY.NamePlaceholder)"
+						       :placeholder="$t('identities.id.namePlaceholder')"
 						       :text="identity.name" v-on:changed="x => identity.name = x" />
 
 
@@ -90,76 +93,76 @@
 						<!-------------------------------------------->
 						<!-------------------------------------------->
 
-						<section v-if="!isUsingIdentity">
-							<section class="ridl-actions" v-if="identityIsAvailable && isValidName">
-								<figure class="icon icon-check"></figure>
-								<figure class="text">This RIDL Identity name is available</figure>
-								<Button :loading="loadingRidlData" small="1" text="Register as RIDL Identity" @click.native="registerForRIDL"  />
-							</section>
+						<!--<section v-if="!isUsingIdentity">-->
+							<!--<section class="ridl-actions" v-if="identityIsAvailable && isValidName">-->
+								<!--<figure class="icon icon-check"></figure>-->
+								<!--<figure class="text">This RIDL Identity name is available</figure>-->
+								<!--<Button :loading="loadingRidlData" small="1" text="Register as RIDL Identity" @click.native="registerForRIDL"  />-->
+							<!--</section>-->
 
-							<section class="ridl-actions" v-if="identityNotAvailable && !identityIsOnWrongKey">
-								<figure class="icon icon-cancel red"></figure>
-								<figure class="text">
-									This RIDL Identity name is already taken
-									<p>Someone else has already claimed and registered this RIDL Identity name.</p>
-								</figure>
-							</section>
+							<!--<section class="ridl-actions" v-if="identityNotAvailable && !identityIsOnWrongKey">-->
+								<!--<figure class="icon icon-cancel red"></figure>-->
+								<!--<figure class="text">-->
+									<!--This RIDL Identity name is already taken-->
+									<!--<p>Someone else has already claimed and registered this RIDL Identity name.</p>-->
+								<!--</figure>-->
+							<!--</section>-->
 
-							<section class="ridl-actions" v-if="identityNotAvailable && identityIsOnWrongKey">
-								<figure class="icon icon-cancel red"></figure>
-								<figure class="text">
-									You own this RIDL Identity, but the authentication key doesn't match.
-									<p>You can either change the authentication key you are using for this identity, or update the authentication key to the one you are using now.</p>
-								</figure>
-								<Button :loading="loadingRidlData" small="1" text="Update Authentication Key" @click.native="updateRidlKey"  />
-							</section>
+							<!--<section class="ridl-actions" v-if="identityNotAvailable && identityIsOnWrongKey">-->
+								<!--<figure class="icon icon-cancel red"></figure>-->
+								<!--<figure class="text">-->
+									<!--You own this RIDL Identity, but the authentication key doesn't match.-->
+									<!--<p>You can either change the authentication key you are using for this identity, or update the authentication key to the one you are using now.</p>-->
+								<!--</figure>-->
+								<!--<Button :loading="loadingRidlData" small="1" text="Update Authentication Key" @click.native="updateRidlKey"  />-->
+							<!--</section>-->
 
-							<section class="ridl-actions" v-if="identityIsUsable">
-								<figure class="icon icon-check"></figure>
-								<figure class="text">You own this RIDL Identity name</figure>
-								<Button :loading="loadingRidlData" small="1" text="Use RIDL Identity" @click.native="useRidlIdentity"  />
-							</section>
+							<!--<section class="ridl-actions" v-if="identityIsUsable">-->
+								<!--<figure class="icon icon-check"></figure>-->
+								<!--<figure class="text">You own this RIDL Identity name</figure>-->
+								<!--<Button :loading="loadingRidlData" small="1" text="Use RIDL Identity" @click.native="useRidlIdentity"  />-->
+							<!--</section>-->
 
-							<section class="ridl-actions" v-if="identityIsClaimable">
-								<figure class="icon icon-check"></figure>
-								<figure class="text">You own this RIDL Identity name, but haven't claimed it yet.</figure>
-								<Button :loading="loadingRidlData" small="1" text="Claim RIDL Identity" @click.native="registerForRIDL"  />
-							</section>
+							<!--<section class="ridl-actions" v-if="identityIsClaimable">-->
+								<!--<figure class="icon icon-check"></figure>-->
+								<!--<figure class="text">You own this RIDL Identity name, but haven't claimed it yet.</figure>-->
+								<!--<Button :loading="loadingRidlData" small="1" text="Claim RIDL Identity" @click.native="registerForRIDL"  />-->
+							<!--</section>-->
 
-							<section class="ridl-actions" v-if="identityIsOnWrongAccount">
-								<figure class="icon icon-cancel red"></figure>
-								<figure class="text">
-									This RIDL Identity is linked to an account you don't have imported in your Scatter.
-									<p>
-										The blockchain account associated with this RIDL Identity is not currently imported into your Scatter.
-									</p>
-								</figure>
-								<!--<Button :loading="loadingRidlData" small="1" text="Update RIDL Identity's Account" @click.native="updateRidlAccount"  />-->
-							</section>
+							<!--<section class="ridl-actions" v-if="identityIsOnWrongAccount">-->
+								<!--<figure class="icon icon-cancel red"></figure>-->
+								<!--<figure class="text">-->
+									<!--This RIDL Identity is linked to an account you don't have imported in your Scatter.-->
+									<!--<p>-->
+										<!--The blockchain account associated with this RIDL Identity is not currently imported into your Scatter.-->
+									<!--</p>-->
+								<!--</figure>-->
+								<!--&lt;!&ndash;<Button :loading="loadingRidlData" small="1" text="Update RIDL Identity's Account" @click.native="updateRidlAccount"  />&ndash;&gt;-->
+							<!--</section>-->
 
-							<br>
-							<br>
-						</section>
+							<!--<br>-->
+							<!--<br>-->
+						<!--</section>-->
 
-						<section v-if="isUsingIdentity">
-							<section class="ridl-actions">
-								<figure class="icon icon-user"></figure>
-								<figure class="text">This Identity is registered with RIDL</figure>
-								<Button red="1" :loading="loadingRidlData" small="1" text="Stop using RIDL Identity" @click.native="stopUsingRidlIdentity"  />
-							</section>
+						<!--<section v-if="isUsingIdentity">-->
+							<!--<section class="ridl-actions">-->
+								<!--<figure class="icon icon-user"></figure>-->
+								<!--<figure class="text">This Identity is registered with RIDL</figure>-->
+								<!--<Button red="1" :loading="loadingRidlData" small="1" text="Stop using RIDL Identity" @click.native="stopUsingRidlIdentity"  />-->
+							<!--</section>-->
 
-							<br>
-							<br>
-						</section>
+							<!--<br>-->
+							<!--<br>-->
+						<!--</section>-->
 
 
 						<br>
 						<br>
 
-						<figure class="section-title">Location</figure>
+						<figure class="section-title">{{$t('identities.location.title')}}</figure>
 						<Select bordered="1"
 						        :options="[null].concat(locations)"
-						        :parser="x => x ? x.name : 'None selected'"
+						        :parser="x => x ? x.name : $t('identities.location.noneSelected')"
 						        :selected="selectedLocation" v-on:selected="x => identity.location = x ? x.id : null" />
 
 						<br>
@@ -167,14 +170,14 @@
 						<br>
 						<br>
 
-						<figure class="section-title">Authentication Key</figure>
-						<p>Make sure you save a copy of this authentication key, you will need it to regain access to certain applications that require it.</p>
+						<figure class="section-title">{{$t('identities.auth.title')}}</figure>
+						<p>{{$t('identities.auth.description')}}</p>
 						<section class="split-inputs">
 							<section style="flex:1;">
 								<Input style="margin:0;" :text="identity.publicKey" disabled="1" copy="1" />
 							</section>
 							<section>
-								<Button text="Change / View" @click.native="changeSecurityKey" />
+								<Button :text="$t('identities.auth.changeButton')" @click.native="changeSecurityKey" />
 							</section>
 						</section>
 
@@ -296,7 +299,7 @@
 		},
 		mounted(){
 			this.selectIdentity(this.identities[0]);
-			if(!this.ridlAccount) RIDLService.init();
+			// if(!this.ridlAccount) RIDLService.init();
 		},
 		methods:{
 			selectIdentity(identity){
@@ -306,15 +309,15 @@
 			addIdentity(){
 				const scatter = this.scatter.clone();
 				const identity = Identity.placeholder();
-				identity.name = `New_Identity-${IdGenerator.text(4)}`;
+				identity.name = `ID-${IdGenerator.text(4)}`;
 				scatter.keychain.updateOrPushIdentity(identity);
 				this[Actions.SET_SCATTER](scatter);
 				this.selectIdentity(identity);
 			},
 			removeIdentity(){
 				PopupService.push(Popup.prompt(
-					'Removing Identity',
-					`Are you sure you want to remove ${this.identity.name}`,
+					this.$t('identities.removing.title'),
+					this.$t('identities.removing.description', this.identity.name),
 					accepted => {
 						if(!accepted) return;
 						const identity = this.identity.clone();

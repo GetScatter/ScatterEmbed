@@ -6,19 +6,19 @@
 				<Lock />
 				<br>
 				<br>
-				<figure class="title">{{locale(langKeys.POPINS.FULLSCREEN.CONFIRM_PASS.Title)}}</figure>
+				<figure class="title">{{$t('popins.fullscreen.confirmPassword')}}</figure>
 
 				<br>
 				<Input  style="width:350px;" big="1"
 				        :text="password"
 				        v-on:enter="verify"
 				        v-on:changed="x => password = x"
-				        centered="1" placeholder="Enter you password"
+				        centered="1"
 				        type="password" />
 			</section>
 
 
-			<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:'Confirm', red:true, click:() => verify()}]" />
+			<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.confirm'), red:true, click:() => verify()}]" />
 		</section>
 	</section>
 </template>
@@ -58,7 +58,7 @@
 				if(!this.password.length) return;
 				if(this.returnOnly) return this.returnResult(this.password);
 				const verified = await window.wallet.verifyPassword(this.password);
-				if(!verified) PopupService.push(Popup.snackbarBadPassword());
+				if(!verified) PopupService.push(Popup.snackbar(this.$t('errors.badPassword')));
 				this.returnResult(verified);
 			},
 

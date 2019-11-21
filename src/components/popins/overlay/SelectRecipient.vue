@@ -1,16 +1,16 @@
 <template>
 	<section class="pop-over">
-		<PopInHead title="Select Recipient" v-on:close="returnResult" />
+		<PopInHead :title="$t('popins.overlay.selectRecipient')" v-on:close="returnResult" />
 		<section class="select-recipient">
 			<section class="head">
 
 
 				<section class="panel-switch">
 					<figure class="button" :class="{'active':state === STATES.CONTACTS}" @click="switchState(STATES.CONTACTS)">
-						Contacts
+						{{$tc('generic.contacts', 2)}}
 					</figure>
 					<figure class="button" :class="{'active':state === STATES.ACCOUNTS}" @click="switchState(STATES.ACCOUNTS)">
-						Accounts
+						{{$tc('generic.accounts', 2)}}
 					</figure>
 				</section>
 			</section>

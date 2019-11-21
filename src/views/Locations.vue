@@ -9,8 +9,8 @@
 			<!-------------------------->
 			<section class="blockchains" v-if="!isMobile || !location" :class="{'full-width':isMobile}">
 				<section class="head with-button">
-					<figure>Locations</figure>
-					<Button text="Add" @click.native="addLocation" />
+					<figure>{{$t('locations.locations')}}</figure>
+					<Button :text="$t('generic.add')" @click.native="addLocation" />
 				</section>
 				<section class="scroller">
 					<section class="blockchain-list">
@@ -34,44 +34,42 @@
 							<i class="fal fa-arrow-left"></i>
 						</figure>
 					</figure>
-					<Button text="Remove" v-if="location && locations.length > 1" @click.native="removeLocation" />
+					<Button :text="$t('generic.remove')" v-if="location && locations.length > 1" @click.native="removeLocation" />
 				</section>
 				<section class="scroller location" v-if="location">
 					<section class="limit-800">
-						<figure class="section-title">{{locale(langKeys.IDENTITY.LOCATION.NameLabel)}}</figure>
+						<figure class="section-title">{{$t('locations.nameLabel')}}</figure>
 						<Input big="1"
-						       :placeholder="locale(langKeys.IDENTITY.LOCATION.NamePlaceholder)"
+						       :placeholder="$t('locations.namePlaceholder')"
 						       :text="location.name"
 						       v-on:changed="x => location.name = x" />
 
 						<br>
 						<br>
 
-						<figure class="section-title">{{locale(langKeys.IDENTITY.LOCATION.CountryLabel)}}</figure>
-						<Select bordered="1" :label="locale(langKeys.IDENTITY.LOCATION.CountryLabel)"
+						<figure class="section-title">{{$t('locations.countryLabel')}}</figure>
+						<Select bordered="1" :label="$t('locations.countryLabel')"
 						        :selected="location.country" style="flex:3;"
 						        :options="[null].concat(countries)"
-						        :parser="x => x ? x.name : locale(langKeys.IDENTITY.LOCATION.CountryItemNone)"
+						        :parser="x => x ? x.name : $t('locations.countryItemNone')"
 						        v-on:selected="x => location.country = x" />
 
 						<br>
 						<br>
 						<br>
-						<figure class="section-title">{{locale(langKeys.IDENTITY.LOCATION.AddressLabel)}}</figure>
+						<figure class="section-title">{{$t('locations.addressLabel')}}</figure>
 						<Input :text="location.address" v-on:changed="x => location.address = x" />
 
 						<section class="split-inputs">
-							<Input :label="locale(langKeys.IDENTITY.LOCATION.CityLabel)"
-							       :placeholder="locale(langKeys.IDENTITY.LOCATION.CityPlaceholder)"
+							<Input :label="$t('locations.cityLabel')"
 							       :text="location.city"
 							       v-on:changed="x => location.city = x" />
-							<Input :label="locale(langKeys.IDENTITY.LOCATION.StateLabel)"
-							       :placeholder="locale(langKeys.IDENTITY.LOCATION.StatePlaceholder)"
+							<Input :label="$t('locations.stateLabel')"
 							       :text="location.state"
 							       v-on:changed="x => location.state = x" />
 						</section>
 
-						<Input :label="locale(langKeys.IDENTITY.LOCATION.PhoneLabel)"
+						<Input :label="$t('locations.phoneLabel')"
 						       placeholder="5555555555"
 						       :text="location.phone"
 						       v-on:changed="x => location.phone = x" />
@@ -179,7 +177,7 @@
 		@media (max-width: $breakpoint-tablet) {
 	        padding:20px;
 	    }
-	    
+
 	}
 
 </style>

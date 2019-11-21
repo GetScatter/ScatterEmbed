@@ -14,7 +14,7 @@
                             <figure class="permission" @click="copyAuthKey(acc)"
                                     :class="{'red':acc.authority === 'owner'}"
                                     v-for="acc in account.authorities()">
-                                {{acc.authority}} permission
+                                {{acc.authority}}
                             </figure>
                         </figure>
                     </section>
@@ -47,7 +47,7 @@
                             ></i>
                             <figure class="percentage">{{resource.text ? resource.text : parseFloat(resource.percentage).toFixed(2) + '%'}}</figure>
                             <figure class="action"> <!--  v-if="resource.actionable" -->
-                                <Button white=1 :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="resource.actionText" />
+                                <Button white=1 :disabled="!resource.actionable" @click.native="moderateResource(resource)" :text="$t('generic.manage')" />
                             </figure>
                         </section>
                     </section>
@@ -61,7 +61,7 @@
 
             <section class="assets">
                 <section class="fiat-title">
-                    <h5>Total Fiat Balance</h5>
+                    <h5>{{$t('account.totalFiatBalance')}}</h5>
                     <h3>{{fiatSymbol(displayCurrency)}}{{formatNumber(account.totalFiatBalance(), true)}}</h3>
                 </section>
                 <TokenGraph :balances="filteredBalances || account.tokens()" />
@@ -115,6 +115,7 @@
 			},
 			accountResources(){
 				const resource = this.resources[this.account.identifiable()];
+				console.log('resource', resource);
 				return resource ? resource : null;
 			},
 			accountActions(){
@@ -172,12 +173,7 @@
 				this.copyText(account.publicKey);
 			},
 			actionText(action){
-			    switch(action.type){
-                    case 'unlink_account': return 'Unlink Account';
-                    case 'change_permissions': return 'Change Permissions';
-                    case 'proxy_vote': return 'Proxy Vote';
-                    case 'create_account': return 'Create Account';
-                }
+				return this.$t('account.actions.'+action.type);
             },
 			actionIcon(action){
 			    switch(action.type){

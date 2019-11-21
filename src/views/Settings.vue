@@ -5,7 +5,7 @@
 
             <section class="blockchains" v-if="!isMobile || !selectedOption" :class="{'full-width':isMobile}">
                 <section class="head">
-                    Basics
+                    {{$t('settings.base.basics')}}
                 </section>
                 <section class="scroller dynamic">
                     <section class="blockchain-list">
@@ -17,7 +17,7 @@
                 </section>
                 <section class="head">
                     <i :class="{'unlocked':unlocked}" class="danger icon-lock"></i>
-                    Secure Settings
+                    {{$t('settings.base.secure')}}
                 </section>
                 <section class="scroller dynamic">
                     <section class="blockchain-list">
@@ -131,7 +131,7 @@
 				}))
 			},
 			translate(option){
-				return this.locale(this.langKeys.SETTINGS.MENU[option.name]);
+				return this.$t('settings.menu.'+option.name.toLowerCase());
 			}
 		}
 	}

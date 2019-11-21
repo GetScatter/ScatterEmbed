@@ -8,8 +8,8 @@
                 <section class="keys-and-accounts-list" v-if="state === STATES.KEYS && !keypairs.length">
                     <section class="no-keypairs">
                         <section class="container">
-                            <figure class="title">You don't have any Keys</figure>
-                            <figure class="description">Click one of the buttons below to import a key you already have, or generate a brand new one.</figure>
+                            <figure class="title">{{$t('wallet.noKeys.title')}}</figure>
+                            <figure class="description">{{$t('wallet.noKeys.description')}}</figure>
                         </section>
                     </section>
                 </section>
@@ -19,25 +19,25 @@
             <section class="wallet-actions" v-if="state === STATES.KEYS">
                 <section class="left">
                     <section class="info">
-                        <figure class="keys">{{keypairs.length}} keys</figure>
-                        <figure class="accounts">{{accounts.length}} accounts</figure>
+                        <figure class="keys">{{keypairs.length}} {{$tc('generic.keys', keypairs.length)}}</figure>
+                        <figure class="accounts">{{accounts.length}} {{$tc('generic.accounts', accounts.length)}}</figure>
                     </section>
                 </section>
                 <section class="right">
-                    <Button          text="Generate Key" @click.native="generateKeypair" />
-                    <Button blue="1" text="Import Key" @click.native="importKeypair" />
+                    <Button          :text="$t('wallet.generateKey')" @click.native="generateKeypair" />
+                    <Button blue="1" :text="$t('wallet.importKey')" @click.native="importKeypair" />
                 </section>
             </section>
 
             <section class="wallet-actions" v-if="state === STATES.CARDS">
                 <section class="left">
                     <section class="info">
-                        <figure class="keys">{{cards.length}} cards</figure>
-                        <figure class="accounts">0 expired</figure>
+                        <figure class="keys">{{cards.length}} {{$tc('generic.cards', cards.length)}}</figure>
+                        <figure class="accounts">0 {{$t('generic.expired')}}</figure>
                     </section>
                 </section>
                 <section class="right">
-                    <Button blue="1" @click.native="importKeypair" text="Add Credit Card" />
+                    <Button blue="1" @click.native="importKeypair" :text="$t('wallet.addCreditCard')" />
                 </section>
             </section>
 
