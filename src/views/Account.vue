@@ -115,7 +115,6 @@
 			},
 			accountResources(){
 				const resource = this.resources[this.account.identifiable()];
-				console.log('resource', resource);
 				return resource ? resource : null;
 			},
 			accountActions(){

@@ -23,12 +23,6 @@ const checkKeys = (original, toCheck) => {
 	}).every(x => !!x);
 };
 
-const checkKey = (obj, key) => {
-	console.log('checking key', key);
-	if(obj.hasOwnProperty(key) && obj[key]) return true;
-	return null;
-};
-
 languages.map(filename => {
 	console.log('Checking: ', filename)
 	if(!checkKeys(en, loadFile(filename))) console.error('Error in: ', filename);

@@ -185,7 +185,6 @@
 			validAccounts(){
 				if(!this.accountRequirements.length) return [];
 
-				console.log('this.accountRequirements', this.accountRequirements);
 				const network = this.accountRequirements.map(x => Network.fromJson(x))[0];
 				return network.accounts()
 					.sort((a,b) => b.authority === 'active' ? 1 : 0)
