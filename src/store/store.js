@@ -50,6 +50,9 @@ export const state = {
 
 	isMobile:false,
 	isMobileDevice:false,
+
+	chat:null,
+	chatUser:null,
 };
 
 export const getters = {

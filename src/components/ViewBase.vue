@@ -16,6 +16,7 @@
                     </section>
 
                     <Processes />
+                    <!--<Chat />-->
                 </section>
             </section>
 
@@ -40,9 +41,11 @@
 	import QuickActions         from './QuickActions';
 
 	import SingletonService     from "../services/utility/SingletonService";
+	import Chat from "./Chat";
 
 	export default {
 		components:{
+			Chat,
 			Popups,
 			Processes,
 			Sidebar,

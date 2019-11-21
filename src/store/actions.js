@@ -15,6 +15,8 @@ const isPopOut = location.hash.replace("#/", '').split('?')[0] === 'popout' || !
 let migrationChecked = false;
 
 export const actions = {
+    [UIActions.SET_CHAT]:({commit}, x) => commit(UIActions.SET_CHAT, x),
+    [UIActions.SET_CHAT_USER]:({commit}, x) => commit(UIActions.SET_CHAT_USER, x),
     [UIActions.SET_TOKEN_METAS]:({commit}, x) => commit(UIActions.SET_TOKEN_METAS, x),
     [UIActions.SET_FEATURED_APPS]:({commit}, x) => commit(UIActions.SET_FEATURED_APPS, x),
     [UIActions.SET_POPOUT]:({commit}, x) => commit(UIActions.SET_POPOUT, x),

@@ -13,7 +13,7 @@
 		</section>
 
 		<section class="right">
-			<section v-if="accounts.length">
+			<section v-if="accounts.length && !hideMainBalance">
 				<section class="balances">
 					<section class="fiat">
 						<span class="balance" @click="selectDisplays">{{totalBalance.symbol}}<AnimatedNumber :number="totalBalance.amount" /></span>
@@ -24,20 +24,22 @@
 					</section>
 				</section>
 			</section>
-			<i v-if="accounts.length" class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
+			<i v-if="accounts.length && !hideMainBalance" class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
+			<!--<i class="chat far fa-comment" :class="{'open':!!chat}" @click="toggleChat"></i>-->
 		</section>
 
 	</section>
 </template>
 
 <script>
-	import {mapGetters, mapState} from 'vuex';
+	import {mapActions, mapGetters, mapState} from 'vuex';
 	import PriceService from "@walletpack/core/services/apis/PriceService";
 	import BalanceService from "@walletpack/core/services/blockchain/BalanceService";
 	import {RouteNames} from "../vue/Routing";
 	import AnimatedNumber from "./reusable/AnimatedNumber";
 	import PopupService from "../services/utility/PopupService";
 	import {Popup} from "../models/popups/Popup";
+	import * as UIActions from "../store/ui_actions";
 
 	export default {
 		components:{
@@ -52,14 +54,12 @@
 				'balances',
 				'prices',
 				'history',
-				'sidebarLocked'
+				'sidebarLocked',
+				'chat'
 			]),
 			...mapGetters([
-				'keypairs',
 				'accounts',
-				'totalBalances',
 				'displayToken',
-				'displayCurrency',
 				'hideMainBalance',
 			]),
 			totalBalance(){
@@ -83,6 +83,9 @@
 			this.refreshTokens();
 		},
 		methods:{
+			toggleChat(){
+				this[UIActions.SET_CHAT](!this.chat);
+			},
 			async refreshTokens(force = false){
 				if(!force && Object.keys(this.balances).length) return;
 				if(this.loadingBalances) return;
@@ -105,7 +108,10 @@
 			},
 			displayTokenClass(){
 				return this.scatter.networkTokens().find(x => x.uniqueWithChain() === this.displayToken).symbolClass()
-			}
+			},
+			...mapActions([
+				UIActions.SET_CHAT
+			])
 		}
 
 	}
@@ -163,6 +169,20 @@
 
 			i {
 				margin-left:10px;
+			}
+
+			.chat {
+				padding:10px;
+				border:1px solid $border-standard;
+				border-radius:$radius;
+				margin-left:30px;
+				cursor: pointer;
+
+				&.open {
+					background:$blue;
+					border:1px solid $darkblue;
+					color:white;
+				}
 			}
 		}
 

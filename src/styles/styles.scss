@@ -1,9 +1,19 @@
 @import "./variables";
 
+
+
+
 // DO NOT REMOVE ME!
 // This is a speed hack for mobile webviews which forces hardware rendering.
 body {
   will-change: transform;
+}
+
+// Used for TimeAgo (chat)
+.chat {
+  .v-time-ago__text {
+    font-size: 9px !important;
+  }
 }
 
 .mobile {

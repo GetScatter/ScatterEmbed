@@ -34,7 +34,8 @@
     "ridl": "^2.0.47",
     "vconsole": "^3.3.4",
     "vue-i18n": "^8.15.0",
-    "vue-markdown": "^2.2.4"
+    "vue-markdown": "^2.2.4",
+    "vue2-timeago": "^1.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
