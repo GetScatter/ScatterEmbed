@@ -64,7 +64,6 @@
 		methods:{
 			async checkPassword(){
 
-				// TODO: Revert!
 				const err = PasswordService.hasError(this.password);
 				// TODO: Localize
 				if(err) return PopupService.push(Popup.snackbar(err));
