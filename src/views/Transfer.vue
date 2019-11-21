@@ -9,7 +9,7 @@
 				<section class="limit-width">
 					<section class="boxes">
 						<section class="box-container">
-							<label>Sending from</label>
+							<label>{{$t('transfer.sender')}}</label>
 							<section class="box nested account-selector flex" @click="selectTokenAndAccount">
 								<section class="symbol">
 									<TokenSymbol :token="token" />
@@ -24,15 +24,15 @@
 							</section>
 						</section>
 						<section class="box-container">
-							<label>Receiving to</label>
+							<label>{{$t('transfer.receiver')}}</label>
 							<section class="box nested">
 								<section class="padded recipient-selector" @click="selectRecipient">
-									<figure class="name">Contacts</figure>
+									<figure class="name">{{$t('generic.contacts')}}</figure>
 									<figure class="chevron fas fa-caret-square-down"></figure>
 								</section>
 								<figure class="line"></figure>
 								<section class="input-container">
-									<input placeholder="Address / Account" v-model="recipient" class="input" />
+									<input :placeholder="$t('generic.addressOrAccount')" v-model="recipient" class="input" />
 								</section>
 							</section>
 						</section>
@@ -48,7 +48,7 @@
 			<!----------------------->
 			<section class="whiteback">
 				<section class="limit-width">
-					<label>Amount & Details</label>
+					<label>{{$t('transfer.amountTitle')}}</label>
 					<section class="boxes">
 						<section class="box">
 							<section class="input-container">
@@ -64,12 +64,12 @@
 							<section class="input-container">
 								<figure class="label">{{displayCurrency}}</figure>
 								<input placeholder="0.00" v-if="toSend.fiatPrice()" v-on:input="changedFiat" v-model="fiat" class="input" />
-								<figure class="input not-available" v-else>Price not available</figure>
+								<figure class="input not-available" v-else>{{$t('transfer.priceNotAvailable')}}</figure>
 							</section>
 						</section>
 						<section class="box">
 							<section class="input-container">
-								<textarea placeholder="optional memo" v-model="memo" class="input"></textarea>
+								<textarea :placeholder="$t('transfer.memo')" v-model="memo" class="input"></textarea>
 							</section>
 						</section>
 					</section>
@@ -79,14 +79,14 @@
 
 		<section class="scroller loading-tokens" v-else>
 			<section>
-				<h1>Please Wait</h1>
-				<p>Your balances aren't finished loading yet.</p>
+				<h1>{{$t('generic.pleaseWait')}}</h1>
+				<p>{{$t('transfer.loadingBalances')}}</p>
 			</section>
 		</section>
 
 
 		<section class="tail">
-			<Button :disabled="!canSend" big="1" text="Send" blue="1" @click.native="send" />
+			<Button :disabled="!canSend" big="1" :text="$t('generic.send')" blue="1" @click.native="send" />
 		</section>
 	</section>
 </template>
@@ -254,7 +254,8 @@
 							BalanceService.loadBalancesFor(this.account);
 						}, 500);
 					} else {
-						PopupService.push(Popup.snackbar("An error occurred while trying to transfer these tokens.", "attention-circled"));
+
+						PopupService.push(Popup.snackbar(this.$t('errors.transferError'), "attention-circled"));
 					}
 
 				}

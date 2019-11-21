@@ -78,7 +78,6 @@ export const getters = {
     ridlEnabled:state =>     state.scatter.settings.firewall,
     version:state =>        state.scatter.meta.version,
     networks:state =>       state.scatter.settings.networks || [],
-    language:state =>       Locale.fromJson(state.language.json),
     autoBackup:state =>     state.scatter.settings.autoBackup || null,
     backupLocation:state => state.scatter.settings.backupLocation || null,
     explorers:state =>      state.scatter.settings.explorers || PluginRepository.defaultExplorers(),
@@ -95,7 +94,7 @@ export const getters = {
     snackbars:state =>      state.popups.filter(x => x.displayType === PopupDisplayTypes.SNACKBAR) || [],
 
     totalBalances:(state, getters) => {
-    	return BalanceService.totalBalances(false);
+    	return BalanceService.totalBalances(true);
     },
 };
 

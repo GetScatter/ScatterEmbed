@@ -2,10 +2,10 @@
     <section>
 
         <section class="panel-switch">
-            <figure class="button" :class="{'active':state === STATES.ADD_TOKEN}" @click="state = STATES.ADD_TOKEN">{{locale(langKeys.SETTINGS.TOKENS.SWITCH.ADD_TOKEN)}}</figure>
-            <figure class="button" :class="{'active':state === STATES.WHITELIST}" @click="state = STATES.WHITELIST">{{locale(langKeys.SETTINGS.TOKENS.SWITCH.WHITELIST)}}</figure>
-            <figure class="button" :class="{'active':state === STATES.BLACKLIST}" @click="state = STATES.BLACKLIST">{{locale(langKeys.SETTINGS.TOKENS.SWITCH.BLACKLIST)}}</figure>
-            <figure class="button" :class="{'active':state === STATES.SETTINGS}" @click="state = STATES.SETTINGS">{{locale(langKeys.SETTINGS.TOKENS.SWITCH.SETTINGS)}}</figure>
+            <figure class="button" :class="{'active':state === STATES.ADD_TOKEN}" @click="state = STATES.ADD_TOKEN">{{$t('settings.tokens.switch.add')}}</figure>
+            <figure class="button" :class="{'active':state === STATES.WHITELIST}" @click="state = STATES.WHITELIST">{{$t('settings.tokens.switch.whitelist')}}</figure>
+            <figure class="button" :class="{'active':state === STATES.BLACKLIST}" @click="state = STATES.BLACKLIST">{{$t('settings.tokens.switch.blacklist')}}</figure>
+            <figure class="button" :class="{'active':state === STATES.SETTINGS}" @click="state = STATES.SETTINGS">{{$t('settings.tokens.switch.settings')}}</figure>
         </section>
 
 
@@ -18,7 +18,7 @@
                 <section class="split-inputs">
 
                     <section style="flex:1;">
-                        <label>{{locale(langKeys.GENERIC.Blockchain)}}</label>
+                        <label>{{$tc('generic.blockchains', 1)}}</label>
                         <Select bordered="1"
                                 :selected="{value:newToken.blockchain}"
                                 :options="blockchains"
@@ -27,7 +27,7 @@
                     </section>
 
                     <section style="flex:1;">
-                        <label>{{locale(langKeys.GENERIC.Network)}}</label>
+                        <label>{{$tc('generic.networks', 1)}}</label>
                         <Select bordered="1"
                                 :selected="filteredNetworks.find(x => x.chainId === newToken.chainId)"
                                 :options="filteredNetworks"
@@ -39,26 +39,25 @@
 
                 <section class="split-inputs">
                     <section style="flex:1; margin-bottom:0;">
-                        <Input style="margin-bottom:4px;" :placeholder="locale(langKeys.SETTINGS.TOKENS.ADD_TOKEN.TokenNamePlaceholder)"
-                               :label="locale(langKeys.SETTINGS.TOKENS.ADD_TOKEN.TokenNameLabel)"
+                        <Input style="margin-bottom:4px;" :label="$t('generic.name')"
                                :text="newToken.name" v-on:changed="x => newToken.name = x" />
                     </section>
 
                     <Input style="flex:1; margin-bottom:4px;"
                            :placeholder="contractPlaceholder"
-                           :label="locale(langKeys.GENERIC.Contract)"
+                           :label="$tc('generic.contracts', 1)"
                            :text="newToken.contract"
                            v-on:changed="x => newToken.contract = x" />
                 </section>
                 <br>
                 <section class="split-inputs">
-                    <Input placeholder="XXX" :label="locale(langKeys.GENERIC.Symbol)" :text="newToken.symbol" v-on:changed="x => newToken.symbol = x" />
-                    <Input placeholder="4" type="number" :label="locale(langKeys.GENERIC.Decimals)" :text="newToken.decimals" v-on:changed="x => newToken.decimals = x" />
+                    <Input placeholder="XXX" :label="$t('generic.symbol')" :text="newToken.symbol" v-on:changed="x => newToken.symbol = x" />
+                    <Input placeholder="4" type="number" :label="$t('generic.decimals')" :text="newToken.decimals" v-on:changed="x => newToken.decimals = x" />
                 </section>
 
                 <section class="split-inputs">
-                    <Button style="max-width:100%;" :text="locale(langKeys.SETTINGS.TOKENS.ADD_TOKEN.WhitelistTokenButton)" @click.native="addToken(false)" />
-                    <Button style="max-width:100%;" red="1" :text="locale(langKeys.SETTINGS.TOKENS.ADD_TOKEN.BlacklistTokenButton)" @click.native="addToken(true)" />
+                    <Button style="max-width:100%;" :text="$t('settings.tokens.whitelistButton')" @click.native="addToken(false)" />
+                    <Button style="max-width:100%;" red="1" :text="$t('settings.tokens.blacklistButton')" @click.native="addToken(true)" />
                 </section>
             </section>
 
@@ -71,8 +70,8 @@
             <section v-if="state === STATES.SETTINGS">
 
                 <section class="action-box top-pad">
-                    <label>Hide Primary Balance</label>
-                    <p>Allows you to hide your balance in the quick-actions bar.</p>
+                    <label>{{$t('settings.tokens.hidePrimaryBalance')}}</label>
+                    <p>{{$t('settings.tokens.hidePrimaryBalanceDescription')}}</p>
 
                     <br>
                     <br>
@@ -80,27 +79,8 @@
                 </section>
 
                 <section class="action-box top-pad">
-                    <label>{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.MainBalanceDisplayLabel)}}</label>
-                    <p>{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.MainBalanceDisplayDescription)}}</p>
-
-                    <br>
-                    <br>
-                    <section class="split-inputs">
-                        <section class="details" v-if="scatter.settings.showMainnetsOnly">
-                            <figure class="title">{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.MainBalanceDisplayAllNetworksButton)}}</figure>
-                            <p>{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.MainBalanceDisplayAllNetworksDesc)}}</p>
-                        </section>
-                        <section class="details" v-if="!scatter.settings.showMainnetsOnly">
-                            <figure class="title">{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.MainBalanceDisplayMainnetButton)}}</figure>
-                            <p>{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.MainBalanceDisplayMainnetDesc)}}</p>
-                        </section>
-                        <Switcher style="flex:0 0 auto; margin-left:20px;" :state="scatter.settings.showMainnetsOnly" @click.native="toggleMainnetsOnly" />
-                    </section>
-                </section>
-
-                <section class="action-box top-pad">
-                    <label>{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.FilterSmallBalancesLabel)}}</label>
-                    <p>{{locale(langKeys.SETTINGS.TOKENS.SETTINGS.FilterSmallBalancesDescription)}}</p>
+                    <label>{{$t('settings.tokens.filterSmallBalances')}}</label>
+                    <p>{{$t('settings.tokens.filterSmallBalancesDescription')}}</p>
                     <br>
                     <br>
 
@@ -131,13 +111,13 @@
                             </figure>
                         </section>
                         <section class="actions">
-                            <Button text="Remove" @click.native="removeToken(token)" />
+                            <Button :text="$t('generic.remove')" @click.native="removeToken(token)" />
                         </section>
                     </section>
                 </section>
 
                 <section class="no-tokens" v-else>
-                    No tokens
+                    {{$t('settings.tokens.noTokens')}}
                 </section>
 
             </section>
@@ -257,11 +237,6 @@
 			toggleHiddenBalance(){
 				const scatter = this.scatter.clone();
 				scatter.settings.hideMainBalance = !scatter.settings.hideMainBalance;
-				this[Actions.SET_SCATTER](scatter);
-			},
-			async toggleMainnetsOnly(){
-				const scatter = this.scatter.clone();
-				scatter.settings.showMainnetsOnly = !scatter.settings.showMainnetsOnly;
 				this[Actions.SET_SCATTER](scatter);
 			},
 

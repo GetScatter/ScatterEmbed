@@ -16,20 +16,16 @@
 
                     <section class="actions">
                         <section v-if="canOpenApp(applink)">
-                            <Button @click.native="openApp(applink)" text="Open" :blue="true" />
+                            <Button @click.native="openApp(applink)" :text="$t('generic.open')" :blue="true" />
                         </section>
                         <section v-if="permissionsList.length">
-                            <Button text="Revoke access" @click.native="removeAll" />
+                            <Button :text="$t('generic.remove')" @click.native="removeAll" />
                         </section>
                     </section>
 
                     <section v-if="getAppData(applink).type">
                         <figure class="category">{{getAppData(applink).type}}</figure>
                         <p>{{getAppData(applink).description}}</p>
-                    </section>
-                    <section v-else>
-                        <figure class="category">No Data</figure>
-                        <p>This app doesn't have any registered data available.</p>
                     </section>
 
                 </section>
@@ -56,7 +52,7 @@
             <section class="selected-permission">
 
                 <section class="key-val" v-if="isIdentity && selected.accounts.length">
-                    <figure>{{locale(langKeys.PERMISSIONS.AccountsLabel)}}</figure>
+                    <figure>{{$t('app.accountsProvided')}}</figure>
                     <figure>{{selected.getAccounts().map(x => x.formatted()).join(', ')}}</figure>
 
                     <br>
@@ -64,12 +60,12 @@
                 </section>
 
                 <section class="key-val" v-if="selected.isIdentityRequirements">
-                    <figure>{{locale(langKeys.PERMISSIONS.RequiredFieldsLabel)}}</figure>
+                    <figure>{{$t('app.requiredFields')}}</figure>
                     <figure>{{selected.identityRequirements.join(', ')}}</figure>
                 </section>
 
                 <section class="key-val" v-if="isAction">
-                    <figure>{{locale(langKeys.PERMISSIONS.MutableFieldsLabel)}}</figure>
+                    <figure>{{$t('app.mutableFields')}}</figure>
                     <figure>{{selected.mutableActionFields.join(', ')}}</figure>
                 </section>
 
@@ -78,13 +74,13 @@
 
                 <section class="action-box">
                     <section class="key-val">
-                        <figure>{{locale(langKeys.PERMISSIONS.RemoveLabel)}}</figure>
-                        <p v-if="isIdentity">{{locale(langKeys.PERMISSIONS.RemoveIdentityText)}}</p>
-                        <p v-if="isAction">{{locale(langKeys.PERMISSIONS.RemoveWhitelistLabel)}}</p>
+                        <figure>{{$t('app.removePermission')}}</figure>
+                        <p v-if="isIdentity">{{$t('app.removeIdentity')}}</p>
+                        <p v-if="isAction">{{$t('app.removeWhitelist')}}</p>
 
                         <br>
 
-                        <Button :text="locale(langKeys.GENERIC.Remove)" red="1"
+                        <Button :text="$t('generic.remove')" red="1"
                              @click.native="removeSelected" />
                     </section>
                 </section>
@@ -166,7 +162,7 @@
 	        permissionTitle(permission){
 		        if(!permission) return;
 		        return permission.isIdentity
-			        ? this.locale(this.langKeys.PERMISSIONS.LoginPermission) :
+			        ? this.$t('app.loginPermission') :
 			        `${permission.action}`;
 	        },
 	        permissionDescription(permission){

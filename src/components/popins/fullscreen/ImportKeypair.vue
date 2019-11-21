@@ -10,7 +10,7 @@
 					<Key />
 					<br>
 					<br>
-					<figure class="title">Import Keypair</figure>
+					<figure class="title">{{$t('popins.fullscreen.importKeypair.title')}}</figure>
 				</section>
 				<br>
 				<br>
@@ -111,19 +111,19 @@
 			buttonsLeft(){
 				if(!this.options.forSignup) {
 					if(this.state === STATES.SELECT_TYPE){
-						return [{text:'Cancel', click:() => this.returnResult(null)}];
+						return [{text:this.$t('generic.cancel'), click:() => this.returnResult(null)}];
 					} else {
-						return [{text:'Back', click:() => this.state = STATES.SELECT_TYPE}];
+						return [{text:this.$t('generic.back'), click:() => this.state = STATES.SELECT_TYPE}];
 					}
 
 				} else {
 					if(this.state === STATES.SELECT_TYPE) return [];
-					return [{text:'Back', click:() => this.state = STATES.SELECT_TYPE}];
+					return [{text:this.$t('generic.back'), click:() => this.state = STATES.SELECT_TYPE}];
 				}
 			},
 
 			buttonsRight(){
-				if(this.options.forSignup) return [{text:'Skip', click:() => this.returnResult(false)}];
+				if(this.options.forSignup) return [{text:this.$t('generic.skip'), click:() => this.returnResult(false)}];
 				return [];
 			},
 
@@ -131,17 +131,17 @@
 				return [
 					{
 						icon:'icon-pencil',
-						text:'Text',
+						text:this.$t('popins.fullscreen.importKeypair.text'),
 						onClick:() => { this.selectImportType(IMPORT_TYPES.TEXT); },
 					},
 					{
 						icon:'icon-microchip',
-						text:'Hardware',
+						text:this.$t('popins.fullscreen.importKeypair.hardware'),
 						onClick:() => { this.selectImportType(IMPORT_TYPES.HARDWARE); },
 					},
 					{
 						icon:'icon-qrcode',
-						text:'QR Code',
+						text:this.$t('popins.fullscreen.importKeypair.qrCode'),
 						onClick:() => { this.selectImportType(IMPORT_TYPES.QR); },
 					}
 				]
@@ -170,7 +170,7 @@
 				const keypair = Keypair.placeholder();
 				keypair.privateKey = key;
 				if(!KeyPairService.isValidPrivateKey(keypair)) {
-					this.error = 'Invalid Private Key';
+					this.error = this.$t('popins.fullscreen.importKeypair.invalidPrivateKey');
 					return reset();
 				}
 
@@ -193,7 +193,7 @@
 				this.keypair.blockchains = [blockchain];
 				await KeyPairService.makePublicKeys(this.keypair);
 				if(!this.keypair.publicKeys.find(x => x.blockchain === blockchain)) {
-					this.error = 'Invalid Private Key';
+					this.error = this.$t('popins.fullscreen.importKeypair.invalidPrivateKey');
 					this.setWorkingScreen(false);
 					return;
 				}

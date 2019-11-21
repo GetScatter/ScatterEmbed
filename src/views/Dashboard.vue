@@ -1,10 +1,11 @@
 <template>
-	<section class="dashboard" :class="{'full-mobile':!tokens && (!votableAccounts || !votableAccounts.length)}">
+	<section class="dashboard" :class="{'full-mobile':!tokens && (!canVote)}">
 		<section id="asset-updates">
 
-			<section class="attraction" :class="{'full-mobile':!tokens && (!votableAccounts || !votableAccounts.length)}">
-				<div class="promoted-pill">Promoted</div>
+			<section class="attraction" :class="{'full-mobile':!tokens && (!canVote)}">
+				<div class="promoted-pill">{{$t('generic.promoted')}}</div>
 				<section class="premium-attraction" :class="{'no-tokens':!tokens}">
+
 					<!-- Top left logo -->
 					<img class="logo" src="https://cryptolegends.io/assets/use-images/logo_crypto.png">
 
@@ -29,53 +30,39 @@
 				</section>
 
 				<!-- Exchange CTA -->
-				<section class="suggested-exchanges" v-if="tokens">
-					<section class="exchange-panel" v-if="tokens && tokens.lowest">
-						<div class="token-logo">
-							<i class="fad fa-chart-line-down"></i>
-						</div>
-						<div class="explainer">
-							<span class="title">{{tokens.lowest.token.name}} has dropped {{tokens.lowest.change.perc.replace('-', '')}}</span>
-							<!--<span class="suggested-action">This might be a good time to convert to a stable coin.</span>-->
-						</div>
-						<Button class="cta" text="Exchange" @click.native="exchange(tokens.lowest.token)" />
-					</section>
-					<section class="exchange-panel" v-if="tokens && tokens.highest">
-						<div class="token-logo">
-							<i class="fad fa-coins"></i>
-						</div>
-						<div class="explainer">
-							<span class="title">{{tokens.highest.token.name}} has risen {{tokens.highest.change.perc.replace('+', '')}}</span>
-							<!--<span class="suggested-action">This might be a good time to secure some gains.</span>-->
-						</div>
-						<Button class="cta" text="Exchange" @click.native="exchange(tokens.highest.token)" />
-					</section>
-				</section>
+				<!--<section class="suggested-exchanges" v-if="tokens">-->
+					<!--<section class="exchange-panel" v-if="tokens && tokens.lowest">-->
+						<!--<div class="token-logo">-->
+							<!--<i class="fad fa-chart-line-down"></i>-->
+						<!--</div>-->
+						<!--<div class="explainer">-->
+							<!--<span class="title">{{tokens.lowest.token.name}} has dropped {{tokens.lowest.change.perc.replace('-', '')}}</span>-->
+							<!--&lt;!&ndash;<span class="suggested-action">This might be a good time to convert to a stable coin.</span>&ndash;&gt;-->
+						<!--</div>-->
+						<!--<Button class="cta" text="Exchange" @click.native="exchange(tokens.lowest.token)" />-->
+					<!--</section>-->
+					<!--<section class="exchange-panel" v-if="tokens && tokens.highest">-->
+						<!--<div class="token-logo">-->
+							<!--<i class="fad fa-coins"></i>-->
+						<!--</div>-->
+						<!--<div class="explainer">-->
+							<!--<span class="title">{{tokens.highest.token.name}} has risen {{tokens.highest.change.perc.replace('+', '')}}</span>-->
+							<!--&lt;!&ndash;<span class="suggested-action">This might be a good time to secure some gains.</span>&ndash;&gt;-->
+						<!--</div>-->
+						<!--<Button class="cta" text="Exchange" @click.native="exchange(tokens.highest.token)" />-->
+					<!--</section>-->
+				<!--</section>-->
 
 			</section>
 
 		</section>
-		<!--<section class="focus-boxes">-->
-		<!--<a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(static/assets/voting.png);"  target="_blank">-->
-		<!--<span class="earn-rewards">Earn rewards</span>-->
-		<!--<h3>Proxy your EOSIO votes to get daily rewards!</h3>-->
-		<!--<h5>-->
-		<!--By proxying your votes you can earn daily rewards.-->
-		<!--The third party proxies we select all have our Block Producer in them, so you'll also be voting for Scatter and helping us grow!-->
-		<!--</h5>-->
-		<!--<Button text="Proxy Now!" />-->
-		<!--</a>-->
-		<!--</section>-->
 
-		<section class="focus-boxes" v-if="votableAccounts && votableAccounts.length">
+		<section class="focus-boxes" v-if="canVote">
 			<a id="proxy" ref="https://get-scatter.com/vote" style="background-image:url(static/assets/voting.png);"  target="_blank">
-				<span class="earn-rewards">Vote for Scatter</span>
-				<h3>Show us some love!</h3>
-				<h5>
-					We've launched an EOS Mainnet Block Producer which you can now vote for. Help us get into a producing position by
-					voting for us.
-				</h5>
-				<Button text="Join our Proxy" @click.native="voteForScatter" :loading="proxying" />
+				<span class="earn-rewards">{{$t('dashboard.vote.title')}}</span>
+				<h3>{{$t('dashboard.vote.subTitle')}}</h3>
+				<h5>{{$t('dashboard.vote.description')}}</h5>
+				<Button :text="$t('dashboard.vote.button')" @click.native="voteForScatter" :loading="proxying" />
 			</a>
 		</section>
 
@@ -95,6 +82,10 @@
 	export default {
 		data() {return {
 			proxying:false,
+			votableChains:[
+				'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+				'4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11'
+			]
 		}},
 		computed:{
 			...mapState([
@@ -136,16 +127,19 @@
 					lowest
 				}
 			},
-			eosMainnet(){
-				const plugin = PluginRepository.plugin(Blockchains.EOSIO);
-				return this.networks.find(x => x.blockchain === Blockchains.EOSIO && x.chainId === plugin.getEndorsedNetwork().chainId);
+			votableChains(){
+				return [
+
+				]
 			},
-			votableAccounts(){
-				if(!this.eosMainnet) return false;
-				// There could be hundreds of accounts here, and some of them might not even have CPU to vote with.
-				// So we're gonna filter this list down.
-				return this.eosMainnet.accounts(true).filter(account => account.systemBalance() >= 5)
-			}
+			votableNetworks(){
+				return this.votableChains.map(chainId => {
+					return this.scatter.settings.networks.find(x => x.blockchain === Blockchains.EOSIO && x.chainId === chainId);
+				}).filter(x => !!x);
+			},
+			canVote(){
+				return !!this.votableNetworks.length;
+			},
 
 		},
 		mounted(){
@@ -174,41 +168,53 @@
 					this.proxying = false;
 				}
 
-				// TODO: ERROR MSGS
 				const plugin = PluginRepository.plugin(Blockchains.EOSIO);
 				if(!plugin) return reset();
 
-				const accounts = this.votableAccounts;
+				let trxs = [];
+				for(let i = 0; i < this.votableNetworks.length; i++){
+					const network = this.votableNetworks[i];
+					const accounts = network.accounts(true).filter(account => account.systemBalance() >= 5);
 
-				const eos = plugin.getSignableEosjs(accounts, () => {
-					reset();
-				});
+					if(accounts.length){
+						const eos = plugin.getSignableEosjs(accounts, () => { reset(); });
 
-				const actions = accounts.map(account => {
-					return {
-						account: 'eosio',
-						name:'voteproducer',
-						authorization: [{
-							actor: account.sendable(),
-							permission: account.authority,
-						}],
-						data:{
-							voter: account.name,
-							proxy: 'scatterproxy',
-							producers:[],
-						},
+						const actions = accounts.map(account => {
+							return {
+								account: 'eosio',
+								name:'voteproducer',
+								authorization: [{
+									actor: account.sendable(),
+									permission: account.authority,
+								}],
+								data:{
+									voter: account.name,
+									proxy: 'scatterproxy',
+									producers:[],
+								},
+							}
+						});
+
+						await eos.transact({ actions }, { blocksBehind: 3, expireSeconds: 30 })
+							.then(trx => {
+								trxs.push(trx);
+								// PopupService.push(Popup.transactionSuccess(Blockchains.EOSIO, trx.transaction_id));
+								return true;
+							})
+							.catch(res => {
+								PopupService.push(Popup.snackbar(res));
+								return null;
+							})
 					}
-				});
 
-				await eos.transact({ actions }, { blocksBehind: 3, expireSeconds: 30 })
-					.then(trx => {
-						PopupService.push(Popup.transactionSuccess(Blockchains.EOSIO, trx.transaction_id));
-						reset()
-					})
-					.catch(res => {
-						PopupService.push(Popup.snackbar(res));
-						reset()
-					})
+					if(trxs.length){
+
+						PopupService.push(Popup.snackbar(this.$t('dashboard.vote.voted', { total: trxs.length })));
+					}
+
+					reset();
+				}
+
 			}
 		},
 		created() {
@@ -251,7 +257,6 @@
 		.attraction {
 			height: 100%;
 			text-align: center;
-			background: #066AA7;
 			position: relative;
 			z-index: 0;
 			width:100%;
@@ -288,7 +293,7 @@
 				background-image: linear-gradient(211deg, #0280CE 12%, #0799FF 46%, #066AA7 100%);
 				position:relative;
 				overflow:hidden;
-				border-radius:$radius-big $radius-big 0 0;
+				border-radius:$radius-big;
 
 				@media (max-width: $breakpoint-tablet) {
 					border-radius:0;

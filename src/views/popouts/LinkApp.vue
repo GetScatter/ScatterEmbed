@@ -1,22 +1,21 @@
 <template>
     <section class="popout-window">
-        <PopOutApp :app="popup.data.props.appData" suffix="is relinking" />
+        <PopOutApp :app="popup.data.props.appData" :suffix="$t('popouts.linkApp.suffix')" />
 
 
         <section class="fixed-actions">
-            Make sure the application name is an application you are interacting with right now.
-            If it isn't it could be a dangerous application trying to act like a different one.
+            {{$t('popouts.linkApp.description')}}
             <br>
             <br>
 
             <section class="actions">
                 <!-- DENY TRANSACTION -->
-                <Button :text="locale(langKeys.GENERIC.Deny)" big="1"
+                <Button :text="$t('generic.deny')" big="1"
                         @click.native="returnResult(false)" />
 
                 <!-- ACCEPT TRANSACTION -->
                 <Button blue="1" big="1"
-                        :text="locale(langKeys.GENERIC.Allow)"
+                        :text="$t('generic.allow')"
                         @click.native="returnResult(true)" />
             </section>
 

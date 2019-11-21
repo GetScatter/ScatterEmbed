@@ -1,6 +1,6 @@
 <template>
 	<section class="pop-over">
-		<PopInHead title="Select Blockchain" v-on:close="returnResult" />
+		<PopInHead :title="$t('popins.overlay.selectBlockchain')" v-on:close="returnResult" />
 		<section class="select-blockchain type-selector">
 			<section class="types">
 				<section class="type" v-for="blockchain in blockchains" @click="returnResult(blockchain)">

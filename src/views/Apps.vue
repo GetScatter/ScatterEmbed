@@ -12,7 +12,7 @@
 				<section class="featured" v-if="!exploreTerms.length && !selectedCategory && featuredApps.length">
 					<section @click="openInBrowser(app.url)" class="featured-app" v-for="app in featuredApps">
 						<img class="featured-background" :src="app.img" />
-						<figure class="tag">Promoted</figure>
+						<figure class="tag">{{$t('generic.promoted')}}</figure>
 					</section>
 				</section>
 
@@ -90,9 +90,9 @@
 							<figure class="category">{{app.type}}</figure>
 						</section>
 						<section class="actions">
-							<Button @click.native="removeApp(app)" text="Remove" />
-							<Button @click.native="goToApp(app)" text="Manage" />
-							<Button v-if="canOpenApp(app.applink)" @click.native="openApp(app.applink)" text="Open" blue="1" />
+							<Button @click.native="removeApp(app)" :text="$t('generic.remove')" />
+							<Button @click.native="goToApp(app)" :text="$t('generic.manage')" />
+							<Button v-if="canOpenApp(app.applink)" @click.native="openApp(app.applink)" :text="$t('generic.open')" blue="1" />
 						</section>
 					</section>
 				</section>
@@ -144,10 +144,10 @@
 			]),
 			tabs(){
 				let tabs = [
-					{name:'Explore', state:STATES.EXPLORE},
+					{name:this.$t('apps.explore'), state:STATES.EXPLORE},
 				];
 				if(this.selectedCategory) tabs.splice(1, 0, { name:this.selectedCategory, state:this.selectedCategory });
-				if(this.permissions.filter(x => x.isIdentity).length) tabs.push({name:'My Apps', state:STATES.MINE});
+				if(this.permissions.filter(x => x.isIdentity).length) tabs.push({name:this.$t('apps.myApps'), state:STATES.MINE});
 				return tabs;
 			},
 			categories(){
@@ -161,7 +161,7 @@
 					{
 						selected:this.typeFilter,
 						options:[null].concat(AppsService.categories(this.selectedCategory)),
-						parser:x => x === null ? 'All Categories' : x,
+						parser:x => x === null ? this.$t('apps.allCategories') : x,
 						onSelect:x => this.typeFilter = x,
 					}
 				]

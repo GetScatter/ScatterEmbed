@@ -1,13 +1,13 @@
 <template>
 	<section class="center-panel">
-		<h2>Scan a QR code.</h2>
+		<h2>{{$t('panels.keypair.scanQR')}}</h2>
 		<p></p>
 
 		<br>
 		<!-- Note, this won't show up on non https or localhost when inside of a mobile container. -->
 		<qrcode-stream v-if="!refresh" @decode="qrScanned"></qrcode-stream>
 
-		<ActionBar v-if="returnOnly" :buttons-left="[{text:'Back', click:() => $emit('back')}]" :buttons-right="[{text:'Skip', click:() => $emit('next')}]" />
+		<ActionBar v-if="returnOnly" :buttons-left="[{text:$t('generic.back'), click:() => $emit('back')}]" :buttons-right="[{text:$t('generic.skip'), click:() => $emit('next')}]" />
 	</section>
 </template>
 
@@ -40,7 +40,7 @@
 						this.refresh = true;
 						this.$nextTick(() => this.refresh = false);
 						this.setWorkingScreen(false);
-						return PopupService.push(Popup.prompt('Decryption Error', 'Are you sure the password for this QR code is correct?'));
+						return PopupService.push(Popup.snackbar(this.$t('errors.badQrDecryption')));
 					}
 					const keypair = Keypair.placeholder();
 					keypair.privateKey = privateKey;
@@ -49,7 +49,7 @@
 
 					if(!keypair.isUnique()){
 						this.setWorkingScreen(false);
-						return PopupService.push(Popup.snackbar('Keypair already exists'));
+						return PopupService.push(Popup.snackbar(this.$t('errors.keypairExists')));
 					}
 					this.$emit('key', keypair);
 				}, true))

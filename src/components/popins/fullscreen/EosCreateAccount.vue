@@ -5,7 +5,7 @@
 		<section>
 			<section class="head" v-if="account || state === STATES.SELECT_TYPE">
 				<figure class="icon font icon-user-add"></figure>
-				<figure class="title">Create Account</figure>
+				<figure class="title">{{$t('popins.fullscreen.createAccount.title')}}</figure>
 			</section>
 
 			<!----------------------------->
@@ -13,7 +13,7 @@
 			<!----------------------------->
 			<section v-if="account">
 				<section>
-					<Input big="1" :error="accountNameError" :placeholder="locale(langKeys.GENERIC.AccountName)" :text="accountName" v-on:changed="x => accountName = x" />
+					<Input big="1" :error="accountNameError" :placeholder="$t('generic.name')" :text="accountName" v-on:changed="x => accountName = x" />
 
 					<section v-for="item in changeableKeys" class="key-entry">
 						<label>{{item.label}}</label>
@@ -29,7 +29,7 @@
 
 				</section>
 
-				<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:'Create Account', blue:true, click:() => createAccount()}]" />
+				<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('popins.fullscreen.createAccount.title'), blue:true, click:() => createAccount()}]" />
 			</section>
 
 			<section v-else>
@@ -44,16 +44,16 @@
 					<section class="types">
 						<section class="type" @click="state = STATES.EXCHANGE">
 							<figure class="type-icon icon-globe"></figure>
-							<figure class="type-text">Exchange</figure>
+							<figure class="type-text">{{$t('generic.exchange')}}</figure>
 							<figure class="type-desc">
-								You can send funds from an exchange or another wallet to create your account.
+								{{$t('popins.fullscreen.createAccount.exchangeDescription')}}
 							</figure>
 						</section>
 						<section class="type disabled">
 							<figure class="type-icon"><CreditCard /></figure>
-							<figure class="type-text">Credit Card</figure>
+							<figure class="type-text">{{$tc('generic.cards', 1)}}</figure>
 							<figure class="type-desc">
-								This option is currently disabled while we work on regulatory compliance.
+								{{$t('popins.fullscreen.createAccount.cardDescription', 1)}}
 							</figure>
 						</section>
 					</section>
@@ -64,8 +64,8 @@
 				<!------- TYPE SELECTED -------------->
 				<!------------------------------------>
 				<section class="type-selected" v-if="state !== STATES.SELECT_TYPE">
-					<i style="margin-bottom:11px; display:block;" v-if="!accountName.trim().length && !accountNameError">Start typing in a name to see if it is available.</i>
-					<Input big="1" centered="1" :error="accountNameError" :placeholder="locale(langKeys.GENERIC.AccountName)" :text="accountName" v-on:changed="x => accountName = x" />
+					<i style="margin-bottom:11px; display:block;" v-if="!accountName.trim().length && !accountNameError">{{$t('popins.fullscreen.createAccount.startTyping')}}</i>
+					<Input big="1" centered="1" :error="accountNameError" :placeholder="$t('generic.name')" :text="accountName" v-on:changed="x => accountName = x" />
 
 
 					<!------------------------------------>
@@ -79,10 +79,10 @@
 							<br>
 							<br>
 
-							<b class="red">Make sure you include this memo when you send it or your funds will be lost!</b>
+							<b class="red">{{$t('popins.fullscreen.createAccount.includeMemo')}}</b>
 							<figure class="memo">
 								<b>{{exchangeMemo}}</b>
-								<b class="copy icon-docs" @click="copyExchangeMemo">Copy</b>
+								<b class="copy icon-docs" @click="copyExchangeMemo">{{$t('generic.copy')}}</b>
 							</figure>
 						</section>
 					</section>
@@ -166,19 +166,19 @@
 				return this.accountName.length === 12 && !this.accountNameError
 			},
 			noAccountButtonsLeft(){
-				if(this.state === STATES.SELECT_TYPE) return [{text:'Cancel', click:() => this.returnResult(false)}];
-				return [{text:'Back', click:() => this.state = STATES.SELECT_TYPE}];
+				if(this.state === STATES.SELECT_TYPE) return [{text:this.$t('generic.cancel'), click:() => this.returnResult(false)}];
+				return [{text:this.$t('generic.back'), click:() => this.state = STATES.SELECT_TYPE}];
 			},
 			noAccountButtonsRight(){
-				if(this.state === STATES.EXCHANGE && this.canUseExchange) return [{text:'Click after Transfer', blue:true, click:() => this.findExchangeAccount()}];
+				if(this.state === STATES.EXCHANGE && this.canUseExchange) return [{text:this.$t('popins.fullscreen.createAccount.clickAfter'), blue:true, click:() => this.findExchangeAccount()}];
 				return [];
 			},
 			changeableKeys(){
 				return [{
-					label:'Owner/Master Key',
+					label:this.$t('popins.fullscreen.changePermissions.owner'),
 					ref:'owner',
 				}, {
-					label:'Active/Daily Key',
+					label:this.$t('popins.fullscreen.changePermissions.active'),
 					ref:'active',
 				}]
 			},
@@ -236,8 +236,8 @@
 				let timeout = 0;
 
 				PopupService.push(Popup.prompt(
-					"Looking for account",
-					"Scatter will continuously look for the account being created for the next 30 minutes. Once it is found it will automatically be added to your Scatter."
+					this.$t('popins.fullscreen.createAccount.lookingTitle'),
+					this.$t('popins.fullscreen.createAccount.lookingDescription')
 				));
 
 				const findUntilFoundOrTimedOut = async () => {
@@ -245,8 +245,8 @@
 					if(timeout >= 60){
 						// 30 minutes have passed
 						PopupService.push(Popup.prompt(
-							"Exchange account creation error.",
-							"30 minutes have passed since you sent money from your exchange. It looks like an account still hasn't been created. You should check the status of the transaction in the exchange."
+							this.$t('popins.fullscreen.createAccount.exchangeErrorTitle'),
+							this.$t('popins.fullscreen.createAccount.exchangeErrorDescription')
 						))
 					}
 
@@ -256,8 +256,8 @@
 					if(account && account.hasOwnProperty('account_name') && account.account_name === accountName){
 						await AccountService.importAllAccounts(this.keypair);
 						PopupService.push(Popup.prompt(
-							"Account found!",
-							"Scatter found the account you created using an exchange. You can now see it in your wallet."
+							this.$t('popins.fullscreen.createAccount.accountFoundTitle'),
+							this.$t('popins.fullscreen.createAccount.accountFoundDescription')
 						));
 						return true;
 					}
@@ -328,20 +328,20 @@
 				accountTimeout = setTimeout(async () => {
 					this.accountName = this.accountName.trim().toLowerCase();
 					if(!this.accountName.length) return this.accountNameError = '';
-					if(this.accountName.length !== 12) return this.accountNameError = this.locale(this.langKeys.CREATE_EOS.AccountNameLengthError) + ` - ${this.accountName.length}/12`;
+					if(this.accountName.length !== 12) return this.accountNameError = this.$t('popins.fullscreen.createAccount.nameTooShort') + ` - ${this.accountName.length}/12`;
 					if(this.accountName.split('').filter(x => isNaN(x)).find(x => x.toUpperCase() === x))
-						return this.accountNameError = this.locale(this.langKeys.CREATE_EOS.AccountNameFormattingError);
+						return this.accountNameError = this.$t('popins.fullscreen.createAccount.nameFormatting');
 
 					if(!PluginRepository.plugin(Blockchains.EOSIO).isValidRecipient(this.accountName)){
 						return this.accountNameError = 'only a-z, 1-5';
 					}
 
-					this.accountNameError = this.locale(this.langKeys.CREATE_EOS.CheckingNameAlert);
+					this.accountNameError = this.$t('popins.fullscreen.createAccount.checkingName');
 
 					const plugin = PluginRepository.plugin(Blockchains.EOSIO);
 					const acc = await plugin.accountData(null, this.network, this.accountName);
 					if(acc.hasOwnProperty('code') && acc.code === 500) this.accountNameError = null;
-					else this.accountNameError = this.locale(this.langKeys.CREATE_EOS.NameTakenAlert);
+					else this.accountNameError = this.$t('popins.fullscreen.createAccount.nameTaken');
 				}, 10);
 			},
 

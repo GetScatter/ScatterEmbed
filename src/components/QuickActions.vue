@@ -63,10 +63,10 @@
 				'hideMainBalance',
 			]),
 			totalBalance(){
-				return PriceService.getTotal(BalanceService.totalBalances(false).totals);
+				return PriceService.getTotal(BalanceService.totalBalances(true).totals);
 			},
 			totalTokenBalance(){
-				return PriceService.getTotal(BalanceService.totalBalances(false).totals, null, false, this.displayToken);
+				return PriceService.getTotal(BalanceService.totalBalances(true).totals, null, false, this.displayToken);
 			},
 			quickBack(){
 				return [

@@ -2,14 +2,14 @@
 	<section class="pop-in">
 		<section class="head">
 			<figure class="icon font icon-attention"></figure>
-			<figure class="title">{{locale(langKeys.POPINS.FULLSCREEN.DESTROY.Title)}}</figure>
+			<figure class="title">{{$t('destroy.title')}}</figure>
 			<section class="disclaimer">
-				<figure class="title">{{locale(langKeys.POPINS.FULLSCREEN.DESTROY.Disclaimer)}}</figure>
-				<figure class="description">{{locale(langKeys.POPINS.FULLSCREEN.DESTROY.Desc)}}</figure>
+				<figure class="title">{{$t('destroy.disclaimer')}}</figure>
+				<figure class="description">{{$t('destroy.description')}}</figure>
 			</section>
 		</section>
 
-		<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:'Destroy Scatter', blue:true, click:() => destroy()}]" />
+		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('destroy.confirm'), blue:true, click:() => destroy()}]" />
 	</section>
 </template>
 

@@ -6,24 +6,24 @@
             <!-- MAIN PANEL -->
             <section class="main-panel">
                 <PopOutApp :app="appData" />
-                <figure class="has-more" v-if="limitedMessages.total > 1">{{locale(langKeys.POPOUTS.SIGNATURE.ActionsTotal,limitedMessages.total)}}</figure>
+                <figure class="has-more" v-if="limitedMessages.total > 1">{{$t('popouts.signature.actionsTotal', {x:limitedMessages.total})}}</figure>
 
 
                 <section class="participants" v-if="participantAccounts">
-                    <label>{{locale(langKeys.POPOUTS.SIGNATURE.AccountsInvolved)}}</label>
+                    <label>{{$t('popouts.signature.accountsInvolved')}}</label>
                     <section v-if="!participantsAsSelector">
                         <section class="participant" v-for="p in participantAccounts.slice(0,2)">
                             {{p.network().name}} - <b>{{p.sendable()}}</b>
                         </section>
                         <figure class="more-participants" v-if="participantAccounts.length > 2" @click="participantsAsSelector = true">
-                            +{{participantAccounts.length}} more accounts
+                            +{{participantAccounts.length}} {{$t('popouts.signature.moreAccounts')}}
                         </figure>
                     </section>
                     <Select v-else bordered="1" :options="participantAccounts" :parser="x => `${x.network().name} - ${x.sendable()}`" />
                 </section>
 
                 <section class="participants" v-if="isArbitrarySignature">
-                    <label>{{locale(langKeys.POPOUTS.SIGNATURE.KeysInvolved)}}</label>
+                    <label>{{$t('popouts.signature.keysInvolved')}}</label>
                     <section class="participant">{{arbitraryKeypair.name}}</section>
                 </section>
 
@@ -33,13 +33,13 @@
                 <section class="fixed-actions">
 
                     <section v-if="isDangerous" class="disclaimer less-pad red centered" style="margin-bottom:10px;">
-                        One of the actions included within this transaction is <b>dangerous</b>.
+                        {{$t('popouts.signature.dangerous')}}
                     </section>
 
 
                     <section class="accept-deny">
                         <!-- DENY TRANSACTION -->
-                        <Button :text="locale(langKeys.GENERIC.Deny)"
+                        <Button :text="$t('generic.deny')"
                                 big="1" v-if="!pinning"
                                 @click.native="returnResult(false)" />
 
@@ -47,7 +47,7 @@
                         <Button :red="isDangerous || (reputation && reputation.decimal < 0)"
                                 big="1" blue="1" v-if="!pinning"
                                 :disabled="cannotSignArbitrary"
-                                :text="locale(langKeys.GENERIC.Allow)"
+                                :text="$t('generic.allow')"
                                 @click.native="accepted" />
                     </section>
                 </section>
@@ -81,7 +81,7 @@
 
                         <section class="whitelist-overlay" v-if="isPreviouslyWhitelisted(message)">
                             <section class="box">
-                                <figure class="info">{{locale(langKeys.POPOUTS.SIGNATURE.PreviouslyWhitelisted)}}</figure>
+                                <figure class="info">{{$t('popouts.signature.previouslyWhitelisted')}}</figure>
                             </section>
                         </section>
 
@@ -102,7 +102,7 @@
                                     <ReputationScore class="score" :reputable="reputable(message)" small="1" />
                                     <span @click="collapse(message)">{{message.code}} <i class="contract-split icon-right-open-big"></i> {{message.type}}</span>
                                 </figure>
-                                <span class="danger-title" v-if="isDangerous">This action is <b>dangerous</b>!</span>
+                                <span class="danger-title" v-if="isDangerous">{{$t('popouts.signature.dangerousAction')}}</span>
                             </section>
 
                             <section v-if="!isCollapsed(message)">
@@ -127,15 +127,15 @@
                             </section>
 
                             <section class="collapsed" v-else>
-                                {{locale(langKeys.POPOUTS.SIGNATURE.HiddenActions)}}
+                                {{$t('popouts.signature.hiddenAction')}}
                             </section>
                         </section>
                     </section>
                 </section>
 
                 <section class="whitelist-bar" v-if="!isArbitrarySignature && !isDangerous">
-                    <figure class="text" v-if="!whitelisted">You can whitelist this so that you don't have to keep re-accepting this transaction.</figure>
-                    <figure class="text blue" v-if="whitelisted">Checkboxes that are checked can have their values changed without breaking the whitelist.</figure>
+                    <figure class="text" v-if="!whitelisted">{{$t('popouts.signature.whitelistThis')}}</figure>
+                    <figure class="text blue" v-if="whitelisted">{{$t('popouts.signature.whitelistExplainer')}}</figure>
                     <Switcher :state="whitelisted" @click.native="whitelist" />
                 </section>
 
@@ -143,20 +143,20 @@
         </section>
 
 
-        <section class="ridl-popup" v-if="showingRidlWarning">
-            <figure class="bg" @click="showingRidlWarning = false"></figure>
-            <section class="box">
-                <h2>Danger!</h2>
-                <p style="font-size: 11px; line-height: 13px;">
-                    Users of RIDL have rated contracts and/or actions within this transaction negatively.
-                    <b>This does not mean indefinitely that it is a scam, just that it is dangerous in some way.</b>
-                </p>
+        <!--<section class="ridl-popup" v-if="showingRidlWarning">-->
+            <!--<figure class="bg" @click="showingRidlWarning = false"></figure>-->
+            <!--<section class="box">-->
+                <!--<h2>Danger!</h2>-->
+                <!--<p style="font-size: 11px; line-height: 13px;">-->
+                    <!--Users of RIDL have rated contracts and/or actions within this transaction negatively.-->
+                    <!--<b>This does not mean indefinitely that it is a scam, just that it is dangerous in some way.</b>-->
+                <!--</p>-->
 
-                <br>
-                <span style="font-size: 9px;">Related Entities</span>
-                <i class="link" v-for="reputable in reputation.reputables.filter(x => x.decimal < 0)" @click="openInBrowser(ridlLink(reputable))">View <b>{{reputable.entity}}</b> on RIDL.</i>
-            </section>
-        </section>
+                <!--<br>-->
+                <!--<span style="font-size: 9px;">Related Entities</span>-->
+                <!--<i class="link" v-for="reputable in reputation.reputables.filter(x => x.decimal < 0)" @click="openInBrowser(ridlLink(reputable))">View <b>{{reputable.entity}}</b> on RIDL.</i>-->
+            <!--</section>-->
+        <!--</section>-->
 
     </section>
 </template>
@@ -292,7 +292,7 @@
             },
             isDangerous(){
 				if(this.messages.find(x => x.code === 'eosio' && x.type === 'updateauth')){
-					return `This action is dangerous. Accepting it will change your keys and possibly give your account to someone else. <br><br><b>Check to make sure the keys are correct.</b>`;
+					return this.$t('popouts.signature.dangerousTooltip');
                 }
 				return false;
             }

@@ -1,6 +1,6 @@
 <template>
 	<section class="pop-over">
-		<PopInHead title="Select Token" v-on:close="returnResult" />
+		<PopInHead :title="$t('popins.overlay.selectToken')" v-on:close="returnResult" />
 		<section class="select-token">
 			<section class="scroller">
 				<section class="scroller-category" v-for="category in categories">
@@ -40,7 +40,7 @@
 					{
 						selected:this.blockchainFilter,
 						options:[null].concat(BlockchainsArray.map(x => x.value)),
-						parser:x => x === null ? 'All Blockchains' : blockchainName(x),
+						parser:x => x === null ? this.$t('popins.overlay.allBlockchains') : blockchainName(x),
 						onSelect:x => this.blockchainFilter = x,
 					}
 				]

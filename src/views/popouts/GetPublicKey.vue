@@ -1,14 +1,14 @@
 <template>
     <section class="popout-window">
-        <PopOutApp :app="popup.data.props.appData" suffix="wants you to provide a public key" />
+        <PopOutApp :app="popup.data.props.appData" :suffix="$t('popouts.getPublicKey.suffix')" />
 
         <section class="get-public-key">
 
-            <Button blue="1" big="1" text="Select a Key" @click.native="selectKeypair" />
+            <Button blue="1" big="1" :text="$t('popouts.getPublicKey.select')" @click.native="selectKeypair" />
             <figure class="or">
                 <figure class="text">or</figure>
             </figure>
-            <Button blue="1" big="1" text="Generate a Key" @click.native="generateNewKey" />
+            <Button blue="1" big="1" :text="$t('popouts.getPublicKey.generate')" @click.native="generateNewKey" />
         </section>
 
     </section>

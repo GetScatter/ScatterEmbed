@@ -5,16 +5,16 @@
 				<section class="head">
 					<figure class="icon font icon-flow-tree"></figure>
 					<figure class="subtitle">{{account.sendable()}}</figure>
-					<figure class="title">Changing Account Keys</figure>
+					<figure class="title">{{$t('popins.fullscreen.changePermissions.title')}}</figure>
 
 					<section class="disclaimer">
-						<figure class="title">This can be dangerous!</figure>
-						<figure class="description">You are about to change the keys that control this account. Make sure you know what you are doing.</figure>
+						<figure class="title">{{$t('popins.fullscreen.changePermissions.disclaimer')}}</figure>
+						<figure class="description">{{$t('popins.fullscreen.changePermissions.disclaimerDescription')}}</figure>
 					</section>
 
 					<section class="authorities">
 						<section class="authority" v-if="hasPermission('owner')">
-							<label>Owner / Master Key</label>
+							<label>{{$t('popins.fullscreen.changePermissions.owner')}}</label>
 							<Select v-if="otherKeys.length" bordered="1"
 							        :options="otherKeys"
 							        :selected="ownerKey ? ownerKey.name : ''"
@@ -25,7 +25,7 @@
 						</section>
 
 						<section class="authority" v-if="hasPermission('active')">
-							<label>Active / Daily Key</label>
+							<label>{{$t('popins.fullscreen.changePermissions.active')}}</label>
 							<Select v-if="otherKeys.length" bordered="1"
 							        :options="otherKeys"
 							        :selected="activeKey ? activeKey.name : ''"
@@ -39,7 +39,7 @@
 				</section>
 			</section>
 
-			<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:'Confirm', red:true, click:() => changePermissions()}]" />
+			<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.confirm'), red:true, click:() => changePermissions()}]" />
 		</section>
 	</section>
 </template>
@@ -70,7 +70,7 @@
 				return this.accounts.find(x => x.unique() === this.popin.data.props.account.unique());
 			},
 			otherKeys(){
-				return [{name:`Don't Change`}].concat(this.keypairs
+				return [{name:this.$t('popins.fullscreen.changePermissions.dontChange')}].concat(this.keypairs
 					.filter(x => x.publicKeys.some(key => key.blockchain === Blockchains.EOSIO)))
 			},
 		},

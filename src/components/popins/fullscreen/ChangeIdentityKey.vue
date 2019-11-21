@@ -3,7 +3,7 @@
 		<section v-if="identity">
 			<section class="head">
 				<figure class="icon font icon-key"></figure>
-				<figure class="title">Identity Authentication Key</figure>
+				<figure class="title">{{$t('popins.fullscreen.changeIdentityKey')}}</figure>
 			</section>
 
 			<section class="key-details">
@@ -11,7 +11,7 @@
 				<Input :text="privateKey" />
 			</section>
 
-			<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="buttonsRight" />
+			<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="buttonsRight" />
 		</section>
 	</section>
 </template>
@@ -44,8 +44,8 @@
 			]),
 			buttonsRight(){
 				return [
-					{text:'Generate Random Key', click:() => this.randomKey()},
-					{text:'Save New Key', blue:true, click:() => this.saveIdentityPrivateKey()},
+					{text:this.$t('popins.fullscreen.generateRandomKey'), click:() => this.randomKey()},
+					{text:this.$t('popins.fullscreen.saveIdentityKey'), blue:true, click:() => this.saveIdentityPrivateKey()},
 				]
 			},
 		},
