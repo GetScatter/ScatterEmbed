@@ -7,8 +7,8 @@
 		<Input v-if="inputField" v-bind="inputField" centered="1" :text="text" v-on:changed="x => text = x" />
 
 		<section class="actions" :class="{'between':acceptDeny}">
-			<Button red="1" v-if="acceptDeny" text="Deny" @click.native="returnResult(false)" />
-			<Button blue="1" text="Okay" @click.native="returnResult(inputField ? text : true)" />
+			<Button red="1" v-if="acceptDeny" :text="$t('generic.deny')" @click.native="returnResult(false)" />
+			<Button blue="1" :text="$t('generic.okay')" @click.native="returnResult(inputField ? text : true)" />
 		</section>
 
 	</section>

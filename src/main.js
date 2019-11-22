@@ -59,7 +59,6 @@ const loadStyles = async HOST => {
 	}
 
 	const fontawesome = await Promise.race([
-		// TODO: Cache on embed servers
 		fetch(HOST+"static/fonts/fontawesome.css").then(x => x.text()).catch(() => null),
 		new Promise(r => setTimeout(() => r(null), 2000))
 	]);

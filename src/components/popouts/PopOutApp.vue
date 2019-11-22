@@ -6,7 +6,7 @@
 		<figure class="logo" v-if="!untrusted" :class="{'border':app.applink !== 'Scatter' && !app.img}">
 			<Scatter v-if="app.applink === 'Scatter'" />
 			<img v-else-if="app.img" :src="app.img" />
-			<span v-else>No Image</span>
+			<span v-else>{{$t('popouts.popoutApp.noImage')}}</span>
 		</figure>
 		<figure class="logo scam" v-else>
 			<i class="icon-attention"></i>
@@ -14,9 +14,9 @@
 		<section v-if="ridlEnabled && app.applink !== 'Scatter'">
 			<figure class="reputation" v-if="appReputation === false"><i class="icon-spin4 animate-spin"></i> loading reputation</figure>
 			<section v-else>
-				<figure class="reputation" v-if="unknownReputation">Unknown Reputation</figure>
-				<figure class="reputation trusted" v-if="trusted">Trustworthy</figure>
-				<figure class="reputation untrusted" v-if="untrusted">Known Scam</figure>
+				<figure class="reputation" v-if="unknownReputation">{{$t('popouts.popoutApp.reputation.unknown')}}</figure>
+				<figure class="reputation trusted" v-if="trusted">{{$t('popouts.popoutApp.reputation.trusty')}}</figure>
+				<figure class="reputation untrusted" v-if="untrusted">{{$t('popouts.popoutApp.reputation.scam')}}</figure>
 			</section>
 		</section>
 

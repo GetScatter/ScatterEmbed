@@ -2,15 +2,15 @@
     <section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.FIREWALL.ENABLED.Label)}}</label>
-            <p>{{locale(langKeys.SETTINGS.FIREWALL.ENABLED.Description)}}</p>
+            <label>{{$t('settings.firewall.ridl.title')}}</label>
+            <p>{{$t('settings.firewall.ridl.description')}}</p>
 
             <Switcher :state="scatter.settings.firewall" @click.native="toggleFirewall" />
         </section>
 
         <section class="action-box top-pad">
-            <label>Restriction Contract Actions</label>
-            <p>These actions will not be allowed from external applications.</p>
+            <label>{{$t('settings.firewall.blocker.title')}}</label>
+            <p>{{$t('settings.firewall.blocker.description')}}</p>
             <br>
             <br>
 
@@ -29,7 +29,7 @@
             <br>
             <br>
             <hr>
-            <label>Blacklisted Actions</label>
+            <label>{{$t('settings.firewall.blocker.blacklisted')}}</label>
             <br>
             <section class="blacklisted-actions">
                 <section class="blacklist" v-for="(actions, contract) in blacklistActions">
@@ -38,7 +38,7 @@
                     <figure class="actions">
                         <figure class="action" v-for="action in actions">
                             <figure class="action-name">{{action}}</figure>
-                            <Button @click.native="removeBlacklist(contract, action)" class="remove" text="remove" small="1" />
+                            <Button @click.native="removeBlacklist(contract, action)" class="remove" :text="$t('generic.remove')" small="1" />
                         </figure>
                     </figure>
                 </section>

@@ -2,43 +2,37 @@
     <section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.VersionLabel)}}</label>
+            <label>{{$t('settings.general.version')}}</label>
             <b>Scatter Desktop v{{version}}</b>
         </section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.LANGUAGE.Label)}}</label>
+            <label>{{$t('settings.general.language')}}</label>
 
-            <p>
-                Sorry, this is temporarily unavailable as we reformat all of the translations.
-            </p>
-
-            <Select bordered="1" :options="names" :disabled="true"
-                    :selected="selectedLanguage"
-                    :parser="x => x"
-                    v-on:selected="selectLanguage" />
+            <Select bordered="1" :options="locales"
+                    :selected="locales.find(x => x.locale === $i18n.locale)"
+                    :parser="x => x.name"
+                    v-on:selected="x => selectLanguage(x.locale)" />
         </section>
 
-        <section class="action-box top-pad">
-            <label>Simple Mode</label>
+        <!--<section class="action-box top-pad">-->
+            <!--<label>{{$t('settings.general.simpleMode')}}</label>-->
 
-            <p>
-                Simple Mode is aimed at everyday users, while Advanced Mode (the one you are currently on) is aimed at very technical users, and developers.
-            </p>
+            <!--<p>{{$t('settings.general.simpleModeDescription')}}</p>-->
 
-            <Switcher :state="false" v-on:switched="enableSimpleMode" />
-        </section>
+            <!--<Switcher :state="false" v-on:switched="enableSimpleMode" />-->
+        <!--</section>-->
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.WhitelistNotificationsLabel)}}</label>
-            <p>{{locale(langKeys.SETTINGS.GENERAL.WhitelistNotificationsDescription)}}</p>
+            <label>{{$t('settings.general.notifications')}}</label>
+            <p>{{$t('settings.general.notificationsDescription')}}</p>
 
             <Switcher :state="showNotifications" @click.native="toggleNotifications" />
         </section>
 
         <section class="action-box top-pad">
-            <label>Local socket ports</label>
-            <p>There are the ports open on your local machine that other local applications can use to contact Scatter.</p>
+            <label>{{$t('settings.general.ports')}}</label>
+            <p>{{$t('settings.general.portsDescription')}}</p>
 
             <br>
             <section v-if="ports && Object.keys(ports).length">
@@ -47,12 +41,12 @@
                     <figure class="ssl" v-if="ssl">SSL</figure>
                 </section>
             </section>
-            <section v-else>There are no open ports!</section>
+            <section v-else>{{$t('settings.general.noPorts')}}</section>
         </section>
 
         <section class="action-box top-pad" v-if="dataPath">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.DataPathLabel)}}</label>
-            <p>{{locale(langKeys.SETTINGS.GENERAL.DataPathDescription)}}</p>
+            <label>{{$t('settings.general.dataPath')}}</label>
+            <p>{{$t('settings.general.dataPathDescription')}}</p>
 
             <br>
             <br>
@@ -62,10 +56,10 @@
         </section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.GENERAL.DeveloperConsoleLabel)}}</label>
-            <p>{{locale(langKeys.SETTINGS.GENERAL.DeveloperConsoleDescription)}}</p>
+            <label>{{$t('settings.general.devConsole')}}</label>
+            <p>{{$t('settings.general.devConsoleDescription')}}</p>
             <Button @click.native="openConsole"
-                 :text="locale(langKeys.SETTINGS.GENERAL.DeveloperConsoleButton)"/>
+                 :text="$t('settings.general.devConsoleButton')"/>
         </section>
 
     </section>
@@ -76,15 +70,12 @@
     import * as Actions from '@walletpack/core/store/constants';
     import * as UIActions from "../../../store/ui_actions";
 
-    import UpdateService from '../../../services/utility/UpdateService';
-    import WindowService from '../../../services/wallets/WindowService';
-    import LanguageService from "../../../services/utility/LanguageService";
     import Injectable from "../../../services/wallets/Injectable";
+    import {Popup} from "../../../models/popups/Popup";
+    import PopupService from "../../../services/utility/PopupService";
 
     export default {
         data () {return {
-            needsUpdate:null,
-	        names:['English'],
 	        dataPath:null,
         }},
         computed:{
@@ -100,47 +91,43 @@
             showNotifications(){
                 return this.scatter.settings.showNotifications;
             },
-	        selectedLanguage(){
-		        return this.scatter.settings.language
-	        }
+            locales(){
+            	return [
+                    {locale:'en', name:'English'},
+                    {locale:'zh', name:'Mandarin (普通話)'},
+                    {locale:'es', name:'Spanish (Español)'},
+                    {locale:'ko', name:'Korean (한국어)'},
+                    {locale:'ru', name:'Russian (русский)'},
+                ]
+            }
         },
         async mounted(){
-            UpdateService.needsUpdateNoPrompt(false).then(needsUpdate => {
-                this.needsUpdate = !!needsUpdate;
-            })
-	        LanguageService.getLanguageNames().then(names => {
-		        if(names) this.names = names;
-	        })
 	        this.dataPath = await Injectable.appPath();
         },
         methods: {
 	        async enableSimpleMode(){
-	        	// TODO: Need to prompt users to select which keys to use.
-                // As they need to be the first in the keys list
-		        await window.wallet.storage.setSimpleMode(true);
-		        await window.wallet.lock();
-		        window.wallet.utility.reload(null, true)
+	        	PopupService.push(Popup.enableSimpleMode(async enabled => {
+	        		if(!enabled) return;
+
+			        await window.wallet.storage.setSimpleMode(true);
+			        await window.wallet.lock();
+			        window.wallet.utility.reload(null, true)
+                }))
             },
         	openFilePathLink(){
         	    this.openInBrowser(this.dataPath, true);
             },
-	        openUpdateLink(){
-		        this.openInBrowser(UpdateService.updateUrl());
-	        },
 	        openConsole(){ window.wallet.utility.openTools(window.wallet.windowId); },
             async toggleNotifications(){
                 const scatter = this.scatter.clone();
                 scatter.settings.showNotifications = !scatter.settings.showNotifications;
                 this[Actions.SET_SCATTER](scatter);
             },
-	        selectLanguage(language){
-		        const scatter = this.scatter.clone();
-		        scatter.settings.language = language;
-		        LanguageService.getLanguage(language).then(res => {
-			        res.raw = JSON.stringify(res);
-			        this[UIActions.SET_LANGUAGE](res);
-			        this[Actions.SET_SCATTER](scatter);
-		        })
+	        selectLanguage(locale){
+                const langFile = require(`../../../localization/languages/${locale}`).default;
+		        this.$i18n.setLocaleMessage(locale, langFile);
+		        this.$i18n.locale = locale;
+		        window.wallet.storage.setLanguage(locale);
 	        },
             ...mapActions([
                 Actions.SET_SCATTER,

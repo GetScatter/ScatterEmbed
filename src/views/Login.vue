@@ -27,12 +27,12 @@
 					<LoginButton
 							@click.native="state = STATES.CREATE_NEW"
 							primary="1"
-							title="I'm a beginner"
-							description="If you are new to blockchain, this is the easiest." />
-					<LoginButton
-							@click.native="state = STATES.IMPORT_KEYS"
-							title="I'm an advanced user"
-							description="Import your blockchain keys manually" />
+							:title="$t('login.registerButtonTitle')"
+							:description="$t('login.registerButtonSubtitle')" />
+					<!--<LoginButton-->
+							<!--@click.native="state = STATES.IMPORT_KEYS"-->
+							<!--title="I'm an advanced user"-->
+							<!--description="Import your blockchain keys manually" />-->
 				</section>
 
 				<!-------------------------->
@@ -40,7 +40,7 @@
 				<!-------------------------->
 				<section v-if="!isNewScatter">
 					<Input class="welcome-password" :focus="focusing" big="1" for-login="1"
-					       placeholder="Enter your password"
+					       :placeholder="$t('login.passwordPlaceholder')"
 					       type="password" :disabled="opening"
 					       :loader-on-dynamic="opening"
 					       :text="password" v-on:enter="unlock" v-on:dynamic="unlock" v-on:changed="x => password = x"
@@ -58,15 +58,15 @@
 				<section class="actions">
 					<section class="action" @click="destroy" v-if="!isNewScatter">
 						<Reset class="logo" />
-						<figure class="text">Reset</figure>
+						<figure class="text">{{$t('login.reset')}}</figure>
 					</section>
 					<section class="action" @click="importBackup" v-if="isNewScatter">
 						<Restore class="logo" />
-						<figure class="text">Restore</figure>
+						<figure class="text">{{$t('login.restore')}}</figure>
 					</section>
 					<section class="action" @click="goToSupport">
 						<Support class="logo" />
-						<figure class="text">Support</figure>
+						<figure class="text">{{$t('login.support')}}</figure>
 					</section>
 				</section>
 			</section>
@@ -83,7 +83,6 @@
 			<section class="panel">
 				<Terms v-if="step === 1" v-on:back="stepBack" v-on:next="stepForward" />
 				<SetPassword v-if="step === 2" v-on:back="stepBack" v-on:next="stepForward" />
-				<!--<SelectBackupLocation v-if="step === 3" v-on:back="stepBack" v-on:next="stepForward" />-->
 				<Welcome v-if="step === 3" />
 			</section>
 
@@ -117,7 +116,6 @@
 	import LoginButton from '../components/login/LoginButton'
 	import Terms from '../components/login/Terms'
 	import SetPassword from '../components/login/SetPassword'
-	import SelectBackupLocation from "../components/login/SelectBackupLocation";
 	import Welcome from "../components/login/Welcome";
 	import PopupService from "../services/utility/PopupService";
 	import {Popup} from "../models/popups/Popup";
@@ -141,7 +139,6 @@
 	export default {
 		components:{
 			Welcome,
-			SelectBackupLocation,
 			ActionBar,
 			ProgressBubbles,
 			LoginButton,
@@ -168,6 +165,7 @@
 		}},
 		async created(){
 			this.isNewScatter = !(await window.wallet.exists());
+			// this.isNewScatter = true;
 		},
 		computed:{
 			...mapState([
@@ -260,7 +258,7 @@
 						this.focusing = true;
 						this.$forceUpdate();
 					});
-					PopupService.push(Popup.snackbar('Bad Password'))
+					PopupService.push(Popup.snackbar(this.$t('errors.badPassword')))
 				}
 
 				this.opening = false;

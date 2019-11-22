@@ -28,19 +28,19 @@
 						</section>
 
 						<section class="actions" v-if="!asSelector && !selectedToken.unusable">
-							<Button text="Send" big="1" @click.native="sendToken(selectedToken, account)" />
+							<Button :text="$t('generic.send')" big="1" @click.native="sendToken(selectedToken, account)" />
 						</section>
 
 						<section class="actions" v-if="asSelector">
-							<Button text="Select" big="1" @click.native="$emit('selected', {token:selectedToken, account})" />
+							<Button :text="$t('generic.select')" big="1" @click.native="$emit('selected', {token:selectedToken, account})" />
 						</section>
 					</section>
 				</section>
 			</section>
 
 			<section v-else class="no-accounts">
-				<span v-if="!selectedToken">Select a token</span>
-				<span v-if="selectedToken">No accounts</span>
+				<span v-if="!selectedToken">{{$t('generic.selectToken')}}</span>
+				<span v-if="selectedToken">{{$t('assets.noAccounts')}}</span>
 			</section>
 		</section>
 	</section>
@@ -70,7 +70,6 @@
 				'displayCurrency'
 			]),
 			allBalances(){
-				console.log('this.totalBalances.totals', this.totalBalances.totals);
 				return Object.keys(this.totalBalances.totals).map(key => this.totalBalances.totals[key])
 					.filter(x => this.hideUnusable ? !x.unusable : true)
 					.filter(token => !this.balanceFilters.hasOwnProperty(token.blockchain) || (this.balanceFilters[token.blockchain] && parseFloat(this.balanceFilters[token.blockchain]) < parseFloat(token.amount)))

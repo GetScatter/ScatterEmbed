@@ -3,12 +3,12 @@
 		<section v-if="contact">
 			<section class="head">
 				<figure class="icon font icon-user-add"></figure>
-				<figure class="title">Add New Contact</figure>
+				<figure class="title">{{$t('popins.fullscreen.addNewContact')}}</figure>
 			</section>
 			<EditContact :original="contact" v-on:updated="x => contact = x" brand-new="1" />
 
 
-			<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:'Save new contact', blue:true, click:() => saveContact()}]" />
+			<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.add'), blue:true, click:() => saveContact()}]" />
 		</section>
 	</section>
 </template>

@@ -4,10 +4,10 @@
 
 			<!-- SELECT EXPORT TYPE -->
 			<section class="export-your-key" v-if="state === STATES.SELECT">
-				<h1>Exporting Private Key</h1>
+				<h1>{{$t('popins.fullscreen.exportKey.title')}}</h1>
 				<section class="disclaimer">
-					<figure class="title">Keep your private keys safe!</figure>
-					<figure class="description">Always export your private keys and make sure you have a backup of them. You will not be able to recover your tokens if you lose it.</figure>
+					<figure class="title">{{$t('popins.fullscreen.exportKey.disclaimer')}}</figure>
+					<figure class="description">{{$t('popins.fullscreen.exportKey.description')}}</figure>
 				</section>
 
 				<section class="types">
@@ -15,15 +15,15 @@
 					<!-- EXPORT KEY -->
 					<section class="type" @click="state = STATES.KEY">
 						<figure class="badge icon-key"></figure>
-						<figure class="name">{{locale(langKeys.KEYPAIR.EXPORT.SELECT.KeyTitle)}}</figure>
-						<p>{{locale(langKeys.KEYPAIR.EXPORT.SELECT.KeyDescription)}}</p>
+						<figure class="name">{{$t('popins.fullscreen.exportKey.keyTitle')}}</figure>
+						<p>{{$t('popins.fullscreen.exportKey.keyDescription')}}</p>
 					</section>
 
 					<!-- EXPORT QR -->
 					<section class="type" @click="createQR">
 						<figure class="badge icon-qrcode"></figure>
-						<figure class="name">{{locale(langKeys.KEYPAIR.EXPORT.SELECT.QrTitle)}}</figure>
-						<p>{{locale(langKeys.KEYPAIR.EXPORT.SELECT.QrDescription)}}</p>
+						<figure class="name">{{$t('popins.fullscreen.exportKey.qrTitle')}}</figure>
+						<p>{{$t('popins.fullscreen.exportKey.qrDescription')}}</p>
 					</section>
 
 				</section>
@@ -31,23 +31,23 @@
 
 			<!-- EXPORT AS TEXT KEY -->
 			<section class="export-text" v-if="state === STATES.KEY">
-				<h1>{{locale(langKeys.KEYPAIR.EXPORT.KEY.Title)}}</h1>
+				<h1>{{$t('popins.fullscreen.exportKey.privateKeyAsText')}}</h1>
 				<section class="split-inputs">
 					<Input style="flex:1;" :text="privateKey" />
-					<Button text="Copy" @click.native="copyPrivateKey" />
+					<Button :text="$t('generic.copy')" @click.native="copyPrivateKey" />
 				</section>
 			</section>
 
 			<!-- EXPORT AS QR -->
 			<section v-if="state === STATES.QR">
 				<section v-if="!screenshotting">
-					<h1>{{locale(langKeys.KEYPAIR.EXPORT.QR.Title)}}</h1>
+					<h1>{{$t('popins.fullscreen.exportKey.privateKeyAsQR')}}</h1>
 					<section class="disclaimer" style="margin:0 auto 10px; max-width:500px;">
 						<figure class="description">This QR code is encrypted with your password.</figure>
 					</section>
 					<section class="split-inputs">
 
-						<Button style="flex:1;" text="Save QR as Image" @click.native="screenshot" />
+						<Button style="flex:1;" :text="$t('generic.save')" @click.native="screenshot" />
 					</section>
 				</section>
 				<section v-else>
@@ -108,9 +108,9 @@
 
 			buttonsLeft(){
 				if(this.state === STATES.SELECT){
-					return [{text:'Back', click:() => this.returnResult(null)}];
+					return [{text:this.$t('generic.back'), click:() => this.returnResult(null)}];
 				} else {
-					return [{text:'Back', click:() => this.state = STATES.SELECT}];
+					return [{text:this.$t('generic.back'), click:() => this.state = STATES.SELECT}];
 				}
 			},
 			publicKeyItems(){
@@ -167,7 +167,7 @@
 
 					window.wallet.utility.screenshot(window.wallet.windowId).then(img => {
 						window.wallet.storage.saveFile(location, filename, img).then(saved => {
-							PopupService.push(Popup.snackbar(this.locale(this.langKeys.SNACKBARS.SavedImage), 'check'));
+							PopupService.push(Popup.snackbar($t('popins.fullscreen.exportKey.savedImage'), 'check'));
 							this.openInBrowser(location);
 							setTimeout(() => {
 								this.screenshotting = false;

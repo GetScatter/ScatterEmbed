@@ -45,6 +45,7 @@
                             <ConfirmExchange :popin="popIn" v-if="popIn.data.type === popupTypes.CONFIRM_EXCHANGE" />
                             <EosLinkAccount :popin="popIn" v-if="popIn.data.type === popupTypes.EOS_LINK_ACCOUNT" />
                             <SelectDisplayToken :popin="popIn" v-if="popIn.data.type === popupTypes.DISPLAY_TOKEN" />
+                            <EnableSimpleMode :popin="popIn" v-if="popIn.data.type === popupTypes.ENABLE_SIMPLE_MODE" />
                         </section>
                     </figure>
                 </section>
@@ -92,6 +93,7 @@
     import CheckHardware from "./popins/fullscreen/CheckHardware";
     import DestroyScatter from "./popins/fullscreen/DestroyScatter";
     import ImportBackup from "./popins/fullscreen/ImportBackup";
+    import EnableSimpleMode from "./popins/overlay/EnableSimpleMode";
     import ConfirmExchange from "./popins/overlay/ConfirmExchange";
     import ConfirmTransfer from "./popins/overlay/ConfirmTransfer";
     // import DisplayToken from "./popins/fullscreen/DisplayToken";
@@ -147,6 +149,7 @@
 		    ConfirmExchange,
 		    ConfirmTransfer,
 		    // DisplayToken,
+		    EnableSimpleMode,
         },
         data(){ return {
             popupTypes:PopupTypes,

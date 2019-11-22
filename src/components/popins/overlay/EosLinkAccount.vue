@@ -1,18 +1,18 @@
 <template>
 	<section class="prompt pop-over">
 
-		<figure class="title">Link EOSIO Account</figure>
-		<figure class="description">This allows you to link accounts on networks that you either can't reach or don't have history plugins enabled.</figure>
+		<figure class="title">{{$t('popins.overlay.linkAccount.title')}}</figure>
+		<figure class="description">{{$t('popins.overlay.linkAccount.description')}}</figure>
 
 		<Input placeholder="name@authority" centered="1" :text="nameauth" v-on:changed="x => nameauth = x" />
 
 		<br>
-		<label>Select a Network</label>
+		<label>{{$t('popins.overlay.linkAccount.selectNetwork')}}</label>
 		<Select :options="validNetworks" :parser="x => x.name" bordered="1" v-on:selected="x => network = x" :selected="network" />
 
 		<section class="actions">
-			<Button text="Cancel" @click.native="returnResult(false)" />
-			<Button blue="1" text="Link Account" @click.native="addAccount" />
+			<Button :text="$t('generic.cancel')" @click.native="returnResult(false)" />
+			<Button blue="1" :text="$t('popins.overlay.linkAccount.button')" @click.native="addAccount" />
 		</section>
 
 	</section>
@@ -51,7 +51,7 @@
 		},
 		mounted(){
 			if(!this.validNetworks.length){
-				PopupService.push(Popup.snackbar("No EOSIO networks available."));
+				PopupService.push(Popup.snackbar(this.$t('popins.overlay.linkAccount.noNetworksAvailable')));
 				return this.returnResult(false);
 			}
 

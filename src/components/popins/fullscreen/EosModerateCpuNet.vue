@@ -9,10 +9,10 @@
 
 			<section class="panel-switch">
 				<figure class="button" :class="{'active':state === STATES.STAKE}" @click="switchState(STATES.STAKE)">
-					{{locale(langKeys.POPINS.FULLSCREEN.EOS.MOD_CPUNET.Stake)}}
+					{{$t('popins.fullscreen.moderateCpu.stake')}}
 				</figure>
 				<figure class="button" :class="{'active':state === STATES.UNSTAKE}" @click="switchState(STATES.UNSTAKE)">
-					{{locale(langKeys.POPINS.FULLSCREEN.EOS.MOD_CPUNET.Unstake)}}
+					{{$t('popins.fullscreen.moderateCpu.unstake')}}
 				</figure>
 			</section>
 
@@ -33,12 +33,12 @@
 
 					<section class="available-input">
 						<Input v-if="state === STATES.STAKE"
-						     :label="locale(langKeys.POPINS.FULLSCREEN.EOS.Available, systemToken.symbol)" :disabled="true"
+						     :label="$t('popins.fullscreen.moderateCpu.available', {token:systemToken.symbol})" :disabled="true"
 						     :text="parseFloat(balance - cpu - net).toFixed(systemToken.decimals)"
 						     v-on:changed="" />
 
 						<Input v-if="state === STATES.UNSTAKE"
-						     :label="locale(langKeys.POPINS.FULLSCREEN.EOS.Reclaiming, systemToken.symbol)" :disabled="true"
+						     :label="$t('popins.fullscreen.moderateCpu.reclaiming', {token:systemToken.symbol})" :disabled="true"
 						     :text="parseFloat(cpu + net).toFixed(systemToken.decimals)"
 						     v-on:changed="" />
 					</section>
@@ -73,7 +73,7 @@
 
 		</section>
 
-		<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:locale(langKeys.GENERIC.Confirm), red:true, click:() => stakeOrUnstake()}]" />
+		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.confirm'), red:true, click:() => stakeOrUnstake()}]" />
 	</section>
 </template>
 
@@ -210,8 +210,8 @@
 	.resource-moderator {
 
 		.available-input {
-			width:200px; 
-			align-self: 
+			width:200px;
+			align-self:
 			flex-end;
 
 			@media (max-width: $breakpoint-mobile) {

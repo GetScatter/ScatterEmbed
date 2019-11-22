@@ -1,7 +1,7 @@
 <template>
 	<section class="prompt pop-over">
 
-		<PopInHead :title="locale(langKeys.POPINS.OVERLAY.ConfirmPin)" v-on:close="returnResult" />
+		<PopInHead :title="$t('popins.overlay.confirmPin')" v-on:close="returnResult" />
 
 		<section class="panel" style="padding:20px;">
 			<section class="split-inputs">
@@ -13,7 +13,7 @@
 
 				<Button style="margin-bottom:0; flex:1.5;" :class="{'wiggle':error}"
 				     :red="error"
-				     :text="locale(langKeys.GENERIC.Confirm)"
+				     :text="$t('generic.confirm')"
 				     @click.native="validatePIN" />
 			</section>
 		</section>

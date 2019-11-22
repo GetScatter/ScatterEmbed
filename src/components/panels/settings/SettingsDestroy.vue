@@ -2,17 +2,17 @@
     <section>
 
         <section class="action-box top-pad">
-            <label>{{locale(langKeys.SETTINGS.DESTROY.Label)}}</label>
+            <label>{{$t('settings.destroy.title')}}</label>
 
-            <p>{{locale(langKeys.SETTINGS.DESTROY.Description)}}</p>
+            <p>{{$t('settings.destroy.description')}}</p>
 
             <br><br>
             <section class="disclaimer red" style="margin-bottom:0;">
-				<b>{{locale(langKeys.SETTINGS.DESTROY.Important)}}</b>
+				<b>{{$t('settings.destroy.important')}}</b>
 			</section>
             <br>
             <br>
-            <Button :text="locale(langKeys.SETTINGS.DESTROY.Button)" red="true" @click.native="destroy" />
+            <Button :text="$t('settings.destroy.button')" red="true" @click.native="destroy" />
         </section>
 
     </section>

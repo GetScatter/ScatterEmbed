@@ -3,18 +3,31 @@
 		<Lock />
 		<br>
 		<br>
-		<h2>Set a strong password</h2>
-		<p><b>Use a strong password</b>, and then memorize it or keep it safe.</p>
+		<h2>{{$t('setPassword.title')}}</h2>
+		<p>{{$t('setPassword.description')}}</p>
 
 		<br>
 
-		<input class="center" type="password" v-model="password" placeholder="choose a password" />
-		<section class="password-strength">
-			<figure class="bar" :style="{'width':passwordStrength + '%'}" :class="{'red':passwordStrength < 50, 'green':passwordStrength < 100 && passwordStrength >= 50}"></figure>
-		</section>
-		<input class="center" type="password" v-model="confirmation" placeholder="one more time" />
+		<input class="center"
+		       type="password"
+		       v-model="password"
+		       :placeholder="$t('setPassword.choosePass')"
+		/>
 
-		<ActionBar :buttons-left="[{text:'Back', click:() => $emit('back')}]" :buttons-right="[{text:'Next', blue:true, click:checkPassword}]" />
+		<section class="password-strength">
+			<figure class="bar"
+			        :style="{'width':passwordStrength + '%'}"
+			        :class="{'red':passwordStrength < 50, 'green':passwordStrength < 100 && passwordStrength >= 50}">
+			</figure>
+		</section>
+
+		<input class="center"
+		       type="password"
+		       v-model="confirmation"
+		       :placeholder="$t('setPassword.confirmPass')"
+		/>
+
+		<ActionBar :buttons-left="[{text:$t('generic.back'), click:() => $emit('back')}]" :buttons-right="[{text:$t('generic.next'), blue:true, click:checkPassword}]" />
 	</section>
 </template>
 
@@ -51,14 +64,13 @@
 		methods:{
 			async checkPassword(){
 
-				// TODO: Revert!
-				// const err = PasswordService.hasError(this.password);
-				// if(err) return PopupService.push(Popup.snackbar(err));
-				// if(this.password !== this.confirmation) return PopupService.push(Popup.snackbar("Password confirmation does not match password"));
+				const err = PasswordService.hasError(this.password);
+				// TODO: Localize
+				if(err) return PopupService.push(Popup.snackbar(err));
+				if(this.password !== this.confirmation) return PopupService.push(Popup.snackbar(this.$t('errors.passwordConfirmation')));
 
 				await new Promise(r => setTimeout(() => r(true), 1000));
 				this.setWorkingScreen(true);
-				// TODO: Can this fail?
 				await this[UIActions.CREATE_SCATTER](this.password);
 				this.setWorkingScreen(false);
 

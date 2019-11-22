@@ -5,7 +5,7 @@
 		<section class="app-login">
 
 			<section>
-				<PopOutApp :app="appData" :suffix="account ? 'will see:' : ''" />
+				<PopOutApp :app="appData" :suffix="account ? $t('popouts.login.suffix') : ''" />
 
 
 				<!------------------------------------->
@@ -32,7 +32,7 @@
 					<!-------- SELECT AUTHORITY ------------->
 					<!------------------------------------->
 					<section class="dangerous-authority" v-if="!loginAll && account && account.authority === 'owner'">
-						You are signing in with your Owner permission. This is dangerous.
+						{{$t('popouts.login.dangerousPermission')}}
 					</section>
 					<section class="authorities" v-if="!loginAll && account && account.authorities(false).length > 1">
 						<Select bordered="1"
@@ -49,10 +49,10 @@
 					<section class="requirement all-accounts" v-else-if="loginAll && validAccounts.length">
 						<figure class="icon icon-network"></figure>
 						<section class="text">
-							<label>All accounts for:</label>
+							<label>{{$t('popouts.login.allAccountsFor')}}</label>
 							<section class="network-accounts-list">
 								<section class="network-accounts" v-for="(network,i) in requestedNetworks">
-									<span class="name">{{network.name}} ({{network.accounts(true).length}} accounts)</span>
+									<span class="name">{{network.name}} ({{network.accounts(true).length}} {{$tc('generic.accounts', network.accounts(true).length)}})</span>
 									<span v-if="i+1 < requestedNetworks.length">,</span>
 								</section>
 							</section>
@@ -60,8 +60,7 @@
 
 						<figure class="icon bubble icon-help"></figure>
 						<section class="bubble-explainer">
-							<b>{{appData.name}}</b> is requesting to view every account for a specified network.
-							This means that it will be able to request transaction signatures for any account that you have linked to any of the requested networks.
+							{{$t('popouts.login.allAccountsDescription', {app:appData.name})}}
 						</section>
 					</section>
 
@@ -72,9 +71,9 @@
 					<section class="requirement personal" v-if="onlyIdentityLogin">
 						<figure class="icon icon-check"></figure>
 						<figure class="text">
-							<b>This application isn't requesting any information or accounts.</b>
+							<b>{{$t('popouts.login.noInfoNeededTitle')}}</b>
 							<br>
-							The only information this application will receive is basic Identity information like your username.
+							{{$t('popouts.login.noInfoNeededDescription')}}
 						</figure>
 					</section>
 
@@ -85,9 +84,9 @@
 					<section class="requirement no-accounts" v-if="requestedNetworks.length && !validAccounts.length">
 						<figure class="network-name" v-if="savedNetwork">{{savedNetwork.name}}</figure>
 						<figure class="text">
-							<b>You don't have accounts for this network</b>
+							<b>{{$t('popouts.login.noAccountsTitle')}}</b>
 							<br>
-							You need to create an account before being able to use apps.
+							{{$t('popouts.login.noAccountsDescription')}}
 						</figure>
 					</section>
 
@@ -102,22 +101,21 @@
 					<section class="requirement personal" v-if="allRequirementsMet && identityRequirements.length">
 						<figure class="icon icon-user"></figure>
 						<figure class="text">
-							<label>Personal information:</label>
+							<label>{{$t('popouts.login.personalInformation')}}</label>
 							{{identityRequirements}}
 						</figure>
 
 						<figure class="icon bubble icon-help"></figure>
 						<section class="bubble-explainer">
-							<b>{{appData.name}}</b> is requesting personal information.
-							It will only be able to see what is being requested, and nothing else you may have filled out in your Scatter identity.
+							{{$t('popouts.login.requestingPersonalInformation', {app:appData.name})}}
 						</section>
 					</section>
 				</section>
 			</section>
 
 			<section class="actions">
-				<Button big="1" text="Cancel" @click.native="returnResult(null)" />
-				<Button big="1" style="padding:0 20px;" :disabled="!allRequirementsMet" blue="1" text="Allow" @click.native="login" />
+				<Button big="1" :text="$t('generic.cancel')" @click.native="returnResult(null)" />
+				<Button big="1" style="padding:0 20px;" :disabled="!allRequirementsMet" blue="1" :text="$t('generic.allow')" @click.native="login" />
 			</section>
 
 		</section>
@@ -187,7 +185,6 @@
 			validAccounts(){
 				if(!this.accountRequirements.length) return [];
 
-				console.log('this.accountRequirements', this.accountRequirements);
 				const network = this.accountRequirements.map(x => Network.fromJson(x))[0];
 				return network.accounts()
 					.sort((a,b) => b.authority === 'active' ? 1 : 0)

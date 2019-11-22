@@ -13,11 +13,12 @@
     "watch": "webpack -p --mode=production --progress --config build/webpack.config.dev.js --watch",
     "server": "http-server ./dist -p 8081 -d -i -g -P --cors='*' -c-1",
     "prod": "concurrently \"npm run watch\" \"npm run server\"",
-    "dev": "webpack-dev-server --port 8081 --inline --progress --mode=production --config build/webpack.config.dev.js",
+    "dev": "webpack-dev-server --port 8081 --inline --progress --mode=development --config build/webpack.config.dev.js",
     "start": "npm run dev",
     "testfile": "mocha --require test/babel --exit --timeout 1000000",
     "test": "npm run testfile \"test/**/*.spec.js\" --timeout 1000000",
-    "walletpack": "yarn add @walletpack/core @walletpack/eosio @walletpack/bitcoin @walletpack/tron @walletpack/ethereum"
+    "walletpack": "yarn add @walletpack/core @walletpack/eosio @walletpack/bitcoin @walletpack/tron @walletpack/ethereum",
+    "langs":"node src/localization/check.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.4",
@@ -33,6 +34,7 @@
     "murmurhash": "^0.0.2",
     "ridl": "^2.0.47",
     "vconsole": "^3.3.4",
+    "vue-i18n": "^8.15.0",
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {

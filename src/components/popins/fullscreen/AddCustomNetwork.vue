@@ -3,12 +3,12 @@
 		<section>
 			<section class="head">
 				<figure class="icon font icon-globe-1"></figure>
-				<figure class="title">Add Custom Network</figure>
+				<figure class="title">{{$t('popins.fullscreen.addCustomNetwork')}}</figure>
 			</section>
 			<EditNetwork :original="network" v-on:updated="x => network = x" brand-new="1" />
 
 
-			<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:'Save new network', blue:true, click:() => saveNetwork()}]" />
+			<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.add'), blue:true, click:() => saveNetwork()}]" />
 		</section>
 	</section>
 </template>

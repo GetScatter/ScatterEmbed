@@ -9,10 +9,10 @@
 
 			<section class="panel-switch">
 				<figure class="button" :class="{'active':state === STATES.BUY}" @click="switchState(STATES.BUY)">
-					{{locale(langKeys.GENERIC.Buy)}}
+					{{$t('generic.buy')}}
 				</figure>
 				<figure class="button" :class="{'active':state === STATES.SELL}" @click="switchState(STATES.SELL)">
-					{{locale(langKeys.GENERIC.Sell)}}
+					{{$t('generic.sell')}}
 				</figure>
 			</section>
 
@@ -25,7 +25,7 @@
 					     :text="ram.quantity" />
 
 					<section>
-						<label>Type</label>
+						<label>{{$t('popins.fullscreen.moderateRam.type')}}</label>
 						<Select style="width:200px; margin-top:5px; text-align:left;" bordered="1"
 						        :selected="ram.denom"
 						        :options="Object.keys(denom).map(x => denom[x])"
@@ -36,12 +36,12 @@
 
 					<section style="width:200px; align-self: flex-end;">
 						<Input v-if="state === STATES.BUY"
-						     :label="locale(langKeys.POPINS.FULLSCREEN.EOS.Available, systemToken.symbol)"
+						     :label="$t('popins.fullscreen.moderateCpu.available', {token:systemToken.symbol})"
 						     :text="parseFloat(balance - (ram.quantity * price)).toFixed(systemToken.decimals)"
 						     v-on:changed="" />
 
 						<Input v-if="state === STATES.SELL"
-						     :label="locale(langKeys.POPINS.FULLSCREEN.EOS.Reclaiming, systemToken.symbol)"
+						     :label="$t('popins.fullscreen.moderateCpu.reclaiming', {token:systemToken.symbol})"
 						     :text="parseFloat(ram.quantity * price).toFixed(systemToken.decimals)"
 						     v-on:changed="" />
 					</section>
@@ -55,7 +55,7 @@
 
 		</section>
 
-		<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:locale(langKeys.GENERIC.Confirm), red:true, click:() => buyOrSell()}]" />
+		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.confirm'), red:true, click:() => buyOrSell()}]" />
 	</section>
 </template>
 
@@ -139,8 +139,8 @@
 
 			quantityLabel(){
 				switch(this.state){
-					case STATES.BUY: return this.locale(this.langKeys.GENERIC.Buying);
-					case STATES.SELL: return this.locale(this.langKeys.GENERIC.Selling);
+					case STATES.BUY: return this.$t('generic.buy');
+					case STATES.SELL: return this.$t('generic.sell');
 				}
 			}
 		},
@@ -159,7 +159,7 @@
 				}
 
 				bytes = parseFloat(bytes);
-				if(bytes <= 15) return PopupService.push(Popup.snackbar(this.locale(this.langKeys.POPINS.FULLSCREEN.EOS.MOD_RAM.BytesError), 'attention'));
+				if(bytes <= 15) return PopupService.push(Popup.snackbar(this.$t('popins.fullscreen.moderateRam.bytesError'), 'attention'));
 
 				this.setWorkingScreen(true);
 

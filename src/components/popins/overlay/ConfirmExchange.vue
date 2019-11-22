@@ -3,7 +3,7 @@
 
 		<section class="details">
 			<img src="static/assets/icon_exchange_big.png" class="icon" />
-			<label>Exchanging</label>
+			<label>{{$t('popins.overlay.exchanging')}}</label>
 
 			<section class="amounts">
 				<figure class="amount">{{order.deposit}} {{symbols.from}}</figure>
@@ -20,8 +20,8 @@
 			</section>
 		</section>
 		<section class="tail">
-			<Button :text="locale(langKeys.GENERIC.Cancel)" @click.native="returnResult(false)" />
-			<Button :text="locale(langKeys.GENERIC.Confirm)" blue="1" @click.native="returnResult(true)" />
+			<Button :text="$t('generic.cancel')" @click.native="returnResult(false)" />
+			<Button :text="$t('generic.confirm')" blue="1" @click.native="returnResult(true)" />
 		</section>
 	</section>
 </template>

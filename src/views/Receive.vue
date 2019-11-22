@@ -4,7 +4,7 @@
 		<section class="scroller">
 			<section class="greyback" v-if="account">
 				<section class="limit-width">
-					<label>Receiving Account</label>
+					<label>{{$t('receive.receiver')}}</label>
 					<section class="boxes">
 						<section class="box account-selector" @click="selectAccount">
 							<section>
@@ -25,17 +25,16 @@
 						</section>
 						<section class="box nested data-box">
 							<section>
-								<label>Send funds to</label>
+								<label>{{$t('receive.sendTo')}}</label>
 								<figure class="receiver">{{account.sendable()}}</figure>
 							</section>
 
 							<section>
 								<figure class="small-info" v-if="account.blockchain() === Blockchains.EOSIO">
-									Some exchanges will ask you for an addressTag, memo, or some other form of secondary input.
-									You can enter anything in that field since this is a real EOSIO account.
+									{{$t('receive.forEosio')}}
 								</figure>
 
-								<Button blue="1" text="Copy to clipboard" @click.native="copy" />
+								<Button blue="1" :text="$t('generic.copy')" @click.native="copy" />
 							</section>
 						</section>
 					</section>

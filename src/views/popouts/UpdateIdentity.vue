@@ -1,23 +1,23 @@
 <template>
     <section class="popout-window">
-        <PopOutApp :app="popup.data.props.appData" suffix="wants to" />
+        <PopOutApp :app="popup.data.props.appData" :suffix="$t('popouts.updateIdentity.suffix')" />
         <section class="update-identity">
             <section v-if="payload.name">
-                <label>Change your identity name</label>
+                <label>{{$t('popouts.updateIdentity.changeName')}}</label>
                 <figure class="value">{{payload.name}}</figure>
             </section>
 
             <section v-if="payload.kyc">
                 <br>
                 <br>
-                <label>Add KYC proofs</label>
+                <label>{{$t('popouts.updateIdentity.addKycProofs')}}</label>
                 <figure class="value">{{payload.kyc.split('::')[0]}}</figure>
                 <figure style="font-size: 9px; line-height:6px;" v-for="b in kycBlock" class="value">{{b}}</figure>
             </section>
 
             <section class="fixed-actions">
-                <Button :text="locale(langKeys.GENERIC.Cancel)" big="1" @click.native="returnResult(null)" />
-                <Button :text="locale(langKeys.GENERIC.Allow)" blue="1" big="1" @click.native="returnResult(true)" />
+                <Button :text="$t('generic.deny')" big="1" @click.native="returnResult(null)" />
+                <Button :text="$t('generic.allow')" blue="1" big="1" @click.native="returnResult(true)" />
             </section>
         </section>
 

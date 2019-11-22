@@ -2,39 +2,34 @@
 	<section>
 
 		<section class="action-box top-pad">
-			<label>{{locale(langKeys.SETTINGS.PASSWORD.ChangePasswordLabel)}}</label>
-			<p>{{locale(langKeys.SETTINGS.PASSWORD.ChangePasswordDescription)}}</p>
+			<label>{{$t('settings.password.title')}}</label>
+			<p>{{$t('settings.password.description')}}</p>
 
 			<br><br>
 
-			<Input :label="locale(langKeys.SETTINGS.PASSWORD.NewPasswordLabel)"
-			       :placeholder="locale(langKeys.SETTINGS.PASSWORD.NewPasswordPlaceholder)"
+			<Input :label="$t('setPassword.choosePass')"
 			       type="password"
 			       :text="password"
 			       v-on:changed="x => password = x" />
 
-			<Input :label="locale(langKeys.SETTINGS.PASSWORD.ConfirmPasswordLabel)"
-			       :placeholder="locale(langKeys.SETTINGS.PASSWORD.ConfirmPasswordPlaceholder)"
+			<Input :label="$t('setPassword.confirmPass')"
 			       type="password"
 			       :text="confirmPassword"
 			       v-on:changed="x => confirmPassword = x" />
 
 			<Button red="true" @click.native="changePassword"
-			        :text="locale(langKeys.SETTINGS.PASSWORD.ChangePasswordButton)" />
+			        :text="$t('settings.password.button')" />
 
 		</section>
 
 		<section class="action-box">
-			<label>{{locale(langKeys.SETTINGS.PIN.Label)}}</label>
-			<p>
-				{{locale(langKeys.SETTINGS.PIN.Description)}}<br>
-				<b class="red">{{locale(langKeys.SETTINGS.PIN.DescriptionRed)}}</b>
-			</p>
+			<label>{{$t('settings.password.pin.title')}}</label>
+			<p>{{$t('settings.password.pin.description')}}</p>
 
 			<br><br>
 
 			<Input style="margin-bottom:0;" big="1"
-			       :placeholder="locale(langKeys.SETTINGS.PIN.Placeholder)"
+			       :placeholder="$t('settings.password.pin.disabled')"
 			       type="password"
 			       :text="pin"
 			       :dynamic-button="pin.length ? 'icon-cancel' : ''"
@@ -47,8 +42,8 @@
 				<section class="split-inputs">
 					<Switcher :state="scatter.pinForAll" @click.native="togglePinForAll" />
 					<section class="details">
-						<figure class="title">{{locale(langKeys.SETTINGS.PIN.PinForAllTitle)}}</figure>
-						<p>{{locale(langKeys.SETTINGS.PIN.PinForAllDescription)}}</p>
+						<figure class="title">{{$t('settings.password.pin.pinForAllTitle')}}</figure>
+						<p>{{$t('settings.password.pin.pinForAllDescription')}}</p>
 					</section>
 				</section>
 			</section>
@@ -85,7 +80,7 @@
 			async changePassword(){
 				const err = PasswordService.hasError(this.password);
 				if(err) return PopupService.push(Popup.snackbar(err));
-				if(this.password !== this.confirmPassword) return PopupService.push(Popup.snackbar("Password confirmation does not match password"));
+				if(this.password !== this.confirmPassword) return PopupService.push(Popup.snackbar(this.$t('errors.passwordConfirmation')));
 
 				await window.wallet.changePassword(this.password);
 				this.password = '';
@@ -94,15 +89,13 @@
 				this[Actions.LOAD_HISTORY]();
 				// this[Actions.LOAD_TRANSLATION]();
 
-				PopupService.push(Popup.snackbar("Password changed"))
+				PopupService.push(Popup.snackbar(this.$t('settings.password.changed')))
 			},
 			async changePin(){
 				clearTimeout(saveTimeout);
 				saveTimeout = setTimeout(async () => {
 					await PasswordService.setPIN(this.pin, false);
-					PopupService.push(Popup.snackbar(
-						this.locale(this.langKeys.SETTINGS.PIN.SavedSnackbar), 'check'
-					))
+					PopupService.push(Popup.snackbar(this.$t('settings.password.pin.changed'), 'check'))
 				}, 500);
 			},
 			togglePinForAll(){

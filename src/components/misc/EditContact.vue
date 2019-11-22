@@ -3,12 +3,12 @@
 		<section class="edit-contact" v-if="contact">
 
 			<section>
-				<Input label="Name"
-				       placeholder="Add a memorable name"
+				<Input :label="$t('generic.name')"
+				       :placeholder="$t('editNetwork.memorableName')"
 				       :text="contact.name"
 				       v-on:changed="x => contact.name = x" />
 
-				<Input :error="recipientError" label="Account / Address"
+				<Input :error="recipientError" :label="$t('generic.addressOrAccount')"
 				       placeholder="..."
 				       :text="contact.recipient"
 				       v-on:changed="x => contact.recipient = x" />
@@ -16,7 +16,7 @@
 				<br>
 
 				<section style="text-align:right" v-if="!brandNew">
-					<Button text="Update contact details" blue="1" @click.native="$emit('save')" />
+					<Button :text="$t('editNetwork.update')" blue="1" @click.native="$emit('save')" />
 				</section>
 			</section>
 

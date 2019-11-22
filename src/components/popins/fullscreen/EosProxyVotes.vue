@@ -2,9 +2,10 @@
 	<section class="pop-in">
 		<section>
 			<section class="head">
+				<!-- TODO: Leaving untranslated texts here since this is going to be removed -->
 				<figure class="icon font icon-flow-tree" style="padding-top:7px;"></figure>
 				<figure class="subtitle">{{account.sendable()}}</figure>
-				<figure class="title">{{locale(langKeys.POPINS.FULLSCREEN.EOS.PROXY.Title)}}</figure>
+				<figure class="title">Proxy Votes</figure>
 			</section>
 
 			<section class="revoter" v-if="!isHardware">
@@ -18,8 +19,8 @@
 					<section class="auto-vote split-inputs">
 						<Switcher :state="autoVote" @click.native="autoVote = !autoVote" />
 						<section class="details">
-							<figure class="title">{{locale(langKeys.POPINS.FULLSCREEN.EOS.PROXY.ReproxyTitle)}}</figure>
-							<p>{{locale(langKeys.POPINS.FULLSCREEN.EOS.PROXY.ReproxyDesc)}}</p>
+							<figure class="title">Do you want to automatically re-proxy every 7 days?</figure>
+							<p>If you enable this, accepting the initial transaction also accepts all future transactions too.</p>
 						</section>
 					</section>
 				</section>
@@ -38,24 +39,13 @@
 
 			<figure class="or"><figure class="text">or</figure></figure>
 
-			<Input :placeholder="locale(langKeys.POPINS.FULLSCREEN.EOS.PROXY.Placeholder)"
+			<Input placeholder="Enter the account name of a proxy"
 					:text="selectedProxy"
 					v-on:changed="x => selectedProxy = x" />
 
-			<section class="list" v-if="Object.keys(proxies).length">
-				<!--<section class="proxy" v-for="proxy in proxyList">-->
-					<!--{{proxy}}-->
-				<!--</section>-->
-				<!--<FlatList :label="locale(langKeys.POPINS.FULLSCREEN.EOS.PROXY.KnownProxiesLabel)"-->
-				          <!--selected-icon="icon-check"-->
-				          <!--:selected="selectedProxy"-->
-				          <!--:items="proxyList"-->
-				          <!--v-on:selected="x => selectedProxy = x.id" />-->
-			</section>
-
 		</section>
 
-		<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:locale(langKeys.POPINS.FULLSCREEN.EOS.PROXY.Button), blue:true, click:() => setProxy()}]" />
+		<ActionBar :buttons-left="[{text:'Cancel', click:() => returnResult(false)}]" :buttons-right="[{text:`Set Proxy`, blue:true, click:() => setProxy()}]" />
 	</section>
 </template>
 
@@ -115,6 +105,7 @@
 				return !!this.account.keypair().external
 			},
 			hasRecurring(){
+				if(!this.scatter.recurring) return;
 				return this.scatter.recurring.proxies.find(x => x.account === this.account.identifiable())
 			}
 		},
