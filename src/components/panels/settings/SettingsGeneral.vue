@@ -15,14 +15,6 @@
                     v-on:selected="x => selectLanguage(x.locale)" />
         </section>
 
-        <!--<section class="action-box top-pad">-->
-            <!--<label>{{$t('settings.general.simpleMode')}}</label>-->
-
-            <!--<p>{{$t('settings.general.simpleModeDescription')}}</p>-->
-
-            <!--<Switcher :state="false" v-on:switched="enableSimpleMode" />-->
-        <!--</section>-->
-
         <section class="action-box top-pad">
             <label>{{$t('settings.general.notifications')}}</label>
             <p>{{$t('settings.general.notificationsDescription')}}</p>
@@ -60,6 +52,26 @@
             <p>{{$t('settings.general.devConsoleDescription')}}</p>
             <Button @click.native="openConsole"
                  :text="$t('settings.general.devConsoleButton')"/>
+        </section>
+
+        <section class="action-box top-pad">
+            <label>{{$t('settings.general.testingMode')}}</label>
+
+            <p>{{$t('settings.general.testingModeDescription')}}</p>
+
+            <Button :text="$t('settings.general.testingModeButton')" @click.native="openInBrowser('https://t.me/ScatterTesters')" />
+            <br>
+            <br>
+
+            <Switcher :state="testingMode" v-on:switched="toggleTestingMode" />
+        </section>
+
+        <section v-if="testingMode" class="action-box top-pad">
+            <label>{{$t('settings.general.simpleMode')}}</label>
+
+            <p>{{$t('settings.general.simpleModeDescription')}}</p>
+
+            <Switcher :state="false" v-on:switched="enableSimpleMode" />
         </section>
 
     </section>
@@ -105,6 +117,14 @@
 	        this.dataPath = await Injectable.appPath();
         },
         methods: {
+        	async toggleTestingMode(){
+        		if(!this.testingMode){
+        			PopupService.push(Popup.verifyPassword(pass => {
+        				if(pass === 'i_am_testing') this[UIActions.SET_TESTING_MODE](true);
+        				else PopupService.push(Popup.snackbar("You must get the password from the testing group!"))
+                    }, true))
+                } else this[UIActions.SET_TESTING_MODE](false);
+            },
 	        async enableSimpleMode(){
 	        	PopupService.push(Popup.enableSimpleMode(async enabled => {
 	        		if(!enabled) return;
@@ -132,6 +152,7 @@
             ...mapActions([
                 Actions.SET_SCATTER,
 	            UIActions.SET_LANGUAGE,
+	            UIActions.SET_TESTING_MODE,
             ])
         },
     }

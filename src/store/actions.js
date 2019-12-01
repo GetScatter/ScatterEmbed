@@ -34,6 +34,11 @@ export const actions = {
 	[Actions.SET_DAPP_LOGO]:({commit}, x) => commit(Actions.SET_DAPP_LOGO, x),
     [Actions.HOLD_SCATTER]:({commit}, scatter) => commit(Actions.SET_SCATTER, scatter),
 
+	[UIActions.SET_TESTING_MODE]:({commit}, x) => {
+    	window.wallet.storage.setGeneralSetting('testingMode', x);
+		commit(UIActions.SET_TESTING_MODE, x)
+	},
+
 
 	// [UIActions.SET_THEME]:({commit}, x) => {
 	//     window.localStorage.setItem('theme', x);
