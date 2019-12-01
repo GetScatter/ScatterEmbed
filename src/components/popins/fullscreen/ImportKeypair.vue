@@ -148,7 +148,6 @@
 			}
 		},
 		methods:{
-			saveKeypair(){},
 			returnResult(){
 				this.popin.data.callback(this.keypair);
 				this[UIActions.RELEASE_POPUP](this.popin);

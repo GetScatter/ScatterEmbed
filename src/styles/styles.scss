@@ -24,19 +24,23 @@ body {
 
 ::-webkit-scrollbar {
   width: 12px;
+  border-radius:10px;
 }
 
 ::-webkit-scrollbar:horizontal {
   height: 8px;
+  border-radius:10px;
 }
 
 ::-webkit-scrollbar-track {
   background:rgba(0,0,0,0.06);
   padding:2px;
+  border-radius:10px;
 }
 
 ::-webkit-scrollbar-thumb {
   background:rgba(0,0,0,0.24);
+  border-radius:10px;
 }
 
 div, figure, section, nav, article, input, textarea {

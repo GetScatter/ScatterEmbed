@@ -44,6 +44,7 @@ export default class VueInitializer {
 			computed:{
 				...mapState([
 					'isMobile',
+					'testingMode',
 				])
 			},
 			methods: {
@@ -139,8 +140,13 @@ export default class VueInitializer {
 		// No language supported, defaulting to english.
 		if(!langFiles[lang]) lang = 'en';
 
+		const messages = {};
+		messages[lang] = langFiles[lang];
+		if(!messages.hasOwnProperty('en')) messages['en'] = langFiles['en'];
+
 		return new VueI18n({
 			locale:lang,
+			fallbackLocale: 'en',
 
 			// Only adding the currently selected language.
 			// Otherwise we will be adding a large amount of unecessary

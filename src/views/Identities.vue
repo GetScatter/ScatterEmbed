@@ -505,11 +505,11 @@
 				deep:true,
 			},
 			async ['identity.name'](){
-				this.availableIdentity = null;
-				if(!this.isValidName) return;
-				this.loadingRidlData = true;
-				this.availableIdentity = await RIDLService.identityNameIsAvailable(this.identity.name);
-				this.loadingRidlData = false;
+				// this.availableIdentity = null;
+				// if(!this.isValidName) return;
+				// this.loadingRidlData = true;
+				// this.availableIdentity = await RIDLService.identityNameIsAvailable(this.identity.name);
+				// this.loadingRidlData = false;
 			},
 
 		}
