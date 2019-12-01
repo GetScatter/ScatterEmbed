@@ -59,9 +59,11 @@
 
             <p>{{$t('settings.general.testingModeDescription')}}</p>
 
-            <Button :text="$t('settings.general.testingModeButton')" @click.native="openInBrowser('https://t.me/ScatterTesters')" />
-            <br>
-            <br>
+            <section v-if="!testingMode">
+                <Button :text="$t('settings.general.testingModeButton')" @click.native="openInBrowser('https://t.me/ScatterTesters')" />
+                <br>
+                <br>
+            </section>
 
             <Switcher :state="testingMode" v-on:switched="toggleTestingMode" />
         </section>
@@ -85,6 +87,7 @@
     import Injectable from "../../../services/wallets/Injectable";
     import {Popup} from "../../../models/popups/Popup";
     import PopupService from "../../../services/utility/PopupService";
+    import SocketService from "@walletpack/core/services/utility/SocketService";
 
     export default {
         data () {return {
@@ -118,12 +121,22 @@
         },
         methods: {
         	async toggleTestingMode(){
+
+        		const setMode = async bool => {
+			        await this[UIActions.SET_TESTING_MODE](bool);
+			        await SocketService.close();
+			        setTimeout(async () => {
+				        await window.wallet.lock();
+				        window.wallet.utility.reload();
+			        }, 500);
+                };
+
         		if(!this.testingMode){
         			PopupService.push(Popup.verifyPassword(pass => {
-        				if(pass === 'i_am_testing') this[UIActions.SET_TESTING_MODE](true);
+        				if(pass === 'i_am_testing') setMode(true);
         				else PopupService.push(Popup.snackbar("You must get the password from the testing group!"))
                     }, true))
-                } else this[UIActions.SET_TESTING_MODE](false);
+                } else setMode(false);
             },
 	        async enableSimpleMode(){
 	        	PopupService.push(Popup.enableSimpleMode(async enabled => {

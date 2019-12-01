@@ -38,41 +38,6 @@
 
 
 
-				<section class="boxes" v-for="(account, networkUnique) in accounts">
-					<section class="box-container" style="width:100%;">
-						<label>{{accountNetwork(networkUnique).name}}</label>
-						<section class="box nested account-selector flex" @click="replaceAccount(account)">
-							<section class="symbol">
-								<TokenSymbol :token="accountNetwork(networkUnique).systemToken()" />
-							</section>
-							<section>
-								<figure class="name">{{sendable(account)}}</figure>
-							</section>
-							<figure class="chevron fas fa-caret-square-down"></figure>
-						</section>
-					</section>
-				</section>
-
-
-
-
-				<section class="boxes" v-for="(account, networkUnique) in accounts">
-					<section class="box-container" style="width:100%;">
-						<label>{{accountNetwork(networkUnique).name}}</label>
-						<section class="box nested account-selector flex" @click="replaceAccount(account)">
-							<section class="symbol">
-								<TokenSymbol :token="accountNetwork(networkUnique).systemToken()" />
-							</section>
-							<section>
-								<figure class="name">{{sendable(account)}}</figure>
-							</section>
-							<figure class="chevron fas fa-caret-square-down"></figure>
-						</section>
-					</section>
-				</section>
-
-
-
 
 			</section>
 		</section>
@@ -147,7 +112,7 @@
 						};
 
 						const defaultAccounts = this.defaultKeyAccounts(key, network);
-						if(defaultAccounts.length){
+						if(defaultAccounts && defaultAccounts.length){
 							this.accounts[network.unique()] = defaultAccounts[0].clone();
 						}
 					})

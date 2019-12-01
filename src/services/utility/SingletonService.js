@@ -24,8 +24,10 @@ export default class SingletonService {
 			PluginRepository.plugin(Blockchains.TRX).init();
 
 			try {
-				store.dispatch(UIActions.SET_TESTING_MODE, await window.wallet.storage.getGeneralSetting('testingMode').catch(() => false));
-			} catch(e){}
+				store.dispatch(UIActions.SET_TESTING_MODE, await window.wallet.storage.getGeneralSetting('testingMode'));
+			} catch(e){
+				console.error('e', e);
+			}
 
 			store.dispatch(Actions.LOAD_HISTORY);
 			store.dispatch(UIActions.SET_TOKEN_METAS, await GET('tokenmeta'));
