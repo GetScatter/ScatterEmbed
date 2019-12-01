@@ -58,6 +58,7 @@ export const actions = {
 	    if (!scatter) return null;
 
 	    scatter = Scatter.fromJson(scatter);
+	    commit(Actions.SET_SCATTER, scatter);
 
 	    if(!isPopOut && !migrationChecked){
 		    migrationChecked = true;
@@ -74,9 +75,10 @@ export const actions = {
 
 
 		    scatter.meta.regenerateVersion();
+		    commit(Actions.SET_SCATTER, scatter);
 	    }
 
-	    return commit(Actions.SET_SCATTER, scatter);
+	    return true;
     },
 
     [UIActions.CREATE_SCATTER]:({state, commit, dispatch}, password) => {
