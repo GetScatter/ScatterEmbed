@@ -15,11 +15,13 @@ export const m11_0_0 = async scatter => {
 	await Promise.all(keypairs.map(async keypair => {
 		delete keypair.keyHash;
 
-		await KeyPairService.addPublicKey(keypair, Blockchains.BTC, true);
+		keypair.privateKey = await window.wallet.decrypt(keypair.privateKey);
+		if(typeof keypair.privateKey === 'object' && keypair.privateKey.hasOwnProperty('data')) keypair.privateKey = keypair.privateKey.data;
+		await KeyPairService.addPublicKey(keypair, Blockchains.BTC, false);
 
 		let first = true;
 		keypair.blockchains.map(blockchain => {
-			const accounts = scatter.keychain.accounts.filter(x => x.keypairUnique === keypair.unique() && x.blockchain() === blockchain);
+			const accounts = scatter.keychain.accounts.filter(x => x.keypairUnique === keypair.unique() && x.networkUnique.split(':')[0] === blockchain);
 			if(accounts.length){
 				const clone = keypair.clone();
 				if(!first) {
@@ -55,5 +57,5 @@ export const m11_0_0 = async scatter => {
 
 	scatter.settings.explorers[Blockchains.BTC] = Explorer.fromRaw(PluginRepository.plugin(Blockchains.BTC).defaultExplorer());
 
-    return true;
+	return true;
 };

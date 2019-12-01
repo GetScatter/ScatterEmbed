@@ -63,11 +63,13 @@
 			pageLength:20,
 		}},
 		mounted(){
-			elem = document.getElementById('assets');
-			elem.addEventListener('scroll', this.handleScroll);
+			setTimeout(() => {
+				elem = document.getElementById('assets');
+				if(elem) elem.addEventListener('scroll', this.handleScroll);
+			}, 200);
 		},
 		destroyed(){
-			elem.removeEventListener('scroll', this.handleScroll);
+			if(elem) elem.removeEventListener('scroll', this.handleScroll);
 		},
 		computed:{
 			...mapState([
