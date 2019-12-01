@@ -1,12 +1,23 @@
 <template>
 	<section class="pop-over enable-simple-mode">
-		<PopInHead title="Select your accounts" v-on:close="returnResult" />
+		<!--<PopInHead title="Select accounts" v-on:close="returnResult" />-->
+
+		<section class="head">
+			<section>
+				<figure class="title">
+					Select accounts
+				</figure>
+				<figure class="subtitle">
+					In <b>Simple Mode</b> you only use a single account at once for each network. Please select your preferred accounts.
+				</figure>
+			</section>
+
+			<figure class="close" @click="returnResult(null)">
+				<i class="fal fa-times"></i>
+			</figure>
+		</section>
 
 		<section class="scroller container">
-			<section class="info">
-				In <b>Simple Mode</b> you only use a single account at once for each network. This helps make the overall experience better by reducing the amount of screens you need to go through to do internal actions and use external applications.
-				Please select an account for each network you have enabled.
-			</section>
 
 			<section class="transfer">
 				<section class="boxes" v-for="(account, networkUnique) in accounts">
@@ -22,8 +33,47 @@
 							<figure class="chevron fas fa-caret-square-down"></figure>
 						</section>
 					</section>
-
 				</section>
+
+
+
+
+				<section class="boxes" v-for="(account, networkUnique) in accounts">
+					<section class="box-container" style="width:100%;">
+						<label>{{accountNetwork(networkUnique).name}}</label>
+						<section class="box nested account-selector flex" @click="replaceAccount(account)">
+							<section class="symbol">
+								<TokenSymbol :token="accountNetwork(networkUnique).systemToken()" />
+							</section>
+							<section>
+								<figure class="name">{{sendable(account)}}</figure>
+							</section>
+							<figure class="chevron fas fa-caret-square-down"></figure>
+						</section>
+					</section>
+				</section>
+
+
+
+
+				<section class="boxes" v-for="(account, networkUnique) in accounts">
+					<section class="box-container" style="width:100%;">
+						<label>{{accountNetwork(networkUnique).name}}</label>
+						<section class="box nested account-selector flex" @click="replaceAccount(account)">
+							<section class="symbol">
+								<TokenSymbol :token="accountNetwork(networkUnique).systemToken()" />
+							</section>
+							<section>
+								<figure class="name">{{sendable(account)}}</figure>
+							</section>
+							<figure class="chevron fas fa-caret-square-down"></figure>
+						</section>
+					</section>
+				</section>
+
+
+
+
 			</section>
 		</section>
 
@@ -184,19 +234,61 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+	@import "../../../styles/variables";
 
 	.enable-simple-mode {
+		border-radius:$radius-big;
+		max-width:500px;
+		display:flex;
+		flex-direction: column;
+
+		.head {
+			padding:30px;
+			background:$blue;
+			color:white;
+			display:flex;
+			padding-bottom:70px;
+
+			.title {
+				font-size: $font-size-medium;
+			}
+
+			.subtitle {
+				font-size: $font-size-small;
+				margin-top:8px;
+			}
+
+			.close {
+				cursor: pointer;
+				color:white;
+				font-size:$font-size-large;
+				border-radius:$radius;
+				margin-left:50px;
+			}
+
+		}
 
 		.transfer {
 			height:auto;
 		}
 
 		.container {
-			padding:20px;
+			padding:30px;
+			margin-top:-40px;
+			background:white;
+			border-top-left-radius:$radius-big;
+			border-top-right-radius:$radius-big;
+			height:auto;
+			max-height:300px;
 
-			.info {
-				margin-bottom:30px;
-				font-size: 13px;
+
+			label {
+				color:$black;
+				font-size: $font-size-small;
+			}
+
+			.account-selector {
+				padding:10px;
 			}
 		}
 

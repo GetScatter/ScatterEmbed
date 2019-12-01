@@ -1,8 +1,12 @@
 <template>
-	<section class="token-list" :class="{'blue':blue}">
+	<section class="token-list" ref="tokenlist" :class="{'blue':blue}">
 		<SearchAndFilter full-search="1" v-on:terms="x => terms = x" />
 		<section ref="tokens" class="tokens">
-			<section :id="token.uniqueWithChain()" class="single-asset" :class="{'hoverable':hoverable, 'active':selected && selected.uniqueWithChain() === token.uniqueWithChain()}" v-for="token in sortedBalances" @click="selectToken(token)">
+			<section :id="token.uniqueWithChain()"
+			         class="single-asset"
+			         :class="{'hoverable':hoverable, 'active':selected && selected.uniqueWithChain() === token.uniqueWithChain()}"
+			         v-for="token in sortedBalances.slice(0, page*pageLength)"
+			         @click="selectToken(token)">
 				<section class="asset-movement">
 					<section class="token-change" v-if="!token.unusable && change(token).perc">
 						<figure class="change-value" :class="{'red':!change(token).plus}" v-if="!token.unusable">{{change(token).perc}}</figure>
@@ -14,9 +18,6 @@
 				<section class="asset-details">
 					<section class="column token-icon">
 						<TokenSymbol :token="token" />
-						<!--<section class="token-symbol" :class="token.name">-->
-							<!--<div class="symbol" :style="{'background-color':colorHex(token)}" :class="[{'iconed':token.symbolClass(), 'small':token && token.symbol.length >= 4, 'unusable':!!token.unusable}, token.symbolClass()]"></div>-->
-						<!--</section>-->
 					</section>
 					<section class="column token-value">
 						<figure class="title">{{token.symbol}}</figure>
@@ -30,6 +31,17 @@
 				</section>
 			</section>
 		</section>
+
+		<div id="scroll_handle"></div>
+
+		<!--<section v-if="page*pageLength < sortedBalances.length">-->
+			<!--<br>-->
+			<!--<br>-->
+			<!--<br>-->
+			<!--<section class="flex">-->
+				<!--<Button text="Show More" @click.native="page++" />-->
+			<!--</section>-->
+		<!--</section>-->
 	</section>
 </template>
 
@@ -41,12 +53,22 @@
 	import TokenSymbol from "../reusable/TokenSymbol";
 	import SharedFunctions from "../../util/SharedFunctions";
 
+	let elem;
 	export default {
 		components: {TokenSymbol, SearchAndFilter},
 		props:['balances', 'hoverable', 'selected', 'noSearch', 'blue'],
 		data(){return {
 			terms:'',
+			page:1,
+			pageLength:20,
 		}},
+		mounted(){
+			elem = document.getElementById('assets');
+			elem.addEventListener('scroll', this.handleScroll);
+		},
+		destroyed(){
+			elem.removeEventListener('scroll', this.handleScroll);
+		},
 		computed:{
 			...mapState([
 
@@ -71,6 +93,14 @@
 			}
 		},
 		methods:{
+			handleScroll(e){
+				const offset = document.getElementById('scroll_handle').getBoundingClientRect().top;
+				if(offset - window.innerHeight < 0) {
+					if(this.page*this.pageLength < this.sortedBalances.length){
+						this.page++;
+					}
+				}
+			},
 			change:SharedFunctions.change,
 			colorHex(token){
 				if(!token) return null;
@@ -84,6 +114,7 @@
 		watch:{
 			['terms'](){
 				this.$emit('balances', this.sortedBalances);
+				this.page = 1;
 			}
 		}
 	}

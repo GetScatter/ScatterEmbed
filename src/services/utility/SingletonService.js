@@ -23,6 +23,10 @@ export default class SingletonService {
 			SocketService.initialize();
 			PluginRepository.plugin(Blockchains.TRX).init();
 
+			try {
+				store.dispatch(UIActions.SET_TESTING_MODE, await window.wallet.storage.getGeneralSetting('testingMode').catch(() => false));
+			} catch(e){}
+
 			store.dispatch(Actions.LOAD_HISTORY);
 			store.dispatch(UIActions.SET_TOKEN_METAS, await GET('tokenmeta'));
 			// store.dispatch(Actions.LOAD_LANGUAGE);

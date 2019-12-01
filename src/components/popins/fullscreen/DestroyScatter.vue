@@ -9,7 +9,7 @@
 			</section>
 		</section>
 
-		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('destroy.confirm'), blue:true, click:() => destroy()}]" />
+		<ActionBar :buttons-left="[{text:$t('generic.cancel'), click:() => returnResult(false)}]" :buttons-right="[{text:$t('generic.confirm'), blue:true, click:() => destroy()}]" />
 	</section>
 </template>
 

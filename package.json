@@ -9,7 +9,8 @@
     "url": "https://get-scatter.com/"
   },
   "scripts": {
-    "build": "webpack -p --mode=production --progress --config build/webpack.config.prod.js",
+    "build": "node scripts/release",
+    "build:force": "webpack -p --mode=production --progress --config build/webpack.config.prod.js",
     "watch": "webpack -p --mode=production --progress --config build/webpack.config.dev.js --watch",
     "server": "http-server ./dist -p 8081 -d -i -g -P --cors='*' -c-1",
     "prod": "concurrently \"npm run watch\" \"npm run server\"",
@@ -18,7 +19,7 @@
     "testfile": "mocha --require test/babel --exit --timeout 1000000",
     "test": "npm run testfile \"test/**/*.spec.js\" --timeout 1000000",
     "walletpack": "yarn add @walletpack/core @walletpack/eosio @walletpack/bitcoin @walletpack/tron @walletpack/ethereum",
-    "langs":"node src/localization/check.js"
+    "langs": "node src/localization/check.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.4",

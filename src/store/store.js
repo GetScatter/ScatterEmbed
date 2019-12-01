@@ -50,6 +50,8 @@ export const state = {
 
 	isMobile:false,
 	isMobileDevice:false,
+
+	testingMode:false,
 };
 
 export const getters = {

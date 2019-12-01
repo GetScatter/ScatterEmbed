@@ -3,6 +3,7 @@ import Vue from 'vue';
 import * as UIActions from "./ui_actions";
 
 export const mutations = {
+	[UIActions.SET_TESTING_MODE]:(state, x) => state.testingMode = x,
 	[UIActions.SET_TOKEN_METAS]:(state, x) => state.tokenMetas = x,
 	[UIActions.SET_FEATURED_APPS]:(state, x) => state.featuredApps = x,
 	[UIActions.SET_IS_MOBILE]:(state, x) => state.isMobile = x,

@@ -1,5 +1,5 @@
 <template>
-	<section class="assets">
+	<section class="assets" id="assets">
 		<TokenList hoverable="1" :balances="allBalances" v-on:balances="x => filteredBalances = x" v-on:token="selectToken" :selected="selectedToken" />
 
 		<section class="graph-and-accounts" :class="{'open':selectedToken}">

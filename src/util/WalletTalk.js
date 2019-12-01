@@ -237,6 +237,10 @@ export default class WalletTalk {
 					/**        FILES / STORAGE         **/
 					/************************************/
 					storage:{
+
+						getGeneralSetting:(key, val) => {},
+						setGeneralSetting:(key) => {},
+						setSimpleMode:() => false,
 						getLanguage:() => 'en-US',
 						setLanguage:() => true,
 
@@ -269,7 +273,7 @@ export default class WalletTalk {
 						openTools:() => true,
 						closeWindow:() => true,
 						flashWindow:() => true,
-						openLink:() => true,
+						openLink:(url) => window.open(url),
 						reload:() => window.reload(),
 						copy:() => true,
 						screenshot:() => true,
