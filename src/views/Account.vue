@@ -121,7 +121,7 @@
 				const plugin = PluginRepository.plugin(this.account.blockchain());
 				const hasActions = plugin.hasAccountActions();
 				if(!hasActions) return null;
-				return plugin.accountActions(this.account);
+				return plugin.accountActions(this.account).filter(x => x.type !== 'proxy_vote');
 			},
 		},
 		mounted(){

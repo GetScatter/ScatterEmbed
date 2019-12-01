@@ -73,7 +73,6 @@ export const actions = {
 			    ) scatter.keychain.removeAccount(account);
 		    });
 
-
 		    scatter.meta.regenerateVersion();
 		    commit(Actions.SET_SCATTER, scatter);
 	    }
