@@ -77,6 +77,7 @@
 	import PluginRepository from '@walletpack/core/plugins/PluginRepository';
 	import {Blockchains} from '@walletpack/core/models/Blockchains';
 	import SharedFunctions from "../util/SharedFunctions";
+	import * as Actions from '@walletpack/core/store/constants';
 
 	let saveTimeout;
 	export default {
@@ -143,7 +144,11 @@
 
 		},
 		mounted(){
-
+			if(!this.scatter.onboarded){
+				const clone = this.scatter.clone();
+				clone.onboarded = true;
+				this[Actions.SET_SCATTER](clone);
+			}
 		},
 		methods: {
 			change:SharedFunctions.change,
@@ -215,7 +220,10 @@
 					reset();
 				}
 
-			}
+			},
+			...mapActions([
+				Actions.SET_SCATTER
+			])
 		},
 		created() {
 
