@@ -13,7 +13,7 @@
 		</section>
 
 		<section class="right">
-			<section v-if="accounts.length">
+			<section v-if="accounts.length && !hideMainBalance">
 				<section class="balances">
 					<section class="fiat">
 						<span class="balance" @click="selectDisplays">{{totalBalance.symbol}}<AnimatedNumber :number="totalBalance.amount" /></span>
@@ -24,7 +24,7 @@
 					</section>
 				</section>
 			</section>
-			<i v-if="accounts.length" class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
+			<i v-if="accounts.length && !hideMainBalance" class="fal fa-sync" style="cursor: pointer;" :class="{'spin':loadingBalances}" @click="refreshTokens"></i>
 		</section>
 
 	</section>
@@ -38,6 +38,7 @@
 	import AnimatedNumber from "./reusable/AnimatedNumber";
 	import PopupService from "../services/utility/PopupService";
 	import {Popup} from "../models/popups/Popup";
+	import BalanceHelpers from "../services/utility/BalanceHelpers";
 
 	export default {
 		components:{
@@ -77,19 +78,39 @@
 			onAccount(){
 				if(this.$route.name !== RouteNames.ACCOUNT) return;
 				return this.accounts.find(x => x.unique() === this.$route.params.unique);
+			},
+			hasTooManyAccounts(){
+				return this.scatter.keychain.accounts.length > 15
 			}
 		},
 		mounted(){
-			this.refreshTokens();
+			if(!this.hasTooManyAccounts) this.refreshTokens();
 		},
 		methods:{
 			async refreshTokens(force = false){
-				if(!force && Object.keys(this.balances).length) return;
-				if(this.loadingBalances) return;
-				this.loadingBalances = true;
-				await PriceService.setPrices();
-				await BalanceService.loadAllBalances(true);
-				this.loadingBalances = false;
+				setTimeout(async () => {
+					if(!force && Object.keys(this.balances).length) return;
+					if(this.loadingBalances) return;
+					this.loadingBalances = true;
+
+					await PriceService.setPrices();
+
+					if(this.hasTooManyAccounts){
+						await new Promise(r => {
+							PopupService.push(Popup.selectAccount(async accounts => {
+								for(let i = 0; i < accounts.length; i++){
+									await BalanceService.loadBalancesFor(accounts[i]);
+								}
+								r(true);
+							}, null, true))
+						})
+					}
+
+					else await BalanceService.loadAllBalances(true);
+
+					await BalanceHelpers.storeBalances();
+					this.loadingBalances = false;
+				}, 10)
 			},
 			quickAction(route){
 				if(this.onAccount){

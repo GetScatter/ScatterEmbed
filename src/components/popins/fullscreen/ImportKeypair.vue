@@ -203,7 +203,13 @@
 			async finishImporting(keypair){
 				await KeyPairService.saveKeyPair(keypair);
 				await AccountService.importAllAccounts(keypair, false, keypair.blockchains);
-				BalanceService.loadAllBalances(true);
+				const accounts = keypair.accounts();
+				if(accounts.length){
+					for(let i = 0; i < accounts.length; i++){
+						await BalanceService.loadBalancesFor(accounts[i]);
+					}
+				}
+				// BalanceService.loadAllBalances(true);
 				this.setWorkingScreen(false);
 				this.returnResult(keypair);
 			},

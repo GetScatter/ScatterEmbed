@@ -14,7 +14,7 @@
 
 			<SearchAndFilter full-search="1" v-if="needsAccountSearchBar" v-on:terms="x => terms = x" />
 			<section class="accounts" :class="{'with-search':needsAccountSearchBar}" v-if="selectedToken">
-				<section class="account" v-for="account in filteredAccounts">
+				<section class="account" :key="account.unique()" v-for="account in filteredAccounts">
 					<figure class="name">{{account.sendable()}}</figure>
 					<figure class="network">{{account.network().name}}</figure>
 					<section class="details">
@@ -90,9 +90,6 @@
 				return this.selectedToken && this.selectedToken.accounts().length >= 5
 			}
 		},
-		mounted(){
-
-		},
 		methods:{
 			selectToken(token){
 				this.selectedToken = this.selectedToken && this.selectedToken.uniqueWithChain() === token.uniqueWithChain() ? null : token;
@@ -101,13 +98,6 @@
 				this.$router.push({name:this.RouteNames.TRANSFER, query:{account:account.identifiable(), token:token.uniqueWithChain()}})
 			}
 		},
-		watch:{
-			['filteredBalances'](){
-				if(this.filteredBalances.length === 1){
-					this.selectedToken = this.filteredBalances[0];
-				}
-			}
-		}
 	}
 </script>
 

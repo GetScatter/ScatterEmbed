@@ -11,6 +11,7 @@ import RecurringService from "./RecurringService";
 import {store} from "../../store/store";
 import * as UIActions from "../../store/ui_actions";
 import {GET} from "@walletpack/core/services/apis/BackendApiService";
+import BalanceHelpers from "./BalanceHelpers";
 
 let initialized = false;
 export default class SingletonService {
@@ -22,6 +23,7 @@ export default class SingletonService {
 		setTimeout(async () => {
 			SocketService.initialize();
 			PluginRepository.plugin(Blockchains.TRX).init();
+			await BalanceHelpers.firstLoad();
 
 			try {
 				store.dispatch(UIActions.SET_TESTING_MODE, await window.wallet.storage.getGeneralSetting('testingMode'));

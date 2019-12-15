@@ -218,12 +218,12 @@
 			this.selectedLocation = this.selectedIdentity.getLocation() || this.locations[0];
 			this.clonedLocation = this.selectedLocation.clone();
 
-			setTimeout(async() => {
-				this.loadingReputation = true;
-				this.reputation = await RIDLService.checkContracts(this.payload.network, this.messages);
-				if(this.reputation && this.reputation.decimal < 0) this.showingRidlWarning = true;
-				this.loadingReputation = false;
-			}, 50);
+			// setTimeout(async() => {
+			// 	this.loadingReputation = true;
+			// 	this.reputation = await RIDLService.checkContracts(this.payload.network, this.messages);
+			// 	if(this.reputation && this.reputation.decimal < 0) this.showingRidlWarning = true;
+			// 	this.loadingReputation = false;
+			// }, 50);
 		},
 		computed: {
 			...mapState([

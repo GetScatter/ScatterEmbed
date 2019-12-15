@@ -3,7 +3,7 @@
 		<SearchAndFilter :filters="filters" :full-search="!filters.length" v-on:terms="x => terms = x" />
 
 		<section class="keys-list" v-if="keypairs.length">
-			<section class="keypair" v-for="keypair in filteredKeypairs" :class="{'new':isNew(keypair), 'selectable':keypairsOnly}" @click="$emit('keypair', keypair)">
+			<section class="keypair" :key="keypair.id" v-for="keypair in filteredKeypairs" :class="{'new':isNew(keypair), 'selectable':keypairsOnly}" @click="$emit('keypair', keypair)">
 				<section class="keypair-info">
 					<figure class="blockchain" v-if="refreshingAccounts !== keypair.unique()" :class="`token-${keypair.enabledKey().blockchain}-${keypair.enabledKey().blockchain}`"></figure>
 					<figure class="blockchain" v-if="refreshingAccounts === keypair.unique()"><i class="icon-spin4 animate-spin"></i></figure>
@@ -38,6 +38,10 @@
 								<i class="icon-trash"></i> {{$t('keysAndAccountsList.actions.removeKey')}}
 							</figure>
 
+							<figure class="item" v-if="keypair.enabledKey().blockchain === Blockchains.EOSIO" @click="filterLinkedAccounts(keypair)">
+								<i class="icon-user"></i> Unlink Unselected Accounts
+							</figure>
+
 							<figure class="item" v-if="holdingCtrl && keypair.enabledKey().blockchain === Blockchains.EOSIO" @click="linkAccount(keypair)">
 								<i class="icon-user"></i> {{$t('keysAndAccountsList.actions.linkAccount')}}
 							</figure>
@@ -46,10 +50,17 @@
 				</section>
 
 				<section v-if="!keypairsOnly">
-					<section v-if="filteredAccounts(keypair).length">
+					<section v-if="keypair.accounts(true).length">
 						<figure class="accounts-label">{{$t('keysAndAccountsList.linkedAccounts')}}</figure>
 						<section class="accounts-list">
-							<section class="account" v-for="account in filteredAccounts(keypair)" @click="$emit('account', account)">
+							<section class="account"
+							         :key="account.unique()"
+							         v-for="account in filteredAccounts(keypair)"
+							         @click="selectAccount(account)"
+							         v-show="account.sendable().indexOf(terms) > -1">
+								<section v-if="checkboxes" class="checkbox">
+									<input type="checkbox" :checked="selected.includes(account.unique())" />
+								</section>
 								<section class="details">
 									<figure class="name">{{account.sendable()}}</figure>
 									<figure class="network">{{account.network().name}}</figure>
@@ -96,7 +107,7 @@
 
 	export default {
 		components: {SearchAndFilter},
-		props:['asSelector', 'accounts', 'keypairsOnly', 'noBalances', 'startingChain'],
+		props:['asSelector', 'accounts', 'keypairsOnly', 'noBalances', 'startingChain', 'checkboxes'],
 		data(){return {
 			blockchainFilter:null,
 			terms:'',
@@ -104,6 +115,8 @@
 			refreshingAccounts:null,
 			holdingCtrl:false,
 			Blockchains,
+
+			selected:[],
 		}},
 		computed:{
 			...mapGetters([
@@ -164,6 +177,15 @@
 			window.removeEventListener("keyup", this.handleKeyUp);
 		},
 		methods:{
+			selectAccount(account){
+				if(!this.checkboxes) return this.$emit('account', account);
+
+				if(this.selected.includes(account.unique())) this.selected = this.selected.filter(x => x !== account.unique());
+				else this.selected.push(account.unique());
+
+				this.$emit('selected', this.selected)
+
+			},
 			handleClick(e){
 				const paths = e.path.map(x => x.className)
 				if(this.actionsMenu && !paths.includes('action-menu') && !paths.includes('action fas fa-caret-square-down')){
@@ -186,6 +208,15 @@
 			linkAccount(keypair){
 				PopupService.push(Popup.eosLinkAccount(keypair))
 			},
+			filterLinkedAccounts(keypair){
+				const linked = keypair.accounts(true);
+				PopupService.push(Popup.selectAccount(async accounts => {
+					const ids = accounts.map(x => x.identifiable());
+					const unlinked = keypair.accounts().filter(account => !ids.includes(account.identifiable()));
+					await AccountService.removeAccounts(unlinked);
+					this.$forceUpdate();
+				}, linked, true));
+			},
 			createEosAccount(keypair){
 				PopupService.push(Popup.eosCreateAccount(keypair, done => {
 
@@ -194,8 +225,8 @@
 			filteredAccounts(keypair){
 				return keypair.accounts(true)
 					.filter(x => this.accounts ? this.accounts.find(y => y.identifiable() === x.identifiable()) : true)
-					.filter(x => x.sendable().indexOf(this.terms) > -1)
-					.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())
+					// .filter(x => x.sendable().indexOf(this.terms) > -1)
+					// .sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())
 			},
 			isNew(keypair){
 				return keypair.createdAt && keypair.createdAt > (+new Date() - (1000 * 30));
@@ -430,6 +461,18 @@
 					&:last-child {
 						border-bottom-left-radius:$radius;
 						border-bottom-right-radius:$radius;
+					}
+
+					.checkbox {
+						flex:0 0 auto;
+						display:flex;
+						align-items: center;
+						margin-right:10px;
+
+						input {
+							width:20px;
+							height:20px;
+						}
 					}
 
 					.details {
