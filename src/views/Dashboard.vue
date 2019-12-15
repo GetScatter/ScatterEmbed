@@ -77,6 +77,7 @@
 	import PluginRepository from '@walletpack/core/plugins/PluginRepository';
 	import {Blockchains} from '@walletpack/core/models/Blockchains';
 	import SharedFunctions from "../util/SharedFunctions";
+	import * as Actions from '@walletpack/core/store/constants';
 
 	let saveTimeout;
 	export default {
@@ -127,23 +128,28 @@
 					lowest
 				}
 			},
-			votableChains(){
-				return [
-
-				]
-			},
 			votableNetworks(){
 				return this.votableChains.map(chainId => {
 					return this.scatter.settings.networks.find(x => x.blockchain === Blockchains.EOSIO && x.chainId === chainId);
 				}).filter(x => !!x);
 			},
+			votableAccounts(){
+				return this.votableNetworks.reduce((acc, network) => {
+					acc[network.unique()] = network.accounts(true).filter(account => account.systemBalance() >= 5)
+					return acc;
+				}, {});
+			},
 			canVote(){
-				return !!this.votableNetworks.length;
+				return !!this.votableAccounts.length;
 			},
 
 		},
 		mounted(){
-
+			if(!this.scatter.onboarded){
+				const clone = this.scatter.clone();
+				clone.onboarded = true;
+				this[Actions.SET_SCATTER](clone);
+			}
 		},
 		methods: {
 			change:SharedFunctions.change,
@@ -173,8 +179,7 @@
 
 				let trxs = [];
 				for(let i = 0; i < this.votableNetworks.length; i++){
-					const network = this.votableNetworks[i];
-					const accounts = network.accounts(true).filter(account => account.systemBalance() >= 5);
+					const accounts = this.votableAccounts[this.votableNetworks[i].unique()];
 
 					if(accounts.length){
 						const eos = plugin.getSignableEosjs(accounts, () => { reset(); });
@@ -215,7 +220,10 @@
 					reset();
 				}
 
-			}
+			},
+			...mapActions([
+				Actions.SET_SCATTER
+			])
 		},
 		created() {
 

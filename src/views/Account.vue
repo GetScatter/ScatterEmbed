@@ -64,8 +64,8 @@
                     <h5>{{$t('account.totalFiatBalance')}}</h5>
                     <h3>{{fiatSymbol(displayCurrency)}}{{formatNumber(account.totalFiatBalance(), true)}}</h3>
                 </section>
-                <TokenGraph :balances="filteredBalances || account.tokens()" />
-                <TokenList :balances="account.tokens()" v-on:balances="x => filteredBalances = x" />
+                <TokenGraph :balances="filteredBalances || accountTokens" />
+                <TokenList :balances="accountTokens" v-on:balances="x => filteredBalances = x" />
             </section>
         </section>
 
@@ -92,6 +92,7 @@
 		data(){return {
 			filteredBalances:null,
 			actionsMenu:false,
+            untouchables:[],
 		}},
 		computed:{
 			...mapState([
@@ -123,12 +124,19 @@
 				if(!hasActions) return null;
 				return plugin.accountActions(this.account).filter(x => x.type !== 'proxy_vote');
 			},
+            accountTokens(){
+				return this.account.tokens().concat(this.untouchables);
+            }
 		},
 		mounted(){
 			window.addEventListener('click', this.handleClick);
 			setTimeout(() => {
 				ResourceService.cacheResourceFor(this.account)
-				BalanceService.loadBalancesFor(this.account)
+				BalanceService.loadBalancesFor(this.account);
+				BalanceService.loadUntouchables(this.account).then(balances => {
+					if(!balances) return;
+					this.untouchables = balances;
+                })
 			}, 250);
 		},
 		destroyed(){

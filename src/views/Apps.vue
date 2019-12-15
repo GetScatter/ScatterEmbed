@@ -10,7 +10,7 @@
 		<section class="scroller" ref="scroller" v-if="state === STATES.EXPLORE">
 			<section class="padder">
 				<section class="featured" v-if="!exploreTerms.length && !selectedCategory && featuredApps.length">
-					<section @click="openInBrowser(app.url)" class="featured-app" v-for="app in featuredApps">
+					<section @click="openInBrowser(app.url)" class="featured-app" :key="app.applink" v-for="app in featuredApps">
 						<img class="featured-background" :src="app.img" />
 						<figure class="tag">{{$t('generic.promoted')}}</figure>
 					</section>
@@ -50,7 +50,7 @@
 
 					<section class="categories" v-if="!exploreTerms.length">
 
-						<section class="category" :class="{'singular':selectedCategory}" v-for="category in categories" v-if="!selectedCategory || selectedCategory === category.type">
+						<section class="category" :class="{'singular':selectedCategory}" :key="category.type" v-for="category in categories" v-if="!selectedCategory || selectedCategory === category.type">
 							<section class="info" v-if="!selectedCategory">
 								<figure class="name">{{category.type}}</figure>
 								<figure class="view-all" v-if="category.apps.length > 4" @click="selectCategory(category)">View all {{category.apps.length}} apps <i class="icon-right-open-big"></i></figure>
@@ -80,7 +80,7 @@
 
 			<section class="scroller with-search">
 				<section class="linked-apps">
-					<section class="app" v-for="app in linkedApps">
+					<section class="app" :key="app.applink" v-for="app in linkedApps">
 						<figure class="image" @click="goToApp(app)">
 							<img v-if="getAppData(app.applink).hasOwnProperty('img')" :src="getAppData(app.applink).img" />
 							<figure v-else class="dummy-image"></figure>

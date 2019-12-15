@@ -199,7 +199,7 @@
 			const history = this.$route.query.history ? this.history.find(x => x.id === this.$route.query.history) : null;
 			if(history){
 				setTimeout(async () => {
-					this.account = history.from;
+					this.setAccount(history.from);
 					this.recipient = history.to;
 					this.setToken(history.fromToken);
 					await this.getPairs();
@@ -212,7 +212,7 @@
 			}
 
 			if(this.$route.query.account){
-				this.account = this.accounts.find(x => x.identifiable() === this.$route.query.account);
+				this.setAccount(this.accounts.find(x => x.identifiable() === this.$route.query.account));
 
 				if(this.$route.query.token){
 					const token = this.account.tokens().find(x => x.uniqueWithChain() === this.$route.query.token);
@@ -223,8 +223,8 @@
 			}
 
 			if(!this.account){
-				this.account = this.accounts.filter(x => x.tokens().length)
-					.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0];
+				this.setAccount(this.accounts.filter(x => x.tokens().length)
+					.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0]);
 			}
 
 			this.recipient = this.account.sendable();
@@ -235,11 +235,15 @@
 				PopupService.push(Popup.selectTokenAndAccount(result => {
 					if(!result) return;
 					const {token, account} = result;
-					this.account = account;
+					this.setAccount(account);
 					this.setToken(token);
 
 					this.recipient = this.account.sendable();
 				}))
+			},
+			setAccount(account){
+				this.account = account;
+				// BalanceService.loadBalancesFor(account);
 			},
 			selectRecipient(){
 				PopupService.push(Popup.selectRecipient(this.account ? this.account.blockchain() : null, recipient => {

@@ -153,7 +153,7 @@
 
 
 				if(history){
-					this.account = history.from;
+					this.setAccount(history.from);
 					this.recipient = history.to;
 					this.memo = history.memo;
 					this.token = this.account.tokens().find(x => x.uniqueWithChain() === history.token.uniqueWithChain());
@@ -162,41 +162,40 @@
 					this.changedAmount();
 				}
 				else if(accountAndToken){
-					this.account = accountAndToken.account;
+					this.setAccount(accountAndToken.account);
 					if(accountAndToken.token) this.setToken(accountAndToken.token);
 					else this.setToken(this.sendableTokens[0]);
 				}
 				else if (recipient){
 					const contact = this.contacts.find(x => x.id === recipient);
 					this.recipient = contact.recipient;
-					this.account = this.accounts.filter(x => contact.blockchain ? x.blockchain() === contact.blockchain : true)
+					this.setAccount(this.accounts.filter(x => contact.blockchain ? x.blockchain() === contact.blockchain : true)
 						.filter(x => x.tokens().length)
-						.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0];
+						.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0]);
 					this.setToken(this.sendableTokens[0]);
 				}
 				else {
-					this.account = this.accounts.filter(x => x.tokens().length)
-						.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0];
+					this.setAccount(this.accounts.filter(x => x.tokens().length)
+						.sort((a,b) => b.totalFiatBalance() - a.totalFiatBalance())[0]);
 					this.setToken(this.sendableTokens[0]);
 				}
 
 				if(!this.account || !this.token || !this.toSend) setTimeout(() => {
 					this.init();
 				}, 1000);
-
-				// this.recipient = 'safetransfer';
-				// this.account = this.accounts.find(x => x.name === 'scatterhwtst');
-				// this.memo = 'scatterhwtst';
-				// this.toSend.quantity = '1.0000';
-				// this.setToken(this.sendableTokens[0]);
 			},
 			selectTokenAndAccount(){
 				PopupService.push(Popup.selectTokenAndAccount(result => {
 					if(!result) return;
 					const {token, account} = result;
-					this.account = account;
+					this.setAccount(account);
 					this.setToken(token);
 				}))
+			},
+			async setAccount(account){
+				this.account = account;
+				// await BalanceService.loadBalancesFor(account);
+				// this.$forceUpdate();
 			},
 			selectRecipient(){
 				PopupService.push(Popup.selectRecipient(this.account ? this.account.blockchain() : null, recipient => {
