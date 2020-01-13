@@ -76,6 +76,7 @@
 			}
 
 			.grower {
+				border-radius:100px;
 				height:16px;
 				line-height:15px;
 				background: $blue;

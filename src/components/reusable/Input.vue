@@ -14,6 +14,7 @@
 		       :maxlength="maxlength || -1"
 		       :disabled="disabled || false"
 		       :type="type || 'text'"
+		       :autocomplete="type === 'password' ? 'off' : 'on'"
 		       v-model="input" />
 
 		<textarea v-if="textarea" ref="focuser"
@@ -48,6 +49,16 @@
 			if(this.focus) {
 				this.$nextTick(() => {
 					this.$refs.focuser.focus();
+				})
+			}
+
+			// Removing autofill for passwords
+			if(this.type === 'password'){
+				this.$nextTick(() => {
+					this.input = ' ';
+					this.$nextTick(() => {
+						this.input = '';
+					})
 				})
 			}
 		},

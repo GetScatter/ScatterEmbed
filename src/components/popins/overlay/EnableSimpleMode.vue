@@ -65,6 +65,7 @@
 	import PopupService from "../../../services/utility/PopupService";
 	import {Popup} from "../../../models/popups/Popup";
 	import * as Actions from '@walletpack/core/store/constants'
+	import AccountService from '@walletpack/core/services/blockchain/AccountService';
 
 	export default {
 		components: {TokenSymbol},
@@ -178,11 +179,17 @@
 				// Persisting new keys
 				await this[Actions.SET_SCATTER](scatter);
 
-				scatter.settings.networks.map(network => {
+				await Promise.all(scatter.settings.networks.map(async network => {
 					const account = this.accounts[network.unique()];
 					// Adding references
-					if(account) window.localStorage.setItem(`acc_${network.unique()}`, account.unique());
-				});
+					if(account) {
+						window.localStorage.setItem(`acc_${network.unique()}`, account.unique());
+						// Removing unused accounts
+						await AccountService.removeAccounts(network.accounts().filter(x => x.unique() !== account.unique()));
+					}
+
+					return true;
+				}));
 
 				this.returnResult(true);
 			},

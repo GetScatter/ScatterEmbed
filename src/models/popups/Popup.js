@@ -185,8 +185,8 @@ export class Popup {
 		return new Popup(PopupDisplayTypes.POP_IN, new PopupData(PopupTypes.SELECT_TOKEN_AND_ACCOUNT, {}, callback))
 	}
 
-	static selectAccount(callback, validAccounts = null){
-		return new Popup(PopupDisplayTypes.POP_IN, new PopupData(PopupTypes.SELECT_ACCOUNT, {validAccounts}, callback))
+	static selectAccount(callback, validAccounts = null, checkboxes = false){
+		return new Popup(PopupDisplayTypes.POP_IN, new PopupData(PopupTypes.SELECT_ACCOUNT, {validAccounts, checkboxes}, callback))
 	}
 
 	static selectKeypair(callback, blockchains = BlockchainsArray.map(x => x.value)){
