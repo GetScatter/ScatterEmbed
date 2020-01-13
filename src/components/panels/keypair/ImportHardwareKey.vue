@@ -40,7 +40,7 @@
 
 <script>
 	import { mapActions, mapGetters, mapState } from 'vuex'
-	import ExternalWallet, {EXT_WALLET_TYPES} from '@walletpack/core/models/hardware/ExternalWallet';
+	import ExternalWallet from '@walletpack/core/models/hardware/ExternalWallet';
 	import {Blockchains, BlockchainsArray} from "@walletpack/core/models/Blockchains";
 	import Keypair from "@walletpack/core/models/Keypair";
 	import KeyPairService from "@walletpack/core/services/secure/KeyPairService";
@@ -52,7 +52,6 @@
 	export default {
 		data(){return {
 			hardwareType:null,
-			EXT_WALLET_TYPES,
 			blockchain:Blockchains.EOSIO,
 			external:null,
 

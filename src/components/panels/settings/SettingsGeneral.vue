@@ -55,6 +55,14 @@
         </section>
 
         <section class="action-box top-pad">
+            <label>{{$t('settings.general.simpleMode')}}</label>
+
+            <p>{{$t('settings.general.simpleModeDescription')}}</p>
+
+            <Switcher :state="false" v-on:switched="enableSimpleMode" />
+        </section>
+
+        <section class="action-box top-pad">
             <label>{{$t('settings.general.testingMode')}}</label>
 
             <p>{{$t('settings.general.testingModeDescription')}}</p>
@@ -66,14 +74,6 @@
             </section>
 
             <Switcher :state="testingMode" v-on:switched="toggleTestingMode" />
-        </section>
-
-        <section v-if="testingMode" class="action-box top-pad">
-            <label>{{$t('settings.general.simpleMode')}}</label>
-
-            <p>{{$t('settings.general.simpleModeDescription')}}</p>
-
-            <Switcher :state="false" v-on:switched="enableSimpleMode" />
         </section>
 
     </section>
