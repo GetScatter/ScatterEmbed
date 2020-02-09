@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "node scripts/release",
-    "build:force": "webpack -p --mode=production --progress --config build/webpack.config.prod.js",
+    "build:force": "webpack -p --mode=production --progress --config build/webpack.config.prod.js && npm run zip",
+    "zip": "node scripts/package",
     "watch": "webpack -p --mode=production --progress --config build/webpack.config.dev.js --watch",
     "server": "http-server ./dist -p 8081 -d -i -g -P --cors='*' -c-1",
     "prod": "concurrently \"npm run watch\" \"npm run server\"",
@@ -44,6 +45,7 @@
     "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/preset-env": "^7.5.4",
     "@fortawesome/fontawesome-pro": "^5.11.2",
+    "archiver": "^3.1.1",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.6",
     "brotli-webpack-plugin": "^1.1.0",
