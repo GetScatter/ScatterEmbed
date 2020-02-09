@@ -51,8 +51,8 @@
 
 			items(){
 				return [
-					{name:this.$t('sidebar.dashboard'), route:RouteNames.HOME},
-					this.accounts.length ? {name:this.$t('sidebar.apps'), route:RouteNames.APPS} : null,
+					// {name:this.$t('sidebar.dashboard'), route:RouteNames.HOME},
+					{name:this.$t('sidebar.apps'), route:RouteNames.HOME},
 					{name:this.$t('sidebar.wallet'), route:RouteNames.WALLET},
 					this.accounts.length && Object.keys(this.balances).length ? {name:this.$t('sidebar.assets'), route:RouteNames.ASSETS} : null,
 					// this.accounts.length ? {name:'Marketplace', route:RouteNames.ITEMS} : null,

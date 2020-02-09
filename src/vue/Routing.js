@@ -61,8 +61,8 @@ export const RouteNames = {
 
 const RouteViews = {
 	[RouteNames.LOGIN]:Login,
-	[RouteNames.APPS]:Apps,
-	[RouteNames.HOME]:Dashboard,
+	// [RouteNames.APPS]:Apps,
+	[RouteNames.HOME]:Apps,
 	[RouteNames.WALLET]:Wallet,
 	[RouteNames.NETWORKS]:Networks,
 	[RouteNames.ASSETS]:Assets,
