@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/GetScatter/ScatterEmbed)
+
 # Scatter Embed
 
 This project serves as the UI for our multi-platform/multi-device wallets.
